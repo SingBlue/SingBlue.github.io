@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melody Weaver</title>
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk1lbG9keSBXZWF2ZXIiLCAic2hvcnRfbmFtZSI6ICJNZWxvZHkgV2VhdmVyIiwgImRlc2NyaXB0aW9uIjogIlNrZXRjaCBhIG1lbG9keSBmcm9tIHlvdXIgbHlyaWNzLCBpbiB0aGUgc2hhcGUgb2YgYSB2b2ljZSB5b3UgY2hvb3NlLiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjRUFFM0QzIiwgInRoZW1lX2NvbG9yIjogIiNBNTc1MUYiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFNQUFBQURBQ0FJQUFBRGR2dnRRQUFBRG1FbEVRVlI0bk8zZHdWRWJRUkNHVVhBNU5kK0l4Y0VRaTIrRVFRamNpTUlIWENvWEI1dmFmM2VtdS9YZTJjYWptayt0a1dEdzQvdmI2d01jOVczM0F1aE5RRVFFUkVSQVJBUkVSRUJFQkVSRVFFUUVSRVJBUkFSRVJFQkVCRVJFUUVRRVJFUkFSQVJFUkVCRUJFUkVRRVFFUkVSQVJBUkVSRUJFQkVSRVFFUUVSRVJBUkFSRTVQdnVCVlQwOHZ6MDd6L3c0K2V2TlN1cFQwQkgzQXBUa3Bld3lNdnowMy9IMVd3bTBBbnVlU0FKNkV4M1dKS0FMbkUvSlRrRFhXdjhJY2tFV21Id1FCTFFVdk5LRXRBZVkwcHlCdHFzK3lISkJDcWg3MEFTVUMzdFNoSlFVVjFLY2dhcXJ2Z2h5UVRxb2V4QUVsQXoxVW9TVUZkRlNuSUdhbS92SWNrRUdtTFhRREtCaUFpSWlJQkdXWCtnRmhBUkFSRVJFQkVCemJIbEUwVUJFUkVRRVFFUkVSQVJBUTJ4NjN2eUFpSWlJQ0lDSWlLZ0NUYitVS0tBaUFpSWlJQ0lDS2k5dmJjeS9GRDlFYmM5cTN4bmRBMEJSZjUrOXQ5blRBSTZ6WDNHSktCTDNFOU1BcnJjcFRGdHZ5RXZvS1UrN2ZlQTRTU2duUWE4MGdtb2lxWXhDYWlpTDhhMC9RRDBJS0Q2aWs4bUFYVlNNQ2JmQyt1cXd1dlhnNEFJQ1lpSWdJZ0lpSWlBaUFpSWlJQ0lDSWlJZ0lnSWlJaUFpQWlJaUlDSUNJaUlnSWdJaUlpQWlBaUlpSUNJQ0lpSWdJZ0lpRWpqZTJGZnZ4aFY1QWJNU0owQ09ueVY3dE5mMU5PSkdnUjAraFhNMnhkVVVxNXVRQXV1N2lvcFZ6R2c5YmUrUC81RkdSMVFLNkM5dnpCQVJnY1VlaHRmNU5kTkZGbEdGeVVta0QzcmEvOEVVazlybXdOU1QzYzdBMUxQQU5zQ1VzOE1ld0pTenhnYkFsTFBKS3NEVXM4d1N3TlN6eno3UHdlaXRYVUJHVDhqbVVCRUZnVTBiUHdNZXpnSkU0aUlnSWlzQ0dqa3dCLzVvQTR3Z1lnSWlJaUFpQWlJaUlDSUNJaUlnSWdJaU1pS2dFYmU5Uno1b0E0d2dZZ0lpTWlpZ0lZTi9HRVBKMkVDRVZrWDBKaG43WmdIY2dvVGlNalNnQVk4ZHdjOGhIT3Rua0N0TjZEMTRpK3k0U1dzNlRZMFhmYlY5cHlCMm0xR3V3VXZzKzBRM1doTEdpMTF2WjN2d2xwc1RJdEZiclQ1Ylh6eDdTbSt2QXIyZnc1VWRwUEtMcXlVeC9lMzE5MXIrS1BPVFN2cGZOMytDWFJUWk51S0xLT0xRaFBvWnRjb2tzNEJGUVA2c0RJajZSeFdONkNiNjByU1RhNUJRRGRubGFTYkUzVUs2QlAvWjJvRmpRT2lna0p2NCtsSVFFUUVSRVJBUkFSRVJFQkVCRVJFUUVRRVJFUkFSQVJFUkVCRUJFUkVRRVFFUkVSQVJBUkVSRUJFQkVSRVFFUUVSRVJBUkFSRVJFQkVCRVJFUUVRRVJFUkFSQVJFUkVCRUJFUkVRRVFFUkVSQVJINERKUVhuSXViaEFrOEFBQUFBU1VWT1JLNUNZSUk9IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmcifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FJQUFBQjdHa090QUFBSzhrbEVRVlI0bk8zZHk1RlV4eFpBVWFUQU5XYllnakhZd2d3elpJSm1zdUlOVVBCYVRWTmRWZmVYbVhzdEF6cUt2c1haOTJRU3dSLy8vUDNYQndCNi9yejZBd0J3RFFFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpUHA0OVFlQUEzMy8rdm1nbi96cHk3ZURmaktjUmdEZ0dUL1RvZ1RNeXhFUWJQTDk2K2ZqOWd3NGxBMEFkbUFoWUVZQ0FIdFNBaWJpQ0FnTzRXaUk4ZGtBNEVBV0FrWW1BSEFHSldCQWpvRGdWSTZHR0ljTkFDNWdJV0FFQWdCWFVnSXU1QWdJaHVCb2lQUFpBR0FnRmdMT0pBQXdJaVhnQkk2QVlHaU9oamlPRFFBbVlDSGdDQUlBTTFFQ2R1UUlDS2JrYUlqdGJBQXdNUXNCV3dnQXJFQUplSUlqSUZpS295SHVad09BQlZrSXVJY0F3TXFVZ0JzY0FVR0NveUYrWlFPQUVBc0JMd2tBRkNrQkh4d0JRWnlqb1RJYkFHQWhpQklBNFArVUlFVUFnRGNvUVlFN0FPQVdsd1FMc3dFQTc3TVFMRWtBZ0Fjb3dVb2NBUUhQY0RTMEFCc0E4RHdMd2RRRUFOaUJFc3pJRVJDd0owZERFN0VCQVB1ekVFeEJBSUFES2NISUhBRUJaM0EwTkNBYkFIQWVDOEZRQkFDNGdCS013QkVRY0NWSFF4ZXlBUURYc3hCY1FnQ0FnU2pCbVJ3QkFTTnlOSFFDR3dBd0xndkJvUVFBbUlBU0hNRVJFREFUUjBNN3NnRUE4N0VRN0VJQWdJa3B3UmFPZ0lBVk9CcDZnZzBBV0llRjRDRTJBSUFvQVFCVzQvWC9UZ0lBRUNVQUFGRUNBQkFsQU1CU1hBRGNUd0FBb2dRQUlFb0FBS0lFQUZpSEM0Q0hDQUJBbEFBQVJBa0FRSlFBQUl0d0FmQW9BUUNJRWdDQUtBRUFpQklBWUFVdUFKNGdBQUJSQWdBUUpRQUFVUUlBVE04RndITUVBQ0JLQUFDaUJBQWdTZ0NBdWJrQWVKb0FBRVFKQUVDVUFBQkVDUUF3TVJjQVd3Z0FRSlFBQUVRSkFFQ1VBQUN6Y2dHd2tRQUFSQWtBUUpRQUFFUUpBREFsRndEYkNRQkFsQUFBUkFrQU1CL25QN3NRQUlBb0FRQ0lFZ0NBS0FFQUp1TUNZQzhDQUJBbEFBQlJBZ0FRSlFEQVRGd0E3RWdBQUtJRUFDRHE0OVVmQUtiMDh5RGkrOWZQMTM0U2VKb0F3Q1l2ajZURjRHZ3VBUFlsQUxBYmF3RnpFUURZbjdXQUtRZ0FIRXNNR0pZQXdIbkVZQXNYQUxzVEFMaUdHSEE1QVlEcnVUM21FZ0lBQTdFV2NDWUJnRUdKd1VzdUFJNGdBREFCTWVBSUFnQ1RFUVAySWdBd01iZkhiQ0VBc0lLMTF3SVhBQWNSQUZqTjJqRmdSd0lBS3hNRGJoQUFxQkFEWGhFQUtKb29CaTRBamlNQVVPZWZFbVVKQVBDdmlkWUNkaUVBd0J2RW9FQUFnSGRjR0FNWEFJY1NBT0FCTm9PVkNBRHdKTGZIc3hNQVlDdHJ3YVFFQU5qVGpqRndBWEEwQVFDT1lqTVluQUFBWnhDREFRa0FjRGEzeDRNUUFPQXlOOVlDRndBbkVBQmdDTTZJenZmbjFSOEE0RFd2LytjUUFJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUFvQVFDSUVnQ0FLQUVBaUJJQWdDZ0JBSWdTQUlBb0FRQ0lFZ0NBS0FFQWlCSUFnQ2dCQUlnU0FJQW9BUUNJRWdDQUtBRUFpQklBZ0NnQkFJZ1NBSUNvajFkL0FJYncvZXZuN1QvazA1ZHYyMzhJY0JvQmFObGwwRC82dzRVQnhpUUFpenQwNGovM0dmUUFCaUVBcXhsaDR0K21CekFJQVZqQitFUC9ocGNmWGd6Z1RBSXdzYW5uL3B0Ky9vbVVBRTRnQVBOWmIrNy9TZ25nQkFJd2pjTGMvNVVTd0hFRVlIVE51ZjhySllEZENjQzRqUDQzL2ZpMXlBQnNKd0FqTXZyZkpRT3duUUNNeGVoL2lBekFGZ0l3Q3FQL2FUSUF6eEdBNnhuOXU1QUJlSlFBWE1ubzM1ME13UDBFNEJwRy82RmtBTzdoUDRTNWdPbC9EcjludU0wR2NDb2pDUmlIRGVBOHBqOHdGQnZBR1l4K1lFQTJnTU9aL3NDWUJPQllwajh3TEVkQVJ6SDZnY0haQUE1aCtnUGpFNEQ5bWY3QUZBUmdaNlkvTUFzQjJKUHBEMHhFQUhaaitnTnpFWUI5bVA3QWRBUmdCNlkvTUNNQjJNcjBCeVlsQUp1WS9zQzhCT0I1cGo4d05RRjRrdWtQekU0QW5tSDZBd3NRZ0llWi9zQWFCQUFnU2dBZTQvVWZXSVlBUE1EMEIxWWlBQUJSQW5BdnIvL0FZZ1RnTHFZL3NCNEJBSWdTZ1BkNS9RZVdKQUFBVVFMd0RxLy93S29FQUNCS0FHN3grZzhzVEFBQW9nVGd0N3orQTJzVEFJQW9BWGliMTM5dTh3MWhBUUlBRUNVQUFGRUM4QWJiUGZmd1BXRjJBZ0FRSlFBQVVRSUFFQ1VBcnpuWTVYNitMVXhOQUFDaUJBQWdTZ0FBb2dRQUlFb0Evc09kSG8veW5XRmVBZ0FRSlFBQVVRSUFFQ1VBQUZFQ0FCQWxBQUJSQWdBUUpRQUFVUUlBRUNVQUFGRUNBQkFsQUFCUkFnQVFKUUQvOGVuTHQ2cy9BcFB4bldGZUFnQVFKUUFBVVFJQUVDVUFBRkVDOEpvN1BlN24yOExVQkFBZ1NnQUFvZ1FBSUVvQTN1QmdsM3Y0bmpBN0FRQ0lFZ0NBS0FGNG0rMmUyM3hEV0lBQUFFUUp3Rzk1eGVOM2ZEZFlnd0FBUkFuQUxWNzArSlZ2QmNzUUFJQW9BWGlIMXoxZThuMWdKUUlBRUNVQTcvUFN4dysrQ1N4R0FBQ2lCT0F1WHYzd0hXQTlBbkF2Zi8vTFBIMldKQUFBVVFMd0FLK0JUWjQ3cXhLQXg1Z0ZOWjQ0Q3hNQWdDZ0JlSmhYd2c3UG1yVUp3RFBNaFFKUG1lVUp3Sk5NaDdWNXZoUUl3UFBNaUZWNXNrUUl3Q1lteFhvOFV6b0VZQ3Z6WWlXZUppa0NzQU5UWXcyZUl6VUNzQSt6WTNhZUlFRUNzQnNUWkY2ZUhVMENzQ2R6WkVhZUdsa0NzRFBUWkM2ZUYyVUNzRDh6WlJhZUZIRUNjQWlUWlh5ZUVmenh6OTkvWGYwWlZ2Yjk2K2VyUHdLdkdmM3dndzNnV0diTmFEd1IrRWtBRG1maWpNT3pnSmNjQVozSGNkQ0ZqSDc0bFEzZ1BHYlFWZnptNFUwMmdBdFlCVTVqOU1NTk5vQUxtRXJuOEh1RzIyd0FWN0lLSE1Ub2gzc0l3UFZrWUVkR1A5eFBBRVloQXhzWi9mQW9BUmlMRER6QjZJZm5DTUNJWk9CT1JqOXNJUURqa29FYmpIN1lUZ0JHSndPdkdQMndGd0dZUnJ3RTVqN3NUZ0Rta3lxQnVRL0hFWUNKTFZ3Q2N4OU9JQUFyV0tZRTVqNmNTUUJXTTEwTURIMjRpZ0FzYnNBZW1QZ3dDQUZvdWFRSEpqNk1TUUQ0OEdHbk1CajBNQmNCQUlqeUg4SUFSQWtBUUpRQUFFUUpBRUNVQUFCRUNRQkFsQUFBUkFrQVFKUUFBRVFKQUVDVUFBQkVDUUJBbEFBQVJBa0FRSlFBQUVRSkFFQ1VBQUJFQ1FCQWxBQUFSQWtBUUpRQUFFUUpBRUNVQUFCRUNRQkFsQUFBUkFrQVFKUUFBRVFKQUVDVUFBQkVDUUJBbEFBQVJBa0FRSlFBQUVRSkFFQ1VBQUJFQ1FCQWxBQUFSQWtBUUpRQUFFUUpBRUNVQUFCRUNRQkFsQUFBUkFrQVFKUUFBRVFKQUVDVUFBQkVDUUJBbEFBQVJBa0FRSlFBQUVRSkFFQ1VBQUJFQ1FCQWxBQUFSQWtBUUpRQUFFUUpBRUNVQUFCRUNRQkFsQUFBUkFrQVFKUUFBRVFKQUVDVUFBQkVDUUJBbEFBQVJBa0FRSlFBQUVRSkFFQ1VBQUJFQ1FCQWxBQUFSQWtBUUpRQUFFUUpBRUNVQUFCRUNRQkFsQUFBUkFrQVFKUUFBRVFKQUVDVUFBQkVDUUJBbEFBQVJBa0FRSlFBQUVRSkFFQ1VBQUJFQ1FCQWxBQUFSQWtBUUpRQUFFVDlEMk53WWMwNisrcVBBQUFBQUVsRlRrU3VRbUNDIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmcifV19">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADmElEQVR4nO3dwVEbQRCGUXA5Nd+IxcEQi2+EQQjciMIHXCoXB5vaf3emu/Xe2cajmk+tkWDw4/vb6wMc9W33AuhNQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARARE5PvuBVT08vz07z/w4+evNSupT0BH3ApTkpewyMvz03/H1Wwm0AnueSAJ6Ex3WJKALnE/JTkDXWv8IckEWmHwQBLQUvNKEtAeY0pyBtqs+yHJBCqh70ASUC3tShJQUV1KcgaqrvghyQTqoexAElAz1UoSUFdFSnIGam/vIckEGmLXQDKBiAiIiIBGWX+gFhARAREREBEBzbHlE0UBEREQEQERERARAQ2x63vyAiIiICICIiKgCTb+UKKAiAiIiICICKi9vbcy/FD9Ebc9q3xndA0BRf5+9t9nTAI6zX3GJKBL3E9MArrcpTFtvyEvoKU+7feA4SSgnQa80gmoiqYxCaiiL8a0/QD0IKD6ik8mAXVSMCbfC+uqwuvXg4AICYiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiEjje2FfvxhV5AbMSJ0COnyV7tNf1NOJGgR0+hXM2xdUUq5uQAuu7iopVzGg9be+P/5FGR1QK6C9vzBARgcUehtf5NdNFFlGFyUmkD3ra/8EUk9rmwNST3c7A1LPANsCUs8MewJSzxgbAlLPJKsDUs8wSwNSzzz7PweitXUBGT8jmUBEFgU0bPwMezgJE4iIgIisCGjkwB/5oA4wgYgIiIiAiAiIiICICIiIgIgIiMiKgEbe9Rz5oA4wgYgIiMiigIYN/GEPJ2ECEVkX0Jhn7ZgHcgoTiMjSgAY8dwc8hHOtnkCtN6D14i+y4SWs6TY0XfbV9pyB2m1GuwUvs+0Q3WhLGi11vZ3vwlpsTItFbrT5bXzx7Sm+vAr2fw5UdpPKLqyUx/e3191r+KPOTSvpfN3+CXRTZNuKLKOLQhPoZtcoks4BFQP6sDIj6RxWN6Cb60rSTa5BQDdnlaSbE3UK6BP/Z2oFjQOigkJv4+lIQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARH4DJQXnIubhAk8AAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADmElEQVR4nO3dwVEbQRCGUXA5Nd+IxcEQi2+EQQjciMIHXCoXB5vaf3emu/Xe2cajmk+tkWDw4/vb6wMc9W33AuhNQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARARE5PvuBVT08vz07z/w4+evNSupT0BH3ApTkpewyMvz03/H1Wwm0AnueSAJ6Ex3WJKALnE/JTkDXWv8IckEWmHwQBLQUvNKEtAeY0pyBtqs+yHJBCqh70ASUC3tShJQUV1KcgaqrvghyQTqoexAElAz1UoSUFdFSnIGam/vIckEGmLXQDKBiAiIiIBGWX+gFhARAREREBEBzbHlE0UBEREQEQERERARAQ2x63vyAiIiICICIiKgCTb+UKKAiAiIiICICKi9vbcy/FD9Ebc9q3xndA0BRf5+9t9nTAI6zX3GJKBL3E9MArrcpTFtvyEvoKU+7feA4SSgnQa80gmoiqYxCaiiL8a0/QD0IKD6ik8mAXVSMCbfC+uqwuvXg4AICYiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiEjje2FfvxhV5AbMSJ0COnyV7tNf1NOJGgR0+hXM2xdUUq5uQAuu7iopVzGg9be+P/5FGR1QK6C9vzBARgcUehtf5NdNFFlGFyUmkD3ra/8EUk9rmwNST3c7A1LPANsCUs8MewJSzxgbAlLPJKsDUs8wSwNSzzz7PweitXUBGT8jmUBEFgU0bPwMezgJE4iIgIisCGjkwB/5oA4wgYgIiIiAiAiIiICICIiIgIgIiMiKgEbe9Rz5oA4wgYgIiMiigIYN/GEPJ2ECEVkX0Jhn7ZgHcgoTiMjSgAY8dwc8hHOtnkCtN6D14i+y4SWs6TY0XfbV9pyB2m1GuwUvs+0Q3WhLGi11vZ3vwlpsTItFbrT5bXzx7Sm+vAr2fw5UdpPKLqyUx/e3191r+KPOTSvpfN3+CXRTZNuKLKOLQhPoZtcoks4BFQP6sDIj6RxWN6Cb60rSTa5BQDdnlaSbE3UK6BP/Z2oFjQOigkJv4+lIQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARH4DJQXnIubhAk8AAAAASUVORK5CYII=">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Melody Weaver">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#EAE3D3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B2033" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EAE3D3;
+    --ink: #20263B;
+    --ink-soft: #565f7c;
+    --brass: #A5751F;
+    --brass-strong: #8A5F16;
+    --sage: #4C6B54;
+    --wine: #7A3540;
+    --line: rgba(32,38,59,0.16);
+    --panel: rgba(32,38,59,0.04);
+    --panel-strong: rgba(32,38,59,0.07);
+    --shadow: rgba(32,38,59,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1B2033;
+      --ink: #EDE6D2;
+      --ink-soft: #b9b2a0;
+      --brass: #D9A94A;
+      --brass-strong: #F0C169;
+      --sage: #8FB89A;
+      --wine: #C97383;
+      --line: rgba(237,230,210,0.16);
+      --panel: rgba(237,230,210,0.05);
+      --panel-strong: rgba(237,230,210,0.09);
+      --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1B2033;
+    --ink: #EDE6D2;
+    --ink-soft: #b9b2a0;
+    --brass: #D9A94A;
+    --brass-strong: #F0C169;
+    --sage: #8FB89A;
+    --wine: #C97383;
+    --line: rgba(237,230,210,0.16);
+    --panel: rgba(237,230,210,0.05);
+    --panel-strong: rgba(237,230,210,0.09);
+    --shadow: rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+  header.masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  header.masthead h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  header.masthead .tagline {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    max-width: 32ch;
+    font-style: italic;
+    font-family: 'Frank Ruhl Libre', serif;
+  }
+
+  .ledger {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .spine {
+    background: var(--line);
+    align-self: stretch;
+    min-height: 100%;
+  }
+  @media (max-width: 880px) {
+    .ledger { grid-template-columns: 1fr; }
+    .spine { display: none; }
+  }
+
+  .page-label {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 0.9rem;
+    color: var(--ink);
+  }
+
+  .staff-area {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        transparent, transparent 27px,
+        var(--line) 27px, var(--line) 28px
+      ),
+      var(--panel);
+    padding: 1rem 1.1rem;
+  }
+  textarea#lyricsInput {
+    width: 100%;
+    min-height: 380px;
+    resize: vertical;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.05rem;
+    line-height: 28px;
+    outline: none;
+  }
+  textarea#lyricsInput::placeholder { color: var(--ink-soft); opacity: 0.7; }
+
+  .hint {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 0.6rem;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem 1rem;
+    margin-bottom: 1.3rem;
+  }
+  .field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .field.full { grid-column: 1 / -1; }
+  label.field-label {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  select, input[type="number"] {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.92rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    color: var(--ink);
+    outline: none;
+  }
+  select:focus, input:focus, textarea:focus, button:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 1px;
+  }
+
+  .seed-row { display: flex; gap: 0.5rem; align-items: center; }
+  .seed-row input { flex: 1; }
+  button.icon-btn {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 0.5rem 0.65rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  button.icon-btn:hover { background: var(--panel-strong); }
+
+  .style-desc {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    font-family: 'Frank Ruhl Libre', serif;
+    margin-top: -0.3rem;
+  }
+
+  button.primary {
+    width: 100%;
+    background: var(--brass);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+    margin-top: 0.4rem;
+  }
+  button.primary:hover { background: var(--brass-strong); }
+  button.primary:disabled { opacity: 0.5; cursor: default; }
+
+  .action-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.1rem 0; }
+  button.secondary {
+    background: transparent;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.88rem;
+    font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+  }
+  button.secondary:hover { background: var(--panel-strong); }
+  button.secondary:disabled { opacity: 0.4; cursor: default; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.7rem 0; }
+  .tag {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    border: 1px solid var(--sage);
+    color: var(--sage);
+    white-space: nowrap;
+  }
+
+  .summary-box {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    border-left: 2px solid var(--brass);
+    padding: 0.5rem 0.8rem;
+    margin: 1rem 0;
+    background: var(--panel);
+  }
+  .summary-box b { color: var(--ink); }
+
+  #mapScroll {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--panel);
+    max-height: 560px;
+    overflow-y: auto;
+    padding: 0.6rem;
+  }
+  .map-row-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    margin: 0.5rem 0 0.15rem 0.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: lowercase;
+  }
+
+  .line-row {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 22px 8px 8px;
+    margin-bottom: 4px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    overflow-x: auto;
+  }
+  .line-row:hover { background: var(--panel-strong); }
+  .line-row.selected { border-color: var(--brass); background: var(--panel-strong); }
+  .line-row.locked { border-style: dashed; border-color: var(--sage); }
+  .line-row.section-bridge { border-left: 3px solid var(--wine); }
+  .line-row .lock-icon {
+    position: absolute; top: 3px; right: 8px; font-size: 0.75rem;
+  }
+  .note-bar-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    flex: 0 0 auto; min-width: 40px;
+  }
+  .note-bar {
+    width: 30px; height: 8px; border-radius: 1px;
+    background: var(--brass);
+  }
+  .note-bar.auto-split { border-bottom: 2px dashed var(--wine); }
+  .note-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--ink-soft);
+    margin-bottom: 2px;
+  }
+  .note-lyric {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 0.85rem;
+    margin-top: 3px;
+    text-align: center;
+    max-width: 44px;
+    word-break: break-word;
+  }
+  .line-toolbar {
+    display: flex; gap: 0.4rem; padding: 0 8px 8px;
+    margin-top: -4px; margin-bottom: 4px;
+  }
+  .line-toolbar button {
+    font-size: 0.76rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .line-toolbar button:hover { background: var(--panel-strong); }
+  .locks-summary {
+    font-size: 0.8rem; color: var(--ink-soft); margin: 0.4rem 0;
+  }
+  .locks-summary button {
+    font-size: 0.75rem; background: none; border: none; color: var(--brass);
+    text-decoration: underline; cursor: pointer; padding: 0;
+  }
+
+  #savedLibraryList {
+    max-height: 340px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    padding: 0.5rem;
+  }
+
+  .library-item {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.5rem;
+    background: var(--panel);
+  }
+  .library-item-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 700;
+    font-size: 0.98rem;
+    margin-bottom: 0.15rem;
+  }
+  .library-item-meta {
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .library-item-actions { display: flex; gap: 0.5rem; }
+  .library-item-actions button {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .library-item-actions button.danger { border-color: var(--wine); color: var(--wine); }
+  .library-empty-hint { font-size: 0.85rem; color: var(--ink-soft); font-style: italic; }
+
+  .score-badge {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    font-family: 'Frank Ruhl Libre', serif;
+  }
+  .score-number { font-size: 2.4rem; font-weight: 900; }
+  .score-label { font-size: 0.95rem; color: var(--ink-soft); }
+  .issue-item {
+    border-left: 3px solid var(--wine);
+    background: var(--panel);
+    padding: 0.5rem 0.7rem;
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+  }
+  .issue-item .issue-line { font-family: 'Frank Ruhl Libre', serif; font-style: italic; color: var(--ink); margin-bottom: 0.25rem; }
+  .issue-item .issue-msg { color: var(--ink-soft); }
+  .annotated-preview {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.8rem;
+    font-family: 'Frank Ruhl Libre', serif;
+    line-height: 1.9;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .annotated-preview .flagged-line {
+    background: rgba(122,53,64,0.14);
+    border-left: 2px solid var(--wine);
+    padding: 0.05rem 0.4rem;
+    display: block;
+  }
+  .annotated-preview .section-label-line { color: var(--ink-soft); font-style: italic; font-size: 0.85em; }
+
+  footer.note {
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    max-width: 65ch;
+  }
+
+  [dir="auto"] { unicode-bidi: plaintext; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #sheetMusicWrap, #sheetMusicWrap * { visibility: visible; }
+    #sheetMusicWrap {
+      position: absolute; top: 0; left: 0; width: 100%;
+      border: none; box-shadow: none; padding: 0;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Melody Weaver</h1>
+    <div class="tagline">Sketch a melody from your lyrics, in the shape of a voice you choose.</div>
+  </header>
+
+  <div class="ledger">
+    <!-- LEFT PAGE: lyrics -->
+    <div>
+      <p class="page-label">The words</p>
+      <div class="staff-area">
+        <textarea id="lyricsInput" dir="auto" placeholder="Little light upon the hill&#10;waits for morning, waits until&#10;the world wakes up and finds its way&#10;back to something true today
+
+Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their own line — they won't be sung, and the Bridge gets a deliberate lift."></textarea>
+      </div>
+      <p class="hint">Hebrew is supported when written with nikud (vowel points) — the syllable-finder needs them to work. English and Hebrew can sit in the same line.</p>
+
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.6rem;">
+        <button class="secondary" id="checkLyricsBtn">📋 Check lyrics structure</button>
+        <button class="secondary" id="copyReportBtn">🤖 Copy report for AI</button>
+      </div>
+      <div id="lyricsCheckReport" style="display:none; margin-top:0.8rem;"></div>
+    </div>
+
+    <div class="spine"></div>
+
+    <!-- RIGHT PAGE: composition desk -->
+    <div>
+      <p class="page-label">The setting</p>
+
+      <div class="controls-grid">
+        <div class="field">
+          <label class="field-label" for="styleSelect">Style</label>
+          <select id="styleSelect"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="scaleSelect">Scale</label>
+          <select id="scaleSelect">
+            <option value="minor_pentatonic">Minor pentatonic</option>
+            <option value="natural_minor">Natural minor</option>
+            <option value="major_pentatonic">Major pentatonic</option>
+            <option value="major">Major</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="complexitySelect">Complexity</label>
+          <select id="complexitySelect">
+            <option value="simple">Simple</option>
+            <option value="moderate" selected>Moderate</option>
+            <option value="extreme">Extreme</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="instrumentSelect">Instrument</label>
+          <select id="instrumentSelect">
+            <option value="piano">Piano</option>
+            <option value="violin">Violin</option>
+            <option value="flute">Flute</option>
+            <option value="trumpet">Trumpet</option>
+            <option value="viola">Viola</option>
+            <option value="harp">Harp</option>
+            <option value="percussion">Percussion (tuned mallet)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="tempoInput">Tempo (bpm)</label>
+          <input type="number" id="tempoInput" value="90" min="40" max="200">
+        </div>
+        <div class="field">
+          <label class="field-label" for="seedInput">Seed (variation number)</label>
+          <div class="seed-row">
+            <input type="number" id="seedInput" value="7">
+            <button class="icon-btn" id="randomSeedBtn" title="Change melody — try a different variation" aria-label="Change melody — try a different variation">🎲</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="voicesSelect">Voices</label>
+          <select id="voicesSelect">
+            <option value="1">Solo</option>
+            <option value="2">Duet</option>
+            <option value="3">Trio</option>
+            <option value="4">Quartet</option>
+          </select>
+        </div>
+        <div class="field" id="voicePairingWrap" style="display:none;">
+          <label class="field-label" for="voicePairingSelect">Voice pairing</label>
+          <select id="voicePairingSelect">
+            <option value="same">Same register (e.g. male + male)</option>
+            <option value="mixed">Mixed (e.g. male + female)</option>
+          </select>
+        </div>
+        <div class="field full" id="styleDescWrap" style="display:none;">
+          <div class="style-desc" id="styleDesc"></div>
+          <div class="tag-row" id="styleTags"></div>
+        </div>
+      </div>
+
+      <button class="primary" id="generateBtn">Generate melody</button>
+
+      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:1.6rem; gap:0.5rem; flex-wrap:wrap;">
+        <p class="page-label" style="margin:0;">Your saved melodies</p>
+        <div style="display:flex; gap:0.4rem;">
+          <button class="icon-btn" id="refreshLibraryBtn" title="Refresh list" aria-label="Refresh saved melodies list">🔄</button>
+          <button class="icon-btn" id="exportLibraryBtn" title="Back up all saved melodies to a file" aria-label="Export saved melodies">⬆️</button>
+          <button class="icon-btn" id="importLibraryBtn" title="Restore saved melodies from a backup file" aria-label="Import saved melodies">⬇️</button>
+          <input type="file" id="importLibraryFile" accept=".json,application/json" style="display:none;">
+        </div>
+      </div>
+      <p class="hint" style="margin-top:0.3rem;">Saved on this device, in this browser — they won't follow you to a different phone or browser. Use ⬆️ to back up, ⬇️ to restore on another device.</p>
+      <div id="savedLibraryList"></div>
+
+      <div id="resultsArea" style="display:none;">
+        <div class="action-row">
+          <button class="secondary" id="saveMelodyBtn">💾 Save this melody</button>
+          <button class="secondary" id="playBtn">▶ Play</button>
+          <button class="secondary" id="stopBtn" disabled>Stop</button>
+          <button class="secondary" id="exportAudioBtn">⬇ Export audio file</button>
+          <button class="secondary" id="sheetMusicBtn">🎼 View sheet music</button>
+          <button class="secondary" id="printPdfBtn">🖨️ Save sheet music as PDF</button>
+          <button class="secondary" id="downloadMusicXmlBtn">Download sheet music (.musicxml)</button>
+          <button class="secondary" id="downloadJsonBtn">Download notes (.json)</button>
+          <button class="secondary" id="downloadTxtBtn">Download note table (.txt)</button>
+        </div>
+
+        <div id="sheetMusicWrap" style="display:none; margin: 1rem 0; background:#fff; border:1px solid var(--line); border-radius:3px; padding:0.6rem; overflow-x:auto;">
+          <div id="sheetMusicContainer"></div>
+        </div>
+
+        <div class="summary-box" id="summaryBox"></div>
+        <div class="summary-box" id="autoSplitBox" style="display:none; border-left-color: var(--wine);"></div>
+        <div class="locks-summary" id="locksSummary" style="display:none;"></div>
+
+        <p class="page-label" style="margin-top:1.3rem;">Suggested genre for Suno</p>
+        <div class="tag-row" id="genreTags"></div>
+
+        <p class="page-label" style="margin-top:1.3rem;">The melody map</p>
+        <p class="hint" style="margin-top:-0.4rem;">Click a line to try it again or lock it in place. A dashed underline marks a line the app auto-divided — worth checking.</p>
+        <div id="mapScroll"><div id="mapRows"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="note">
+    Melodies are generated fresh from your words each time — no existing recordings are sampled or reproduced.
+    "Export audio file" renders the melody directly to a .wav file — fast, regardless of song length, since it's computed rather than played back and captured in real time. A downloadable MIDI file or .mp3 specifically isn't available from this page directly; ask in chat for one built from the same settings shown above, using the seed number so it matches exactly.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ========================= Seeded RNG ========================= */
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function() {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function weightedChoice(rng, weightObj) {
+  const keys = Object.keys(weightObj).map(Number);
+  const weights = keys.map(k => weightObj[k]);
+  const total = weights.reduce((a,b)=>a+b, 0);
+  let r = rng() * total;
+  for (let i = 0; i < keys.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return keys[i];
+  }
+  return keys[keys.length - 1];
+}
+function choiceFromArray(rng, arr) { return arr[Math.floor(rng() * arr.length)]; }
+
+/* ========================= Hebrew + Latin syllable analysis ========================= */
+const HEBREW_LETTER_RE = /[\u05D0-\u05EA]/;
+const HEBREW_COMBINING_RE = /[\u0591-\u05C7]/;
+const HEBREW_VOWEL_POINTS = new Set('\u05B4\u05B5\u05B6\u05B7\u05B8\u05B9\u05BB\u05B1\u05B2\u05B3\u05C7'.split(''));
+
+function isHebrewWord(word) { return HEBREW_LETTER_RE.test(word); }
+
+function hebrewClusters(word) {
+  const cleaned = word.split('').filter(ch => HEBREW_LETTER_RE.test(ch) || HEBREW_COMBINING_RE.test(ch)).join('');
+  const clusters = [];
+  let current = '';
+  for (const ch of cleaned) {
+    if (HEBREW_LETTER_RE.test(ch)) {
+      if (current) clusters.push(current);
+      current = ch;
+    } else {
+      current += ch;
+    }
+  }
+  if (current) clusters.push(current);
+  return clusters;
+}
+function splitWordSyllablesHebrew(word) {
+  const clusters = hebrewClusters(word);
+  if (clusters.length === 0) return [word];
+  const syllables = [];
+  let buf = '';
+  for (const cluster of clusters) {
+    buf += cluster;
+    if ([...cluster].some(ch => HEBREW_VOWEL_POINTS.has(ch))) {
+      syllables.push(buf);
+      buf = '';
+    }
+  }
+  if (buf) {
+    if (syllables.length) syllables[syllables.length-1] += buf;
+    else syllables.push(buf);
+  }
+  return syllables.length ? syllables : [word];
+}
+function guessStressPatternHebrew(n) {
+  return Array.from({length:n}, (_,i) => i === n-1);
+}
+
+function countSyllablesEnglish(word) {
+  let w = word.toLowerCase().replace(/[^a-z]/g, '');
+  if (!w) return 0;
+  const groups = w.match(/[aeiouy]+/g) || [];
+  let count = groups.length;
+  if (w.endsWith('e') && !w.endsWith('le') && count > 1) count -= 1;
+  return Math.max(1, count);
+}
+function splitWordSyllablesEnglish(word) {
+  const clean = word.replace(/[^a-zA-Z]/g, '');
+  if (!clean) return [word];
+  const n = countSyllablesEnglish(clean);
+  if (n <= 1) return [word];
+  const L = clean.length;
+  const step = L / n;
+  const syll = [];
+  let start = 0;
+  for (let i = 0; i < n; i++) {
+    let end = i < n-1 ? Math.round(step * (i+1)) : L;
+    end = Math.max(end, start+1);
+    syll.push(clean.slice(start, end));
+    start = end;
+  }
+  return syll;
+}
+function guessStressPatternEnglish(n) {
+  return Array.from({length:n}, (_,i) => i % 2 === 0);
+}
+
+function analyzeLyrics(text) {
+  const linesOut = [];
+  for (let rawLine of text.trim().split('\n')) {
+    rawLine = rawLine.trim();
+    if (!rawLine) continue;
+    const words = rawLine.split(/\s+/);
+    const lineSyll = [];
+    words.forEach((word, wi) => {
+      let sylls, stress;
+      if (isHebrewWord(word)) {
+        sylls = splitWordSyllablesHebrew(word);
+        stress = guessStressPatternHebrew(sylls.length);
+      } else {
+        sylls = splitWordSyllablesEnglish(word);
+        stress = guessStressPatternEnglish(sylls.length);
+      }
+      sylls.forEach((syl, si) => {
+        lineSyll.push({ text: syl, stressed: stress[si], isLastInWord: si === sylls.length-1 });
+      });
+    });
+    if (lineSyll.length) {
+      lineSyll.forEach(s => s.isLastInLine = false);
+      lineSyll[lineSyll.length-1].isLastInLine = true;
+    }
+    linesOut.push(lineSyll);
+  }
+  return linesOut;
+}
+
+/* ========================= Section label parsing ========================= */
+function splitRunOnLine(rawLine) {
+  // Only treat a line as a run-on paragraph (and split it) when it's long
+  // AND has multiple clause-ending marks -- a short line like "Listen,
+  // then see," has one comma but is clearly one intended phrase, and
+  // should NOT be fragmented. This avoids the over-splitting problem
+  // where every incidental comma broke an otherwise well-formed line.
+  const wordCount = rawLine.split(/\s+/).length;
+  const clauseMarks = (rawLine.match(/[,.\?!:]/g) || []).length;
+  if (wordCount <= 10 || clauseMarks < 2) return [rawLine];
+  const parts = rawLine.split(/(?<=[,.\?!:”"'])\s+(?=[^\s])/);
+  return parts.map(p => p.trim()).filter(p => p.length > 0);
+}
+function parseSections(rawText) {
+  let currentSection = 'verse';
+  const pairs = [];
+  const autoSplitNotices = []; // { original, parts } for every line the guesser divided --
+                                // surfaced to the user rather than applied silently, since
+                                // comma-counting is too weak a signal to trust blindly
+  for (let rawLine of rawText.split('\n')) {
+    rawLine = rawLine.trim();
+    if (!rawLine) continue;
+    const m = rawLine.match(/^\[([^\]]+)\]$/) || rawLine.match(/^\(([^)]+)\)$/);
+    if (m) {
+      const label = m[1].toLowerCase();
+      if (label.includes('bridge')) currentSection = 'bridge';
+      else if (label.includes('pre') && label.includes('chorus')) currentSection = 'prechorus';
+      else if (label.includes('chorus') || label.includes('refrain')) currentSection = 'chorus';
+      else if (label.includes('verse')) currentSection = 'verse';
+      else if (label.includes('intro')) currentSection = 'intro';
+      else if (label.includes('outro')) currentSection = 'outro';
+      continue;
+    }
+    const parts = splitRunOnLine(rawLine);
+    if (parts.length > 1) autoSplitNotices.push({ original: rawLine, parts });
+    for (const part of parts) {
+      pairs.push([part, currentSection, parts.length > 1]);
+    }
+  }
+  return { pairs, autoSplitNotices };
+}
+
+/* ========================= Scales & melody engine ========================= */
+const SCALES = {
+  minor_pentatonic: [0,3,5,7,10],
+  natural_minor: [0,2,3,5,7,8,10],
+  major_pentatonic: [0,2,4,7,9],
+  major: [0,2,4,5,7,9,11],
+};
+const COMPLEXITY_PRESETS = {
+  simple:   { stepWeights: {'-2':2,'-1':10,'0':6,'1':10,'2':2}, octaveRange: [0,1] },
+  moderate: { stepWeights: {'-3':1,'-2':4,'-1':8,'0':3,'1':8,'2':4,'3':1}, octaveRange: [-1,1] },
+  extreme:  { stepWeights: {'-4':2,'-3':3,'-2':4,'-1':5,'0':1,'1':5,'2':4,'3':3,'4':2}, octaveRange: [-1,2] },
+};
+const RHYTHM_PRESETS = {
+  simple:   [0.5, 0.5, 0.25],
+  moderate: [0.5, 0.3, 0.25],
+  extreme:  [0.65, 0.2, 0.35],
+};
+const STRUCTURE_PRESETS = {
+  simple:   { sequenceProb: 0.55, variationProb: 0.30 },
+  moderate: { sequenceProb: 0.35, variationProb: 0.25 },
+  extreme:  { sequenceProb: 0.15, variationProb: 0.10 },
+};
+const RELATIVE_SCALE_MAP = {
+  natural_minor: ['major', 3], major: ['natural_minor', -3],
+  minor_pentatonic: ['major_pentatonic', 3], major_pentatonic: ['minor_pentatonic', -3],
+};
+const PARALLEL_SCALE_MAP = {
+  natural_minor: 'major', major: 'natural_minor',
+  minor_pentatonic: 'major_pentatonic', major_pentatonic: 'minor_pentatonic',
+};
+function relatedKey(scale, rootMidi, relationship) {
+  if (relationship === 'dominant') return [scale, rootMidi + 7];
+  if (relationship === 'subdominant') return [scale, rootMidi + 5];
+  if (relationship === 'relative') {
+    const [rs, shift] = RELATIVE_SCALE_MAP[scale] || [scale, 0];
+    return [rs, rootMidi + shift];
+  }
+  if (relationship === 'parallel') return [PARALLEL_SCALE_MAP[scale] || scale, rootMidi];
+  return [scale, rootMidi];
+}
+
+class MelodyGenerator {
+  constructor(scaleName, rootMidi, complexity) {
+    const preset = COMPLEXITY_PRESETS[complexity] || COMPLEXITY_PRESETS.moderate;
+    this.stepWeights = preset.stepWeights;
+    this.scale = SCALES[scaleName];
+    this.rootMidi = rootMidi;
+    this.nDegrees = this.scale.length;
+    this.minDegree = preset.octaveRange[0] * this.nDegrees;
+    this.maxDegree = preset.octaveRange[1] * this.nDegrees;
+  }
+  degreeToMidi(d) {
+    const octave = Math.floor(d / this.nDegrees);
+    const degInScale = ((d % this.nDegrees) + this.nDegrees) % this.nDegrees;
+    return this.rootMidi + 12*octave + this.scale[degInScale];
+  }
+  reflect(value) {
+    const lo = this.minDegree, hi = this.maxDegree;
+    const span = hi - lo;
+    if (span <= 0) return lo;
+    let v = ((value - lo) % (2*span) + 2*span) % (2*span);
+    if (v > span) v = 2*span - v;
+    return lo + v;
+  }
+  generateLine(rng, nNotes, startDegree) {
+    const degrees = [startDegree];
+    let current = startDegree;
+    let repeatRun = 1;
+    for (let i = 1; i < nNotes; i++) {
+      const progress = i / Math.max(1, nNotes-1);
+      let weights = Object.assign({}, this.stepWeights);
+      if (progress < 0.5) {
+        for (const k in weights) if (Number(k) > 0) weights[k] *= 1.35;
+      } else {
+        for (const k in weights) if (Number(k) < 0) weights[k] *= 1.35;
+      }
+      if (i === nNotes-1) {
+        let target = null, bestDist = Infinity;
+        for (let d = this.minDegree; d <= this.maxDegree; d++) {
+          if (((d % this.nDegrees)+this.nDegrees)%this.nDegrees === 0) {
+            const dist = Math.abs(d-current);
+            if (dist < bestDist) { bestDist = dist; target = d; }
+          }
+        }
+        degrees.push(this.reflect(target));
+        continue;
+      }
+      if (repeatRun >= 2 && '0' in weights) delete weights['0'];
+      const step = weightedChoice(rng, weights);
+      const nxt = this.reflect(current + step);
+      repeatRun = (nxt === current) ? repeatRun+1 : 1;
+      degrees.push(nxt);
+      current = nxt;
+    }
+    return degrees;
+  }
+}
+
+function normalizeLineText(line) {
+  return line.map(s => s.text).join('').toLowerCase().trim();
+}
+function lineDurations(line, complexity) {
+  const [stressedDur, unstressedDur, endBonus] = RHYTHM_PRESETS[complexity] || RHYTHM_PRESETS.moderate;
+  return line.map(s => {
+    let dur = s.stressed ? stressedDur : unstressedDur;
+    if (s.isLastInLine) dur += endBonus;
+    return dur;
+  });
+}
+
+function generateSongStructure(rng, lyricsText, opts) {
+  const { scale, rootMidi, complexity, bridgeModulation } = opts;
+  const structPreset = STRUCTURE_PRESETS[complexity] || STRUCTURE_PRESETS.moderate;
+  const sequenceProb = opts.sequenceProb != null ? opts.sequenceProb : structPreset.sequenceProb;
+  const variationProb = opts.variationProb != null ? opts.variationProb : structPreset.variationProb;
+
+  const { pairs: sectionPairs, autoSplitNotices } = parseSections(lyricsText);
+  const cleanText = sectionPairs.map(p => p[0]).join('\n');
+  const sectionTags = sectionPairs.map(p => p[1]);
+  const autoSplitFlags = sectionPairs.map(p => !!p[2]);
+
+  const lines = analyzeLyrics(cleanText).filter(l => l.length > 0);
+  const gen = new MelodyGenerator(scale, rootMidi, complexity);
+  let modGen = null, modScale = scale, modRoot = rootMidi;
+  if (bridgeModulation) {
+    [modScale, modRoot] = relatedKey(scale, rootMidi, bridgeModulation);
+    modGen = new MelodyGenerator(modScale, modRoot, complexity);
+  }
+
+  const seenLines = {};
+  const structure = [];
+  let currentDegree = 0;
+  let prevOrigin = null;
+  const lockedLines = opts.lockedLines || {};
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const key = normalizeLineText(line);
+    const durations = lineDurations(line, complexity);
+    const nSyll = line.length;
+    const section = sectionTags[i] || 'verse';
+
+    const activeGen = (bridgeModulation && section === 'bridge') ? modGen : gen;
+    const activeScale = (bridgeModulation && section === 'bridge') ? modScale : scale;
+    const activeRoot = (bridgeModulation && section === 'bridge') ? modRoot : rootMidi;
+
+    let degrees, origin, useDurations = durations;
+    if (lockedLines[i] && lockedLines[i].degrees.length === nSyll) {
+      degrees = lockedLines[i].degrees; useDurations = lockedLines[i].durations; origin = 'locked';
+    } else if (seenLines[key] && seenLines[key].degrees.length === nSyll) {
+      degrees = seenLines[key].degrees; useDurations = seenLines[key].durations; origin = 'repeat';
+    } else {
+      const prev = structure.length ? structure[structure.length-1] : null;
+      const eligible = prev && prevOrigin === 'fresh' && prev.degrees.length === nSyll
+                        && prev.genScale === activeScale && prev.genRoot === activeRoot;
+      const roll = eligible ? rng() : 1.0;
+      if (eligible && roll < sequenceProb) {
+        const shift = choiceFromArray(rng, [-3,-2,-1,1,2]);
+        degrees = prev.degrees.map(d => activeGen.reflect(d + shift));
+        origin = 'sequence';
+      } else if (eligible && roll < sequenceProb + variationProb) {
+        const varyN = nSyll > 3 ? 2 : 1;
+        const kept = prev.degrees.slice(0, prev.degrees.length - varyN);
+        const tailStart = kept.length ? kept[kept.length-1] : prev.degrees[0];
+        const newTail = activeGen.generateLine(rng, varyN+1, tailStart).slice(1);
+        degrees = kept.concat(newTail);
+        origin = 'variation';
+      } else {
+        const start = (activeGen === gen) ? currentDegree : 0;
+        degrees = activeGen.generateLine(rng, nSyll, start);
+        origin = 'fresh';
+      }
+      seenLines[key] = { degrees, durations };
+    }
+
+    let outputDegrees = degrees;
+    if (section === 'bridge' && origin !== 'locked') outputDegrees = degrees.map(d => d + activeGen.nDegrees);
+
+    currentDegree = outputDegrees[outputDegrees.length-1];
+    structure.push({ line, degrees: outputDegrees, durations: useDurations, key, origin, section, genScale: activeScale, genRoot: activeRoot, autoSplit: autoSplitFlags[i] });
+    prevOrigin = origin;
+  }
+  structure.autoSplitNotices = autoSplitNotices;
+  return structure;
+}
+
+function regenerateSingleLine(rng, structure, lineIndex, complexity) {
+  // Returns a NEW structure array with only lineIndex regenerated (fresh
+  // melody for that line, in its own recorded key/section), propagated to
+  // any other line elsewhere sharing the same lyric text (so a chorus you
+  // reroll stays consistent everywhere it repeats) -- mirrors the Python
+  // regenerate_single_line function.
+  const newStructure = structure.map(item => Object.assign({}, item));
+  const target = newStructure[lineIndex];
+  const gen = new MelodyGenerator(target.genScale, target.genRoot, complexity);
+  const startDegree = lineIndex > 0 ? newStructure[lineIndex-1].degrees[newStructure[lineIndex-1].degrees.length-1] : 0;
+  const nSyll = target.line.length;
+
+  let newDegrees = gen.generateLine(rng, nSyll, startDegree);
+  if (target.section === 'bridge') newDegrees = newDegrees.map(d => d + gen.nDegrees);
+  const newDurations = lineDurations(target.line, complexity);
+
+  target.degrees = newDegrees;
+  target.durations = newDurations;
+  target.origin = 'fresh';
+
+  const key = target.key;
+  newStructure.forEach((item, j) => {
+    if (j !== lineIndex && item.key === key && item.degrees.length === nSyll) {
+      item.degrees = newDegrees;
+      item.durations = newDurations;
+    }
+  });
+
+  newStructure.autoSplitNotices = structure.autoSplitNotices;
+  return newStructure;
+}
+
+function structureToNotes(structure) {
+  const genCache = {};
+  function getGen(s, r, complexity) {
+    const k = s+'|'+r;
+    if (!genCache[k]) genCache[k] = new MelodyGenerator(s, r, complexity);
+    return genCache[k];
+  }
+  const notes = [];
+  let currentBeat = 0;
+  for (const item of structure) {
+    const gen = getGen(item.genScale, item.genRoot, 'moderate'); // complexity irrelevant for pitch mapping
+    const pitches = item.degrees.map(d => gen.degreeToMidi(d));
+    item.line.forEach((syll, idx) => {
+      const dur = item.durations[idx];
+      notes.push({
+        pitch: pitches[idx], startBeat: currentBeat, durBeat: dur,
+        velocity: syll.stressed ? 100 : 78, lyric: syll.text, section: item.section,
+      });
+      currentBeat += dur;
+    });
+    currentBeat += 0.2;
+  }
+  return notes;
+}
+
+/* ========================= Multi-voice harmonization ========================= */
+// Harmony voices are computed by shifting the LEAD melody's scale degrees --
+// never storing a separate structure -- so every existing tool (line editing,
+// locking, undo) keeps working automatically: harmonies are always derived
+// fresh from whatever the lead melody currently is. A diatonic offset (in
+// scale STEPS, not semitones) automatically stays in-key regardless of scale
+// degree, since a "third below" is 2 scale steps down whether that spans 3 or
+// 4 semitones at that particular point in the scale.
+// nDeg = -1 is a placeholder meaning "one full octave down for this scale",
+// resolved to -scaleLength once the actual scale is known.
+const VOICE_OFFSET_TABLES = {
+  '1_any':      [{offset: 0,  label: 'Lead'}],
+  '2_same':     [{offset: 0,  label: 'Voice 1 (lead)'},   {offset: -2, label: 'Voice 2 (harmony, third below)'}],
+  '2_mixed':    [{offset: 0,  label: 'Voice 1 (higher)'}, {offset: 'oct-1', label: 'Voice 2 (lower, octave below)'}],
+  '3_same':     [{offset: 0,  label: 'Voice 1 (lead)'},   {offset: -2, label: 'Voice 2 (third below)'},  {offset: -4, label: 'Voice 3 (fifth below)'}],
+  '3_mixed':    [{offset: 0,  label: 'Voice 1 (higher)'}, {offset: -2, label: 'Voice 2 (higher harmony)'}, {offset: 'oct-1', label: 'Voice 3 (lower)'}],
+  '4_same':     [{offset: 0,  label: 'Voice 1 (lead)'},   {offset: -2, label: 'Voice 2 (third below)'},  {offset: -4, label: 'Voice 3 (fifth below)'}, {offset: 'oct-1', label: 'Voice 4 (octave below)'}],
+  '4_mixed':    [{offset: 0,  label: 'Voice 1 (higher)'}, {offset: -2, label: 'Voice 2 (higher harmony)'}, {offset: 'oct-1', label: 'Voice 3 (lower)'}, {offset: 'oct-1,-2', label: 'Voice 4 (lower harmony)'}],
+};
+function getVoiceOffsets(voiceCount, pairing, scaleLength) {
+  const key = voiceCount + '_' + (voiceCount === 1 ? 'any' : pairing);
+  const table = VOICE_OFFSET_TABLES[key] || VOICE_OFFSET_TABLES['1_any'];
+  return table.map(v => {
+    let offset = v.offset;
+    if (offset === 'oct-1') offset = -scaleLength;
+    else if (offset === 'oct-1,-2') offset = -scaleLength - 2;
+    return { offset, label: v.label };
+  });
+}
+function structureToNotesForVoice(structure, degreeOffset) {
+  const genCache = {};
+  function getGen(s, r) {
+    const k = s+'|'+r;
+    if (!genCache[k]) genCache[k] = new MelodyGenerator(s, r, 'moderate');
+    return genCache[k];
+  }
+  const notes = [];
+  let currentBeat = 0;
+  for (const item of structure) {
+    const gen = getGen(item.genScale, item.genRoot);
+    const pitches = item.degrees.map(d => gen.degreeToMidi(d + degreeOffset));
+    item.line.forEach((syll, idx) => {
+      const dur = item.durations[idx];
+      notes.push({
+        pitch: pitches[idx], startBeat: currentBeat, durBeat: dur,
+        velocity: syll.stressed ? 100 : 78, lyric: syll.text, section: item.section,
+      });
+      currentBeat += dur;
+    });
+    currentBeat += 0.2;
+  }
+  return notes;
+}
+function getAllVoiceNotes(structure, voiceCount, pairing, scale) {
+  const scaleLength = SCALES[scale].length;
+  const offsets = getVoiceOffsets(voiceCount, pairing, scaleLength);
+  return offsets.map(v => ({ label: v.label, notes: structureToNotesForVoice(structure, v.offset) }));
+}
+
+/* ========================= Style presets ========================= */
+const STYLE_PRESETS = {
+  none: { label: '(no preset — use settings above)' },
+  vivaldi: { scale:'major', complexity:'extreme', sequenceProb:0.65, variationProb:0.15, tempoBpm:132, instrument:'violin',
+    description:"Baroque: bright major-key, energetic, built on repeating melodic sequences at a brisk tempo.",
+    sunoTags:"baroque, energetic strings, fast tempo, melodic sequences, bright major key, violin-led" },
+  bach: { scale:'major', complexity:'moderate', sequenceProb:0.55, variationProb:0.25, tempoBpm:100, instrument:'piano',
+    description:"Baroque counterpoint feel: orderly, sequence-driven phrases, moderate tempo.",
+    sunoTags:"baroque counterpoint, orderly phrasing, moderate tempo, sequence-driven, piano" },
+  elton_john: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.25, variationProb:0.20, tempoBpm:96, instrument:'piano',
+    description:"Piano-driven pop-ballad: big, dramatic hook-forward chorus melodies with wide leaps.",
+    sunoTags:"piano pop-rock ballad, anthemic chorus, dramatic melodic hooks, wide vocal range" },
+  leonard_cohen: { scale:'natural_minor', complexity:'simple', sequenceProb:0.30, variationProb:0.15, tempoBpm:76, instrument:'piano',
+    description:"Minimalist folk/baritone feel: narrow range, mostly stepwise, slow and repetitive.",
+    sunoTags:"minimalist folk, baritone, narrow melodic range, slow, spoken-sung, intimate" },
+  adele: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.20, variationProb:0.30, tempoBpm:80, instrument:'piano',
+    description:"Soulful pop ballad: dramatic, wide-ranging leaps especially into the chorus.",
+    sunoTags:"soulful pop ballad, dramatic vocal leaps, emotional build, minor key, piano" },
+  bob_dylan: { scale:'minor_pentatonic', complexity:'simple', sequenceProb:0.20, variationProb:0.15, tempoBpm:92, instrument:'violin',
+    description:"Talky folk-troubadour feel: narrow range, syllabic and speech-like.",
+    sunoTags:"folk troubadour, talky syllabic melody, acoustic, narrow range, storytelling" },
+  carlebach: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.45, variationProb:0.30, tempoBpm:100, instrument:'violin',
+    description:"Joyful niggun feel: singable, repetitive, dance-like phrases for group singing.",
+    sunoTags:"joyful niggun, singable, repetitive, dance-like, warm minor key, communal singing" },
+  barry_manilow: { scale:'major', complexity:'moderate', sequenceProb:0.30, variationProb:0.35, tempoBpm:88, instrument:'piano', bridgeModulation:'dominant',
+    description:"Sweeping sentimental pop ballad with a signature late modulation into the final chorus.",
+    sunoTags:"sweeping sentimental pop ballad, warm strings, key change into final chorus, orchestral" },
+  sting_acoustic: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:74, instrument:'violin',
+    description:"Moody acoustic ballad feel: minor-key, contemplative, sparse and unhurried.",
+    sunoTags:"moody acoustic ballad, minor key, contemplative, sparse, wistful" },
+  sting_jazz_pop: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:114, instrument:'violin', bridgeModulation:'dominant',
+    description:"A different Sting mood: jazzy, syncopated pop-groove, wry and conversational, major-key.",
+    sunoTags:"jazzy pop groove, syncopated rhythm, saxophone-style lead melody, wry and conversational, major key, moderate-upbeat" },
+  fish_in_a_birdcage: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.40, variationProb:0.25, tempoBpm:93, instrument:'violin',
+    description:"Cello-centric indie folk/chamber pop: storytelling, melancholic-but-not-bleak mood.",
+    sunoTags:"cello-centric indie folk, chamber pop, storytelling, melancholic, moderate tempo" },
+  yishai_ribo: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:84, instrument:'piano', bridgeModulation:'dominant',
+    description:"Contemporary Israeli soul-spiritual/folk-rock: piyut-rooted, emotionally intense builds.",
+    sunoTags:"contemporary Israeli soul-spiritual folk-rock, acoustic guitar and piano, devotional, emotional build, anthemic climax" },
+  shwekey: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.25, tempoBpm:92, instrument:'piano', bridgeModulation:'relative',
+    description:"Big contemporary Jewish vocal-showcase sound: wide dramatic range, powerhouse ballads.",
+    sunoTags:"big contemporary Jewish vocal ballad, orchestral, wide dramatic range, anthemic climax, powerhouse vocals" },
+  avraham_fried: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.45, variationProb:0.20, tempoBpm:96, instrument:'violin',
+    description:"Classic-yet-modern Chassidic pop: warm traditional melody blended with pop/rock/jazz.",
+    sunoTags:"classic Chassidic pop, warm traditional melody, pop-rock-jazz blend, singable, versatile" },
+  lipa_schmeltzer: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.50, variationProb:0.20, tempoBpm:120, instrument:'violin',
+    description:"High-energy, eclectic Hasidic-entertainer style: playful, unpredictable, genre-blending.",
+    sunoTags:"high-energy eclectic Hasidic entertainer style, playful, genre-blending, klezmer-rock energy, theatrical" },
+  baruch_levine: { scale:'major', complexity:'moderate', sequenceProb:0.30, variationProb:0.35, tempoBpm:88, instrument:'piano', bridgeModulation:'relative',
+    description:"Heartfelt contemporary Jewish anthem style: warm, uplifting, singable synagogue-anthem quality.",
+    sunoTags:"heartfelt contemporary Jewish anthem, warm uplifting synagogue quality, expressive build, piano" },
+  abba: { scale:'major', complexity:'moderate', sequenceProb:0.40, variationProb:0.40, tempoBpm:120, instrument:'piano', bridgeModulation:'dominant',
+    description:"Tightly-crafted pop-hook style: bright, driving, extremely catchy sing-along choruses.",
+    sunoTags:"bright driving pop, extremely catchy hook-forward chorus, major key, upbeat, sing-along energy" },
+  john_denver: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.30, variationProb:0.25, tempoBpm:92, instrument:'violin',
+    description:"Warm, gentle folk-pop: pastoral, accessible, comforting and open-hearted.",
+    sunoTags:"warm gentle folk-pop, pastoral, acoustic, accessible melody, comforting and open-hearted" },
+  billy_joel: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:88, instrument:'piano', bridgeModulation:'relative',
+    description:"Piano-driven storyteller style: narrative verses building from intimate to powerful.",
+    sunoTags:"piano-driven storyteller ballad, narrative verses, dynamic build from intimate to powerful, dramatic payoff" },
+  debbie_friedman: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.40, variationProb:0.30, tempoBpm:80, instrument:'piano', bridgeModulation:'relative',
+    description:"Congregational singer-songwriter style: warm, simple, highly singable prayer melody.",
+    sunoTags:"warm congregational singer-songwriter, simple singable prayer melody, gentle acoustic, communal" },
+  venus_hum: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.35, variationProb:0.25, tempoBpm:100, instrument:'violin',
+    description:"Dreamy electronic pop: ethereal, otherworldly, upbeat-yet-reflective, catchy hooks with a futuristic sheen.",
+    sunoTags:"dreamy electronic pop, ethereal synthpop, otherworldly production, catchy hooks, moderate-upbeat" },
+  blue_man_group: { scale:'minor_pentatonic', complexity:'extreme', sequenceProb:0.55, variationProb:0.15, tempoBpm:128, instrument:'violin',
+    description:"Percussion-driven performance-art style: primal, rhythmic, instrumental, intense (our engine has no percussion, so this approximates the energy melodically).",
+    sunoTags:"percussion-driven instrumental, primal rhythmic intensity, experimental, no vocals, tribal energy" },
+  scorpions: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.30, tempoBpm:92, instrument:'piano', bridgeModulation:'relative',
+    description:"Hard rock power ballad: moody minor-key verses building to a big, anthemic, dramatic chorus.",
+    sunoTags:"hard rock power ballad, dramatic build, anthemic chorus, moody minor verses, rock" },
+  coldplay: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.30, variationProb:0.30, tempoBpm:118, instrument:'piano', bridgeModulation:'dominant',
+    description:"Anthemic alternative pop-rock: soaring, uplifting, piano-driven hooks built for a stadium sing-along.",
+    sunoTags:"anthemic alternative pop-rock, soaring uplifting melody, piano-driven, stadium sing-along, emotional" },
+  simon_and_garfunkel: { scale:'natural_minor', complexity:'simple', sequenceProb:0.30, variationProb:0.20, tempoBpm:84, instrument:'violin',
+    description:"Gentle 1960s folk-duo style: fingerpicked acoustic warmth, introspective and melancholic but melodic.",
+    sunoTags:"gentle acoustic folk duo, close harmony feel, introspective, melancholic but melodic, fingerpicked warmth" },
+  beatles: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:112, instrument:'piano', bridgeModulation:'relative',
+    description:"Classic hook-driven pop-rock: catchy, melodically clever, tight and singable.",
+    sunoTags:"classic pop-rock, catchy melodic hooks, tight singable structure, clever melodic turns, timeless" },
+  mozart: { scale:'major', complexity:'moderate', sequenceProb:0.50, variationProb:0.25, tempoBpm:120, instrument:'violin', bridgeModulation:'dominant',
+    description:"Classical elegance: balanced, graceful phrasing, light ornamentation, with an authentic modulation to the dominant.",
+    sunoTags:"classical elegance, graceful ornamented melody, balanced phrasing, major key, chamber strings" },
+  ludovico_einaudi: { scale:'natural_minor', complexity:'simple', sequenceProb:0.55, variationProb:0.25, tempoBpm:70, instrument:'piano',
+    description:"Minimalist contemporary piano style: slow, meditative, built on gently repeating melodic patterns.",
+    sunoTags:"minimalist piano, meditative repeating patterns, slow emotional build, sparse and contemplative" },
+  hans_zimmer: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.50, variationProb:0.20, tempoBpm:88, instrument:'violin', bridgeModulation:'relative',
+    description:"Epic cinematic film-score style: tension-building repetition, sweeping dynamic range, huge climax.",
+    sunoTags:"epic cinematic film score, sweeping orchestral strings, tension-building ostinato, dramatic climax" },
+  eitan_katz: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.40, variationProb:0.30, tempoBpm:92, instrument:'violin',
+    description:"Warm kumzitz singer-songwriter style: heartfelt, acoustic, devotional, moving between reflection and joy.",
+    sunoTags:"warm kumzitz acoustic, heartfelt devotional, soulful-to-joyful range, singable, intimate" },
+  mbd: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.45, variationProb:0.20, tempoBpm:100, instrument:'violin', bridgeModulation:'relative',
+    description:"Classic foundational Chassidic-pop style: traditional niggun roots blended with pop/dance energy, iconic.",
+    sunoTags:"classic Chassidic pop pioneer sound, powerful traditional-meets-pop, iconic, dance-energy build" },
+  benny_friedman: { scale:'major', complexity:'extreme', sequenceProb:0.30, variationProb:0.30, tempoBpm:108, instrument:'piano', bridgeModulation:'dominant',
+    description:"Contemporary Orthodox pop style: professionally trained powerhouse voice, energetic, radio-friendly.",
+    sunoTags:"contemporary Orthodox pop, powerhouse trained vocals, energetic radio-friendly, festive build" },
+  hesped_memorial: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:74, instrument:'violin', bridgeModulation:'relative',
+    description:"Memorial/tribute style, for honoring someone who has passed or a great figure of the past: solemn, dignified minor-key reflection that lifts into a warmer major-key passage at the bridge — the classic arc from mourning toward comfort, gratitude, and legacy.",
+    sunoTags:"solemn memorial tribute ballad, contemplative strings, dignified and reverent, minor-to-major uplifting arc, legacy and remembrance" },
+  wedding_celebration: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.50, variationProb:0.25, tempoBpm:134, instrument:'violin', bridgeModulation:'dominant',
+    description:"Joyous wedding/celebration style, for Jewish or general festive occasions: bright, energetic, highly danceable and repetitive like a real dance-floor tune, with an energizing key-lift as the celebration builds.",
+    sunoTags:"joyous wedding celebration, energetic danceable, festive dance-tune build, bright major key, communal dance-floor energy" },
+  yom_tov_holiday: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.45, variationProb:0.30, tempoBpm:104, instrument:'piano', bridgeModulation:'relative',
+    description:"Yom Tov / holiday celebration style (Chanukah, Purim, and festivals generally): warm communal joy that lifts from reflective minor into a bright major passage — echoing light overcoming darkness and miraculous joy, with a singable, repetition-friendly build suited to group celebration.",
+    sunoTags:"warm festive Yom Tov holiday, communal joy, minor-to-major light-overcoming-darkness arc, singable group celebration, moderate-upbeat" },
+  comfort_healing: { scale:'natural_minor', complexity:'simple', sequenceProb:0.40, variationProb:0.30, tempoBpm:80, instrument:'piano', bridgeModulation:'relative',
+    description:"Comfort and healing style, for someone facing illness or hard times: gentle, tender, and soothing rather than heavy — quietly hopeful, building toward a warmer major passage that offers reassurance without minimizing the difficulty.",
+    sunoTags:"gentle comfort and healing ballad, tender and soothing, quietly hopeful, minor-to-major reassurance arc, refuah shleima prayer feel" },
+  thrilling: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.50, variationProb:0.20, tempoBpm:142, instrument:'violin', bridgeModulation:'dominant',
+    description:"Thrilling, action-driven style: fast, wide-ranging, and urgent, with a repeating driving motif and a dramatic key-lift at the climax.",
+    sunoTags:"thrilling action-driven, fast urgent pace, driving string ostinato, dramatic climax lift" },
+  suspenseful: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.55, variationProb:0.15, tempoBpm:64, instrument:'violin', bridgeModulation:'parallel',
+    description:"Suspenseful style: slow, creeping, and unresolved, built on a repeating tense motif rather than big movement — an eerie color-shift at the bridge instead of a triumphant lift, keeping the tension unresolved.",
+    sunoTags:"suspenseful and tense, slow creeping pace, repeating unresolved motif, eerie atmosphere" },
+  darkness_to_light: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:86, instrument:'piano', bridgeModulation:'relative',
+    description:"Darkness-to-light style: wide, dramatic emotional swings in the verses, emerging into a warmer major passage — the classic arc of emerging from struggle into clarity.",
+    sunoTags:"darkness to light emotional arc, dramatic dynamic swings, emerging warmth, minor-to-major transformation" },
+  hopeful_against_odds: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.45, variationProb:0.30, tempoBpm:96, instrument:'piano', bridgeModulation:'dominant',
+    description:"Hopeful-against-the-odds style: a determined, marching repeated figure under dramatic emotional swings, lifting assertively at the bridge — hope as active determination, not passive wishing.",
+    sunoTags:"hopeful determination, marching repeated figure, assertive uplifting bridge, struggle toward hope" },
+  winning_against_odds: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.25, variationProb:0.40, tempoBpm:118, instrument:'violin', bridgeModulation:'dominant',
+    description:"Victorious, triumph-against-the-odds style: faster and more soaring than 'hopeful against odds', freely evolving rather than repetitive — the feeling of a battle actually being won.",
+    sunoTags:"victorious triumph, soaring free melody, energetic underdog win, powerful climactic lift" },
+  on_a_mission: { scale:'minor_pentatonic', complexity:'moderate', sequenceProb:0.55, variationProb:0.20, tempoBpm:112, instrument:'piano',
+    description:"Focused, driving 'on a mission' style: a steady, repeating, purposeful motif throughout — no dramatic key-change, reflecting unwavering focus rather than an emotional arc.",
+    sunoTags:"focused driving determination, steady purposeful repetition, unwavering forward motion" },
+  serious_but_joyful: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.40, variationProb:0.30, tempoBpm:90, instrument:'piano', bridgeModulation:'relative',
+    description:"Serious-but-joyful style: warm major-key joy delivered with restraint and dignity rather than exuberance — deep gladness, not a party.",
+    sunoTags:"dignified joy, warm restrained gladness, serious yet warm, understated major key" },
+  optimistic: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:104, instrument:'piano', bridgeModulation:'dominant',
+    description:"Optimistic style: bright, warm, and forward-moving, without the struggle implied by 'hopeful against odds' — simple, genuine positivity with an extra lift at the bridge.",
+    sunoTags:"bright genuine optimism, warm forward-moving, uplifting major key, sunny and sincere" },
+  mysterious_but_hopeful: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.40, variationProb:0.30, tempoBpm:72, instrument:'violin', bridgeModulation:'relative',
+    description:"Light-dark-and-mysterious style: slow, wide-ranging, and unpredictable like something unresolved lurking beneath the surface, warming into a hopeful major passage at the bridge rather than staying purely eerie.",
+    sunoTags:"mysterious and unpredictable, slow brooding strings, emerging hope, light and shadow" },
+  spiritual_and_mysterious: { scale:'natural_minor', complexity:'simple', sequenceProb:0.50, variationProb:0.25, tempoBpm:68, instrument:'piano', bridgeModulation:'parallel',
+    description:"Spiritual-and-mysterious style: slow, still, and meditative rather than tense — a repeating, chant-like motif with an otherworldly color-shift at the bridge, evoking awe rather than drama.",
+    sunoTags:"spiritual and awe-filled, meditative chant-like repetition, still and otherworldly, mystical color-shift" },
+  eighth_day: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.35, variationProb:0.35, tempoBpm:118, instrument:'violin', bridgeModulation:'dominant',
+    description:"Hasidic pop-rock style (based on the real band 8th Day's documented sound): genuine rock-band energy fused with Jewish soul, guitar-driven feel, a real key-change lift at the bridge.",
+    sunoTags:"Hasidic pop rock, rock-band energy with Jewish soul, guitar-driven, driving key-change bridge" },
+  miami_boys_choir: { scale:'major', complexity:'simple', sequenceProb:0.50, variationProb:0.20, tempoBpm:108, instrument:'piano', bridgeModulation:'relative',
+    description:"Youth-choir celebration style (based on the real choir's documented sound): bright, simple, highly singable melodies built for young voices and communal joy, with a swelling choir-like lift at the bridge.",
+    sunoTags:"joyous youth choir, bright and simple, communal Orthodox celebration, swelling choir lift" },
+  ed_sheeran: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:92, instrument:'violin', bridgeModulation:'relative',
+    description:"Contemporary folk-pop singer-songwriter style (based on the real artist's documented sound): warm, melodic, acoustic-driven pop with an intimate, loop-pedal-like repetition.",
+    sunoTags:"contemporary folk-pop singer-songwriter, warm acoustic-driven melody, intimate loop-pedal feel, melodic hook" },
+  dust_in_the_wind_style: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.30, variationProb:0.25, tempoBpm:76, instrument:'piano',
+    description:"Reflective 70s acoustic classic-rock ballad style (in the general spirit of Kansas's 'Dust in the Wind' — capturing the mood and genre, not the actual melody): slow, fingerpicked-feeling, philosophical and melancholic, staying in a steady, unresolved reflective mood throughout rather than building to a big lift.",
+    sunoTags:"reflective 70s acoustic rock ballad, fingerpicked feel, philosophical and melancholic, steady unresolved mood" },
+  michael_jackson: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:116, instrument:'piano', bridgeModulation:'dominant',
+    description:"Pop-funk-R&B style (based on the real artist's documented sound): syncopated groove-driven energy, wide dynamic vocal-style leaps, a dramatic pop key-lift at the bridge.",
+    sunoTags:"pop-funk groove, syncopated danceable energy, wide dynamic vocal leaps, dramatic pop bridge lift" },
+  taylor_swift: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.40, tempoBpm:100, instrument:'piano', bridgeModulation:'relative',
+    description:"Contemporary narrative pop style (based on the real artist's documented sound): catchy, story-driven melodic hooks with a big emotional turn at the bridge.",
+    sunoTags:"contemporary narrative pop, catchy story-driven hook, big emotional bridge turn, modern pop production" },
+  uptown_funk_style: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.55, variationProb:0.20, tempoBpm:115, instrument:'piano', bridgeModulation:'dominant',
+    description:"Retro funk-pop dance style (in the general spirit of 'Uptown Funk' — capturing the mood and genre, not the actual melody): horn-section-energy, tightly syncopated repeating groove, danceable and cocky, with a funky key-lift at the bridge.",
+    sunoTags:"retro funk-pop dance groove, horn-section energy, tightly syncopated riff, cocky danceable swagger" },
+  where_is_my_husband_style: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:112, instrument:'piano', bridgeModulation:'dominant',
+    description:"Brassy gospel-pop-R&B style (in the general spirit of Raye's 'Where Is My Husband!' — capturing the mood and genre, not the actual melody): bold, assertive, big-band-brass energy with gospel-tinged, bustling rhythm and a bold key-lift.",
+    sunoTags:"brassy gospel R&B pop, bold assertive big-band energy, bustling rhythm, festival sing-along lift" },
+  kpop_anthem_style: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.40, variationProb:0.35, tempoBpm:126, instrument:'piano', bridgeModulation:'dominant',
+    description:"Polished K-pop anthem style (in the general spirit of the 'KPop Demon Hunters' soundtrack's more emotionally-driven songs — capturing the mood and genre, not any actual melody): theatrical, high-energy, dynamic pop-vocal runs building to a huge anthemic key-change chorus.",
+    sunoTags:"polished K-pop anthem, theatrical high-energy pop, dynamic vocal runs, huge anthemic key-change chorus" },
+  lion_king_style: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.40, variationProb:0.30, tempoBpm:100, instrument:'violin', bridgeModulation:'relative',
+    description:"Majestic African-influenced Broadway-adventure style (in the general spirit of 'Circle of Life', 'Hakuna Matata', and 'I Just Can't Wait to Be King' — capturing the mood and genre, not any actual melody): sweeping, choral-scale range with a playful, carefree undercurrent, building to a majestic choral swell at the bridge.",
+    sunoTags:"majestic African-influenced Broadway adventure, sweeping choral-scale range, playful carefree undercurrent, majestic choral swell" },
+  pirates_caribbean_style: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.55, variationProb:0.20, tempoBpm:150, instrument:'violin', bridgeModulation:'dominant',
+    description:"Swashbuckling adventure-film style (in the general spirit of the Pirates of the Caribbean scores — capturing the mood and genre, not any actual melody): fast, driving repeated string-ostinato energy, heroic and playful at once, building to a triumphant heroic lift.",
+    sunoTags:"swashbuckling adventure score, fast driving string ostinato, heroic and playful, triumphant heroic lift" },
+  camp_songs: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.55, variationProb:0.20, tempoBpm:104, instrument:'flute',
+    description:"Summer-camp songalong style: simple, warm, and highly repetitive so a whole group can learn it after hearing it once — nostalgic, communal, no dramatic key-change since the point is everyone singing together, not a performance arc.",
+    sunoTags:"summer camp songalong, simple warm and repetitive, communal group singing, nostalgic acoustic" },
+  waves_chill_style: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:112, instrument:'piano', bridgeModulation:'parallel',
+    description:"Smooth, moody chill-pop/soft-rock style (in the general spirit of Mr. Probz's 'Waves' — capturing the mood and genre, not the actual melody): simple, smooth, understated verses with a subtle color-shift rather than a big triumphant lift.",
+    sunoTags:"smooth moody chill pop, soft-rock understated groove, simple and smooth, tropical-tinged" },
+  enya: { scale:'natural_minor', complexity:'simple', sequenceProb:0.50, variationProb:0.20, tempoBpm:68, instrument:'harp', bridgeModulation:'relative',
+    description:"Ethereal Celtic new-age style (based on the real artist's documented sound): slow, floating, and gentle, built on repeating layered phrases with a warm lift at the bridge — dreamy rather than dramatic.",
+    sunoTags:"ethereal Celtic new-age, slow floating and dreamy, layered ambient harp texture, gentle warmth" },
+  lady_gaga: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.35, variationProb:0.40, tempoBpm:124, instrument:'piano', bridgeModulation:'dominant',
+    description:"Theatrical dance-pop style (based on the real artist's documented sound): dramatic, powerful, wide vocal-style leaps, huge anthemic key-change chorus.",
+    sunoTags:"theatrical dance-pop, dramatic powerful vocal leaps, anthemic key-change chorus, bold and commanding" },
+  nissim_black: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.60, variationProb:0.15, tempoBpm:100, instrument:'piano', bridgeModulation:'dominant',
+    description:"Jewish conscious hip-hop style (based on the real artist's documented sound): rhythmic, repetitive flow-like phrasing rooted in hardcore hip-hop, spiritual and driving.",
+    sunoTags:"Jewish conscious hip-hop, rhythmic repetitive flow, driving spiritual energy, hardcore hip-hop roots" },
+  gad_elbaz: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.40, variationProb:0.30, tempoBpm:98, instrument:'violin', bridgeModulation:'relative',
+    description:"Mizrahi pop-rock style (based on the real artist's documented sound): soulful, Middle-Eastern-tinged melody bridging observant and secular Israeli pop.",
+    sunoTags:"Mizrahi pop-rock, soulful Middle-Eastern melody, contemporary Israeli crossover, warm ballad-to-pop" },
+  avi_delevanti: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.35, tempoBpm:84, instrument:'violin', bridgeModulation:'relative',
+    description:"Sephardic-cantorial style (based on the real artist's documented lineage and sound): ornate, Moroccan/Andalusian-influenced melismatic movement rooted in piyut tradition.",
+    sunoTags:"Sephardic cantorial piyut, ornate Andalusian-influenced melisma, Moroccan Eastern flavor, devotional" },
+  eli_dachs: { scale:'major', complexity:'simple', sequenceProb:0.40, variationProb:0.25, tempoBpm:76, instrument:'piano', bridgeModulation:'relative',
+    description:"Gentle chuppah/wedding-song style (based on the real artist's documented sound): simple, heartfelt, acoustic-feeling warmth built for an emotional wedding moment.",
+    sunoTags:"gentle chuppah wedding song, simple heartfelt acoustic warmth, emotional and tender" },
+  matt_dubb: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.45, variationProb:0.25, tempoBpm:118, instrument:'piano', bridgeModulation:'dominant',
+    description:"Hasidic-electronic fusion style (based on the real artist's documented work, who performs Hasidic music as Matt Dubb and electronic music internationally as MUNTII): traditional Jewish vocal character over a modern, driving electronic-pop energy.",
+    sunoTags:"Hasidic-electronic fusion, driving modern production, traditional vocal over electronic-pop energy, EDM-style drop bridge" },
+  simcha_leiner: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:82, instrument:'piano', bridgeModulation:'relative',
+    description:"Contemporary Jewish religious ballad style (based on the real artist's documented sound): heartfelt, emotionally weighty, built for a moving, meaningful moment.",
+    sunoTags:"contemporary Jewish religious ballad, heartfelt emotionally weighty, moving and meaningful" },
+  mordechai_shapiro_achas: { scale:'natural_minor', complexity:'simple', sequenceProb:0.30, variationProb:0.30, tempoBpm:72, instrument:'piano', bridgeModulation:'relative',
+    description:"Mature, intimate ballad style (based specifically on the real artist's 'Achas' album — a deliberately more subtle, restrained departure from his usual upbeat pop): quiet, personal, understated rather than peppy.",
+    sunoTags:"mature intimate Jewish ballad, quiet and personal, restrained and subtle, understated devotion" },
+  omer_adam: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.45, variationProb:0.30, tempoBpm:126, instrument:'violin', bridgeModulation:'dominant',
+    description:"Mainstream Israeli Mizrahi-pop style (based on the real artist's documented sound): huge, danceable, mainstream Israeli party-pop energy.",
+    sunoTags:"mainstream Israeli Mizrahi pop, huge danceable party energy, contemporary Israeli hit sound" },
+  sruly_green: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.55, variationProb:0.20, tempoBpm:138, instrument:'violin', bridgeModulation:'dominant',
+    description:"High-energy freilach-dance style (based on the real artist's documented association with live freilach-band performance): fast, driving, built for real group dancing.",
+    sunoTags:"high-energy freilach dance, fast driving live-band energy, joyous group dancing" },
+  yonatan_razel: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:80, instrument:'viola', bridgeModulation:'relative',
+    description:"Contemporary Israeli singer-songwriter style (based on the real artist's documented sound and cello/piano background): thoughtful, artistic, warm chamber-music-like introspection.",
+    sunoTags:"contemporary Israeli singer-songwriter, thoughtful artistic introspection, warm chamber-music quality" },
+  chazzan_rosenblatt: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.25, variationProb:0.45, tempoBpm:66, instrument:'violin', bridgeModulation:'parallel',
+    description:"Classic structured chazzanus style (based on the real cantor's documented historical innovation, who pioneered a more METERED, structured approach compared to the free-cadenza style before him): dramatic, highly ornamented, emotionally intense but organized.",
+    sunoTags:"classic structured chazzanus, dramatic ornamented cantorial, metered and organized, emotionally intense" },
+  chazzan_helfgot: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.20, variationProb:0.50, tempoBpm:58, instrument:'piano', bridgeModulation:'relative',
+    description:"Grand operatic chazzanus style (based on the real cantor's documented sound, known for orchestral-scale arrangements and extended melismas in the uppermost vocal range): expansive, bombastic, concert-hall grandeur.",
+    sunoTags:"grand operatic chazzanus, expansive orchestral-scale arrangement, extended melisma, concert-hall grandeur" },
+  chazanut: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.15, variationProb:0.50, tempoBpm:54, instrument:'violin',
+    description:"General cantorial (chazzanus) tradition style: free, spacious, and improvisatory-feeling — deliberately the least repetitive and most freely-evolving style in this library, no structured key-change, evoking the older unmetered cantorial tradition.",
+    sunoTags:"traditional chazzanus, free improvisatory cantorial recitative, spacious and unmetered, deeply devotional" },
+  progress: { scale:'major', complexity:'moderate', sequenceProb:0.40, variationProb:0.35, tempoBpm:104, instrument:'piano', bridgeModulation:'dominant',
+    description:"Forward-moving 'progress' style: steady, developing momentum with a deliberate step-up at the bridge — the feeling of real advancement, not just energy.",
+    sunoTags:"forward-moving progress, steady developing momentum, deliberate advancement, building achievement" },
+  scientific: { scale:'minor_pentatonic', complexity:'simple', sequenceProb:0.60, variationProb:0.10, tempoBpm:100, instrument:'percussion',
+    description:"Scientific/analytical style: precise, methodical, and exact — a clean, clockwork-like tuned-percussion texture with minimal deviation, staying steady throughout rather than building emotionally.",
+    sunoTags:"precise analytical clockwork, methodical and exact, clean minimal deviation, cool scientific detachment" },
+  mechanical: { scale:'minor_pentatonic', complexity:'simple', sequenceProb:0.70, variationProb:0.05, tempoBpm:120, instrument:'percussion',
+    description:"Mechanical/robotic style: rigid, driving, and almost entirely unchanging — even more repetitive than 'scientific', built to feel like a machine rather than a living performer.",
+    sunoTags:"rigid mechanical robotic, driving unchanging repetition, industrial machine-like, cold precision" },
+  futuristic: { scale:'major_pentatonic', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:112, instrument:'flute',
+    description:"Futuristic/sci-fi style: bright, wide-ranging, and unpredictable, with an airy otherworldly texture and a forward leap at the bridge — advancement into the unknown.",
+    sunoTags:"futuristic sci-fi, bright unpredictable otherworldly, airy advanced technology feel, forward leap" },
+  profound: { scale:'natural_minor', complexity:'simple', sequenceProb:0.45, variationProb:0.25, tempoBpm:64, instrument:'piano', bridgeModulation:'relative',
+    description:"Profound/weighty style: slow and unhurried, deliberately simple rather than busy, leaving space for the words to land — a moment of deeper revelation at the bridge.",
+    sunoTags:"profound weighty depth, slow unhurried spacious, deliberate simplicity, deeper revelation" },
+  sage_wisdom: { scale:'natural_minor', complexity:'simple', sequenceProb:0.50, variationProb:0.20, tempoBpm:70, instrument:'viola',
+    description:"Sage-wisdom style: measured, patient, and unwavering — a warm, mature repeating motif like a proverb returned to again and again, with no dramatic shift, only steady wisdom.",
+    sunoTags:"sage wisdom, measured patient teaching, warm mature repetition, unwavering steadiness" },
+  sarcastic_story: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:96, instrument:'trumpet', bridgeModulation:'parallel',
+    description:"Sarcastic/witty style: brash, unpredictable, with a cheeky brightness and an ironic color-shift at the bridge — the musical equivalent of a raised eyebrow.",
+    sunoTags:"sarcastic witty brashness, cheeky unpredictable brightness, ironic twist, playful cynicism" },
+  tale_light_humor: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.40, variationProb:0.30, tempoBpm:92, instrument:'flute', bridgeModulation:'relative',
+    description:"'Let me tell you a tale' (light humor) style: whimsical, playful storytelling with a charming little twist at the bridge — a storybook, not a lecture.",
+    sunoTags:"whimsical light storytelling, playful charming tale, storybook lightness, gentle humor" },
+  tale_serious: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:78, instrument:'piano', bridgeModulation:'relative',
+    description:"'Let me tell you a tale' (serious) style: dramatic, narrative-driven, evolving as the story develops, with a real turn at the bridge — weight and consequence rather than whimsy.",
+    sunoTags:"dramatic serious narrative, evolving story development, weighty consequence, real narrative turn" },
+  office: { scale:'major', complexity:'simple', sequenceProb:0.60, variationProb:0.15, tempoBpm:100, instrument:'piano',
+    description:"'Office' style: deliberately mundane and steady — routine, unremarkable, and repetitive by design, with nothing dramatic happening, the way an ordinary workday feels set to music.",
+    sunoTags:"mundane office routine, steady unremarkable repetition, deliberately ordinary, workday rhythm" },
+  getting_down_to_business: { scale:'minor_pentatonic', complexity:'moderate', sequenceProb:0.50, variationProb:0.20, tempoBpm:116, instrument:'trumpet', bridgeModulation:'dominant',
+    description:"'Getting down to business' style: brisk, purposeful, and announcement-like, building to a decisive lift — closing the deal, not just staying busy.",
+    sunoTags:"brisk purposeful business energy, announcement-like drive, decisive closing lift, focused determination" },
+  addressing_serious_issues: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:74, instrument:'piano',
+    description:"'Addressing serious issues' style: grave and grounded, staying serious throughout rather than resolving upward — the issue remains real, so the music doesn't lift away from it.",
+    sunoTags:"grave serious grounded tone, unresolved gravity, real concern, staying with the issue" },
+};
+
+/* ========================= Genre / mood suggestion ========================= */
+const MOOD_KEYWORDS = {
+  devotional: ['תורה','השם','תפלה','מצו','רצון','prayer','torah','holy','sacred','soul','god','faith','pray','hashem','shofar','yom kippur','teshuva','elul','mitzvah','mitzvot'],
+  celebratory: ['birthday','celebrate','joy','happy','wish','blessing','party','wedding','chuppah','chatan','kallah','simcha','mazel tov'],
+  romantic: ['love','heart','forever','darling','my dear'],
+  reflective_searching: ['yesterday','today','choose','fire','alive','truth','awaken'],
+  somber: ['pain','dark','lost','alone','grief','sorrow','tears'],
+  memorial: ['memory','זכרונו לברכה','זכרונה לברכה','ז״ל','ז"ל','niftar','petirah','yahrtzeit','passed away',
+             'in loving memory','gone but not forgotten','legacy','eulogy','hesped','tribute','his memory','her memory'],
+  holiday: ['chanukah','hanukkah','purim','sukkot','pesach','passover','shavuot','simchat torah',
+            'dreidel','menorah','miracle of lights','yom tov','megillah','latkes','hamantaschen'],
+  comfort_healing: ['refuah shleima','refuah shelema','healing','recovery','illness','hospital','get well',
+                     'strength through','hard times','difficult time','courage','be strong','feel better'],
+};
+function stripNikud(s) { return s.replace(/[\u0591-\u05C7]/g, ''); }
+function detectMood(text) {
+  const low = stripNikud(text.toLowerCase());
+  const scores = {};
+  for (const mood in MOOD_KEYWORDS) {
+    let count = 0;
+    for (const kw of MOOD_KEYWORDS[mood]) {
+      const kwLow = stripNikud(kw.toLowerCase());
+      let idx = -1;
+      while ((idx = low.indexOf(kwLow, idx+1)) !== -1) count++;
+    }
+    if (count > 0) scores[mood] = count;
+  }
+  const ranked = Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
+  return ranked.length ? ranked.slice(0,2) : ['reflective'];
+}
+function tempoDescriptor(bpm) {
+  if (bpm < 70) return 'slow, spacious';
+  if (bpm < 95) return 'moderate, unhurried';
+  if (bpm < 120) return 'medium-upbeat';
+  return 'fast, driving';
+}
+
+/* ========================= Lyrics structure checker ========================= */
+function analyzeLyricsStructure(text) {
+  const rawLines = text.split('\n').map(l => l.trim());
+  const contentLines = rawLines.filter(l => l.length > 0);
+  const isLabel = (l) => /^\[.*\]$/.test(l) || /^\(.*\)$/.test(l);
+
+  let score = 100;
+  const issues = [];
+
+  // 1. Run-on lines: same signal the app's own auto-splitter uses -- a long
+  // line with multiple clause-ending marks reads like several sentences
+  // joined together, and will become one unwieldy melodic phrase.
+  let runOnCount = 0;
+  for (const l of contentLines) {
+    if (isLabel(l)) continue;
+    const wordCount = l.split(/\s+/).length;
+    const clauseMarks = (l.match(/[,.\?!:]/g) || []).length;
+    if (wordCount > 10 && clauseMarks >= 2) {
+      runOnCount++;
+      issues.push({ lineText: l, message: 'Reads like several sentences run together — likely to become one long, unwieldy melodic phrase. Consider breaking it into separate lines at the natural pauses.' });
+    }
+  }
+  score -= Math.min(32, runOnCount * 8);
+
+  // 2. Very long lines with NO punctuation at all -- these slip past the
+  // app's own auto-splitter too, since there's no clause mark to split on.
+  let bareLongCount = 0;
+  for (const l of contentLines) {
+    if (isLabel(l)) continue;
+    const wordCount = l.split(/\s+/).length;
+    const clauseMarks = (l.match(/[,.\?!:]/g) || []).length;
+    if (wordCount > 18 && clauseMarks === 0) {
+      bareLongCount++;
+      issues.push({ lineText: l, message: 'Very long with no punctuation to break it up — will become one continuous melodic phrase with no natural breathing point.' });
+    }
+  }
+  score -= Math.min(20, bareLongCount * 10);
+
+  // 3. Hebrew words missing nikud -- the syllable-finder needs vowel points;
+  // without them, a whole word collapses into a single note.
+  const noNikudByLine = {};
+  for (const l of contentLines) {
+    if (isLabel(l)) continue;
+    for (const w of l.split(/\s+/)) {
+      if (isHebrewWord(w)) {
+        const hasNikud = [...w].some(ch => HEBREW_COMBINING_RE.test(ch));
+        if (!hasNikud) {
+          if (!noNikudByLine[l]) noNikudByLine[l] = [];
+          noNikudByLine[l].push(w);
+        }
+      }
+    }
+  }
+  const noNikudLines = Object.keys(noNikudByLine);
+  if (noNikudLines.length) {
+    const totalWords = Object.values(noNikudByLine).reduce((a,arr)=>a+arr.length, 0);
+    score -= Math.min(25, totalWords * 5);
+    noNikudLines.slice(0, 5).forEach(l => {
+      issues.push({ lineText: l, message: `Hebrew word(s) without nikud (${noNikudByLine[l].join(', ')}) — needs vowel points to time correctly, otherwise the word becomes one long note.` });
+    });
+  }
+
+  // 4. No repeated line anywhere -- a repeated chorus/hook is what lets the
+  // engine lock in a consistent, memorable melody each time it returns.
+  let hasChorus = false;
+  try {
+    const rng = mulberry32(1);
+    const structure = generateSongStructure(rng, text, { scale: 'major', rootMidi: 60, complexity: 'moderate' });
+    hasChorus = structure.some(item => item.origin === 'repeat');
+  } catch (e) { /* best-effort; skip this check if generation fails */ }
+  const nonLabelCount = contentLines.filter(l => !isLabel(l)).length;
+  if (!hasChorus && nonLabelCount > 4) {
+    score -= 15;
+    issues.push({ lineText: null, message: 'No repeated line found anywhere — consider adding a chorus or refrain line that comes back more than once, so the melody has a memorable, consistent hook.' });
+  }
+
+  // 5. No [Section] labels at all -- a minor tip, not a real fault, since
+  // the app works fine without them (everything is treated as one verse).
+  const hasSections = rawLines.some(l => isLabel(l));
+  if (!hasSections && contentLines.length > 8) {
+    score -= 5;
+    issues.push({ lineText: null, message: 'No [Section] labels found — adding [Chorus] or [Bridge] on their own line lets the app apply a deliberate lift or key change to your bridge.' });
+  }
+
+  // 6. (Section) labels written in PARENTHESES instead of [SQUARE BRACKETS].
+  // This app reads either style fine -- but if you're headed to Suno next,
+  // Suno treats () as singable backing-vocal/ad-lib text, not structure, so
+  // a label like (Bridge) risks literally being sung rather than recognized.
+  const SECTION_KEYWORDS = ['verse','chorus','bridge','intro','outro','refrain',
+                             'pre-chorus','prechorus','hook','interlude','post-chorus'];
+  let parenLabelCount = 0;
+  for (const l of rawLines) {
+    const m = l.match(/^\(([^)]+)\)$/);
+    if (m && SECTION_KEYWORDS.some(kw => m[1].toLowerCase().includes(kw))) {
+      parenLabelCount++;
+      issues.push({ lineText: l, message: "This app reads it fine, but if you're pasting into Suno next: Suno treats parentheses as singable backing-vocal/ad-lib text, not structure — it may literally sing this instead of recognizing it as your song's structure. Use [square brackets] instead before pasting into Suno." });
+    }
+  }
+  score -= Math.min(15, parenLabelCount * 5);
+
+  score = Math.max(0, Math.min(100, Math.round(score)));
+  return { score, issues, contentLines, hasChorus, hasSections };
+}
+function scoreLabel(score) {
+  if (score >= 90) return 'Excellent — ready to generate';
+  if (score >= 75) return 'Good — a couple of things worth a look';
+  if (score >= 55) return 'Workable — a few fixes would help';
+  return 'Needs work before generating';
+}
+function renderLyricsCheckReport(text) {
+  const { score, issues, contentLines } = analyzeLyricsStructure(text);
+  const box = document.getElementById('lyricsCheckReport');
+  const flaggedLineSet = new Set(issues.filter(i => i.lineText).map(i => i.lineText));
+
+  let html = `<div class="score-badge"><span class="score-number">${score}</span><span class="score-label">/100 &middot; ${xmlEscapeHtml(scoreLabel(score))}</span></div>`;
+
+  if (!issues.length) {
+    html += `<p class="library-empty-hint" style="margin-top:0.5rem;">No structural issues found — this looks ready to generate.</p>`;
+  } else {
+    issues.forEach(issue => {
+      html += `<div class="issue-item">`;
+      if (issue.lineText) html += `<div class="issue-line" dir="auto">"${xmlEscapeHtml(issue.lineText)}"</div>`;
+      html += `<div class="issue-msg">${xmlEscapeHtml(issue.message)}</div></div>`;
+    });
+  }
+
+  if (contentLines.length) {
+    html += `<div class="annotated-preview" dir="auto">`;
+    contentLines.forEach(l => {
+      const isLbl = /^\[.*\]$/.test(l) || /^\(.*\)$/.test(l);
+      const isFlagged = flaggedLineSet.has(l);
+      const cls = [isFlagged ? 'flagged-line' : '', isLbl ? 'section-label-line' : ''].filter(Boolean).join(' ');
+      if (cls) {
+        html += `<span class="${cls}">${xmlEscapeHtml(l)}</span><br>`;
+      } else {
+        html += `<span>${xmlEscapeHtml(l)}</span><br>`;
+      }
+    });
+    html += `</div>`;
+  }
+
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+
+function buildReportText(text) {
+  const { score, issues } = analyzeLyricsStructure(text);
+  let out = `Melody Weaver — Lyrics Structure Report\n`;
+  out += `Score: ${score}/100 (${scoreLabel(score)})\n\n`;
+  if (!issues.length) {
+    out += `No structural issues found.\n\n`;
+  } else {
+    out += `Issues found:\n`;
+    issues.forEach((issue, i) => {
+      out += `${i+1}. `;
+      if (issue.lineText) out += `"${issue.lineText}"\n   → `;
+      out += `${issue.message}\n`;
+    });
+    out += `\n`;
+  }
+  out += `Full lyrics:\n${text.trim()}\n`;
+  return out;
+}
+
+async function copyReportForAI() {
+  const text = document.getElementById('lyricsInput').value;
+  if (!text.trim()) return;
+  renderLyricsCheckReport(text);
+  const reportText = buildReportText(text);
+
+  try {
+    await navigator.clipboard.writeText(reportText);
+    return true;
+  } catch (e) {
+    // fallback for browsers/contexts where the Clipboard API is unavailable
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = reportText;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (ok) return true;
+    } catch (e2) { /* fall through */ }
+    prompt('Copy this text manually (select all, then copy):', reportText);
+    return false;
+  }
+}
+
+function rangeDescriptor(notes) {
+  if (!notes.length) return '';
+  const pitches = notes.map(n=>n.pitch);
+  const span = Math.max(...pitches) - Math.min(...pitches);
+  if (span > 16) return 'wide melodic range, dramatic leaps';
+  if (span > 9) return 'moderate range';
+  return 'narrow range, chant-like';
+}
+const SCALE_GENRE_LEAN = {
+  minor_pentatonic: ['blues','rock','folk'], natural_minor: ['ballad','folk','Middle Eastern-tinged'],
+  major_pentatonic: ['pop','country','uplifting folk'], major: ['pop','anthemic','celebratory'],
+};
+const MOOD_FLAVOR = {
+  devotional: 'devotional, intimate, prayerful', celebratory: 'warm, celebratory, communal sing-along',
+  romantic: 'tender, warm, intimate', reflective_searching: 'introspective, earnest, building',
+  somber: 'melancholic, sparse, raw', reflective: 'reflective, sincere',
+  memorial: 'solemn, reverent, dignified tribute',
+  holiday: 'festive, communal, joyful holiday spirit',
+  comfort_healing: 'gentle, tender, quietly hopeful',
+};
+function suggestGenre(notes, lyricsText, scale, tempoBpm) {
+  const genres = SCALE_GENRE_LEAN[scale] || ['folk'];
+  const moods = detectMood(lyricsText);
+  const flavor = moods.map(m => MOOD_FLAVOR[m] || m).join(', ');
+  const parts = [genres[0]];
+  if (genres[1]) parts.push(genres[1]);
+  parts.push(tempoDescriptor(tempoBpm), flavor, rangeDescriptor(notes));
+  const seen = new Set(); const out = [];
+  for (const part of parts) {
+    for (const w of part.split(',').map(s=>s.trim())) {
+      const lw = w.toLowerCase();
+      if (w && !seen.has(lw)) { seen.add(lw); out.push(w); }
+    }
+  }
+  return out;
+}
+
+/* ========================= MIDI-note-name helper ========================= */
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function midiToNoteName(p) { return NOTE_NAMES[((p%12)+12)%12] + (Math.floor(p/12)-1); }
+
+/* ========================= MusicXML export (real sheet music) ========================= */
+const MXML_STEP_NAMES = ['C','C','D','D','E','F','F','G','G','A','A','B'];
+const MXML_ALTERS =     [0,   1,   0,   1,   0,   0,   1,   0,   1,   0,   1,   0];
+function midiToStepOctaveAlter(pitch) {
+  const step = MXML_STEP_NAMES[((pitch%12)+12)%12];
+  const alter = MXML_ALTERS[((pitch%12)+12)%12];
+  const octave = Math.floor(pitch/12) - 1;
+  return [step, octave, alter];
+}
+const MAJOR_FIFTHS = {0:0,7:1,2:2,9:3,4:4,11:5,6:6,1:-5,8:-4,3:-3,10:-2,5:-1};
+function keySignatureFifths(rootMidi, scaleName) {
+  const pc = ((rootMidi%12)+12)%12;
+  if (scaleName === 'natural_minor' || scaleName === 'minor_pentatonic') {
+    return MAJOR_FIFTHS[(pc+3)%12];
+  }
+  return MAJOR_FIFTHS[pc];
+}
+// Same fixed math as the tested Python version: divisions computed directly
+// from beats*DIVISIONS, never a hand-typed constant that could drift.
+const MXML_DIVISIONS = 8;
+const MXML_QUANT_TABLE = [
+  [0.25,'16th',false],[0.375,'16th',true],[0.5,'eighth',false],[0.75,'eighth',true],
+  [1.0,'quarter',false],[1.5,'quarter',true],[2.0,'half',false],[3.0,'half',true],[4.0,'whole',false],
+];
+function quantizeDuration(beats) {
+  let best = MXML_QUANT_TABLE[0], bestDist = Infinity;
+  for (const t of MXML_QUANT_TABLE) {
+    const d = Math.abs(t[0]-beats);
+    if (d < bestDist) { bestDist = d; best = t; }
+  }
+  const divisionsValue = Math.round(best[0]*MXML_DIVISIONS);
+  return { beatsValue: best[0], divisionsValue, noteType: best[1], dotted: best[2] };
+}
+function xmlEscape(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function buildPartBodyXML(flatNotes, fifths) {
+  let body = '';
+  let measureNum = 1;
+  let beatsLeftInMeasure = 4.0;
+  const beatsPerMeasure = 4;
+
+  function openMeasure(withAttributes) {
+    let m = `<measure number="${measureNum}">`;
+    if (withAttributes) {
+      m += `<attributes><divisions>${MXML_DIVISIONS}</divisions><key><fifths>${fifths}</fifths></key>` +
+           `<time><beats>${beatsPerMeasure}</beats><beat-type>4</beat-type></time>` +
+           `<clef><sign>G</sign><line>2</line></clef></attributes>`;
+    }
+    return m;
+  }
+  let currentMeasureXml = openMeasure(true);
+
+  function addNote(pitch, divisionsValue, noteType, dotted, lyricText, tieStart, tieStop) {
+    const [step, octave, alter] = midiToStepOctaveAlter(pitch);
+    let n = '<note><pitch>' + `<step>${step}</step>` + (alter ? `<alter>${alter}</alter>` : '') +
+            `<octave>${octave}</octave></pitch><duration>${divisionsValue}</duration>`;
+    if (tieStop) n += '<tie type="stop"/>';
+    if (tieStart) n += '<tie type="start"/>';
+    n += `<type>${noteType}</type>`;
+    if (dotted) n += '<dot/>';
+    if (tieStart || tieStop) {
+      n += '<notations>' + (tieStop ? '<tied type="stop"/>' : '') + (tieStart ? '<tied type="start"/>' : '') + '</notations>';
+    }
+    if (lyricText && !tieStop) {
+      n += `<lyric number="1"><syllabic>single</syllabic><text>${xmlEscape(lyricText)}</text></lyric>`;
+    }
+    n += '</note>';
+    currentMeasureXml += n;
+  }
+
+  for (const n of flatNotes) {
+    let remaining = quantizeDuration(n.durBeat).beatsValue;
+    let first = true;
+    while (remaining > 1e-6) {
+      if (beatsLeftInMeasure <= 1e-6) {
+        body += currentMeasureXml + '</measure>';
+        measureNum += 1;
+        currentMeasureXml = openMeasure(false);
+        beatsLeftInMeasure = beatsPerMeasure;
+      }
+      let piece = Math.min(remaining, beatsLeftInMeasure);
+      let q = quantizeDuration(piece);
+      if (q.beatsValue > beatsLeftInMeasure + 1e-6) q = quantizeDuration(beatsLeftInMeasure);
+      const willContinue = (remaining - q.beatsValue) > 1e-6;
+      addNote(n.pitch, q.divisionsValue, q.noteType, q.dotted, n.lyric, willContinue, !first);
+      beatsLeftInMeasure -= q.beatsValue;
+      remaining -= q.beatsValue;
+      first = false;
+    }
+  }
+  body += currentMeasureXml + '</measure>';
+  return body;
+}
+
+function wrapScoreXML(title, parts) {
+  const partListXml = parts.map(p => `<score-part id="${p.id}"><part-name>${xmlEscape(p.name)}</part-name></score-part>`).join('');
+  const partsXml = parts.map(p => `<part id="${p.id}">${p.body}</part>`).join('');
+  return `<?xml version="1.0" encoding="UTF-8"?>` +
+    `<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">` +
+    `<score-partwise version="3.1"><work><work-title>${xmlEscape(title)}</work-title></work>` +
+    `<part-list>${partListXml}</part-list>${partsXml}</score-partwise>`;
+}
+
+function structureToMusicXML(structure, title, homeScale, homeRoot) {
+  const fifths = keySignatureFifths(homeRoot, homeScale);
+  const flatNotes = structureToNotes(structure);
+  const body = buildPartBodyXML(flatNotes, fifths);
+  return wrapScoreXML(title, [{ id: 'P1', name: 'Melody', body }]);
+}
+
+function structureToMusicXMLMultiVoice(structure, title, homeScale, homeRoot, voiceCount, pairing) {
+  const fifths = keySignatureFifths(homeRoot, homeScale);
+  const voices = getAllVoiceNotes(structure, voiceCount, pairing, homeScale);
+  const parts = voices.map((v, i) => ({ id: 'P'+(i+1), name: v.label, body: buildPartBodyXML(v.notes, fifths) }));
+  return wrapScoreXML(title, parts);
+}
+
+let osmdLoadPromise = null;
+function loadOSMD() {
+  if (window.opensheetmusicdisplay) return Promise.resolve();
+  if (osmdLoadPromise) return osmdLoadPromise;
+  osmdLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.8.4/build/opensheetmusicdisplay.min.js';
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Could not load the sheet music renderer (OpenSheetMusicDisplay) from the CDN.'));
+    document.head.appendChild(script);
+  });
+  return osmdLoadPromise;
+}
+
+/* ========================= Web Audio playback ========================= */
+let audioCtx = null;
+let activeNodes = [];
+function midiToFreq(p) { return 440 * Math.pow(2, (p-69)/12); }
+
+function scheduleNotesOn(ctx, destNode, notes, tempoBpm, instrument) {
+  const beatSec = 60/tempoBpm;
+  const now = ctx.currentTime + 0.08;
+  const nodes = [];
+  notes.forEach(n => {
+    const startTime = now + n.startBeat*beatSec;
+    const durSec = n.durBeat*beatSec*0.92;
+    const freq = midiToFreq(n.pitch);
+    const gainNode = ctx.createGain();
+    gainNode.connect(destNode);
+
+    if (instrument === 'piano') {
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, startTime);
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.28*(n.velocity/127), startTime+0.008);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime+durSec);
+      osc.connect(gainNode);
+      osc.start(startTime); osc.stop(startTime+durSec+0.05);
+      nodes.push(osc);
+    } else if (instrument === 'violin') {
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 5.5;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 2.5;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 1800;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.20*(n.velocity/127), startTime+0.08);
+      gainNode.gain.setValueAtTime(0.20*(n.velocity/127), startTime+Math.max(0.08,durSec-0.1));
+      gainNode.gain.linearRampToValueAtTime(0.0001, startTime+durSec);
+      osc.connect(filter); filter.connect(gainNode);
+      osc.start(startTime); lfo.start(startTime);
+      osc.stop(startTime+durSec+0.05); lfo.stop(startTime+durSec+0.05);
+      nodes.push(osc, lfo);
+    } else if (instrument === 'flute') {
+      // pure sine tone, breathy soft onset, gentle shallow vibrato -- an
+      // airy timbre distinct from violin's bright sawtooth-based sound
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 4.5;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 3.0;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 2600;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.22*(n.velocity/127), startTime+0.05);
+      gainNode.gain.setValueAtTime(0.22*(n.velocity/127), startTime+Math.max(0.05,durSec-0.08));
+      gainNode.gain.linearRampToValueAtTime(0.0001, startTime+durSec);
+      osc.connect(filter); filter.connect(gainNode);
+      osc.start(startTime); lfo.start(startTime);
+      osc.stop(startTime+durSec+0.05); lfo.stop(startTime+durSec+0.05);
+      nodes.push(osc, lfo);
+    } else if (instrument === 'trumpet') {
+      // bright sawtooth with a high filter cutoff for brassiness and a
+      // sharp attack -- more cutting and immediate than violin or flute
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 3800;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.22*(n.velocity/127), startTime+0.02);
+      gainNode.gain.setValueAtTime(0.22*(n.velocity/127), startTime+Math.max(0.02,durSec-0.08));
+      gainNode.gain.linearRampToValueAtTime(0.0001, startTime+durSec);
+      osc.connect(filter); filter.connect(gainNode);
+      osc.start(startTime); osc.stop(startTime+durSec+0.05);
+      nodes.push(osc);
+    } else if (instrument === 'viola') {
+      // same family as violin but warmer and darker: lower filter cutoff,
+      // slightly slower and shallower vibrato
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 5.0;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 2.0;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 1100;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.20*(n.velocity/127), startTime+0.09);
+      gainNode.gain.setValueAtTime(0.20*(n.velocity/127), startTime+Math.max(0.09,durSec-0.1));
+      gainNode.gain.linearRampToValueAtTime(0.0001, startTime+durSec);
+      osc.connect(filter); filter.connect(gainNode);
+      osc.start(startTime); lfo.start(startTime);
+      osc.stop(startTime+durSec+0.05); lfo.stop(startTime+durSec+0.05);
+      nodes.push(osc, lfo);
+    } else if (instrument === 'harp') {
+      // plucked character: very fast attack, quick exponential decay that
+      // finishes well before the note's full duration, unlike sustained
+      // instruments -- a harp note doesn't hold, it rings and fades
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const decayTime = Math.min(durSec, 0.9);
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.30*(n.velocity/127), startTime+0.003);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime+decayTime);
+      osc.connect(gainNode);
+      osc.start(startTime); osc.stop(startTime+decayTime+0.05);
+      nodes.push(osc);
+    } else if (instrument === 'percussion') {
+      // tuned mallet character (marimba/xylophone-like pitched percussion,
+      // not an untuned drum kit -- this engine generates one pitched melody
+      // line, so a real kick/snare/hihat layer isn't structurally possible
+      // here): a quick pitch-drop transient plus a very fast decay
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq*1.06, startTime);
+      osc.frequency.exponentialRampToValueAtTime(freq, startTime+0.03);
+      const decayTime = Math.min(durSec, 0.4);
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.32*(n.velocity/127), startTime+0.002);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime+decayTime);
+      osc.connect(gainNode);
+      osc.start(startTime); osc.stop(startTime+decayTime+0.05);
+      nodes.push(osc);
+    } else {
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(freq, startTime);
+      const lfo = ctx.createOscillator();
+      lfo.frequency.value = 5.5;
+      const lfoGain = ctx.createGain();
+      lfoGain.gain.value = 2.5;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 1800;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(0.20*(n.velocity/127), startTime+0.08);
+      gainNode.gain.setValueAtTime(0.20*(n.velocity/127), startTime+Math.max(0.08,durSec-0.1));
+      gainNode.gain.linearRampToValueAtTime(0.0001, startTime+durSec);
+      osc.connect(filter); filter.connect(gainNode);
+      osc.start(startTime); lfo.start(startTime);
+      osc.stop(startTime+durSec+0.05); lfo.stop(startTime+durSec+0.05);
+      nodes.push(osc, lfo);
+    }
+  });
+  const totalDur = notes.length ? (notes[notes.length-1].startBeat + notes[notes.length-1].durBeat)*beatSec + 0.3 : 0;
+  return { totalDur, nodes };
+}
+
+async function playNotes(notesOrVoices, tempoBpm, instrument) {
+  stopPlayback();
+  audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') { try { await audioCtx.resume(); } catch(e) {} }
+  const voiceNoteLists = Array.isArray(notesOrVoices) && notesOrVoices.length && notesOrVoices[0].notes
+    ? notesOrVoices.map(v => v.notes)
+    : [notesOrVoices];
+  let totalDur = 0;
+  const allNodes = [];
+  voiceNoteLists.forEach(notes => {
+    const result = scheduleNotesOn(audioCtx, audioCtx.destination, notes, tempoBpm, instrument);
+    totalDur = Math.max(totalDur, result.totalDur);
+    allNodes.push(...result.nodes);
+  });
+  activeNodes = allNodes;
+  return totalDur;
+}
+function stopPlayback() {
+  activeNodes.forEach(n => { try { n.stop(); } catch(e){} });
+  activeNodes = [];
+}
+
+/* ========================= Audio file export (fast offline render) ========================= */
+function audioBufferToWavBlob(audioBuffer) {
+  // Encodes an AudioBuffer as a standard 16-bit PCM WAV file. WAV needs no
+  // compression library and is universally compatible (unlike webm/mp4,
+  // which varied by browser) -- and since this is genuine independent
+  // hosting now, any file extension can be saved, not just a restricted set.
+  const numChannels = audioBuffer.numberOfChannels;
+  const sampleRate = audioBuffer.sampleRate;
+  const numFrames = audioBuffer.length;
+  const bytesPerSample = 2;
+  const blockAlign = numChannels * bytesPerSample;
+  const dataSize = numFrames * blockAlign;
+
+  const buffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buffer);
+  function writeString(offset, str) { for (let i=0; i<str.length; i++) view.setUint8(offset+i, str.charCodeAt(i)); }
+
+  writeString(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeString(8, 'WAVE');
+  writeString(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true); // PCM
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * blockAlign, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bytesPerSample * 8, true);
+  writeString(36, 'data');
+  view.setUint32(40, dataSize, true);
+
+  const channelData = [];
+  for (let ch = 0; ch < numChannels; ch++) channelData.push(audioBuffer.getChannelData(ch));
+
+  // Direct typed-array writes are dramatically faster than repeated
+  // DataView.setInt16 calls for large sample counts (a multi-minute song
+  // is millions of samples) -- virtually all real devices are little-endian,
+  // which is exactly what WAV requires, so this is safe as well as fast.
+  const pcmView = new Int16Array(buffer, 44);
+  let idx = 0;
+  for (let i = 0; i < numFrames; i++) {
+    for (let ch = 0; ch < numChannels; ch++) {
+      let sample = channelData[ch][i];
+      sample = sample < -1 ? -1 : (sample > 1 ? 1 : sample);
+      pcmView[idx++] = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+    }
+  }
+  return new Blob([buffer], { type: 'audio/wav' });
+}
+
+async function exportAudioFile(notesOrVoices, tempoBpm, instrument, btn) {
+  const origText = btn.textContent;
+  btn.disabled = true;
+  let elapsed = 0;
+  btn.textContent = 'Rendering… 0s';
+  const tick = setInterval(() => { elapsed += 1; btn.textContent = `Rendering… ${elapsed}s`; }, 1000);
+  try {
+    // accept either a flat notes array (solo) or an array of {label, notes}
+    // voice objects (duet/trio/quartet) -- normalize to a list of note arrays
+    const voiceNoteLists = Array.isArray(notesOrVoices) && notesOrVoices.length && notesOrVoices[0].notes
+      ? notesOrVoices.map(v => v.notes)
+      : [notesOrVoices];
+
+    const beatSec = 60/tempoBpm;
+    const totalDur = Math.max(...voiceNoteLists.map(notes =>
+      notes.length ? (notes[notes.length-1].startBeat + notes[notes.length-1].durBeat)*beatSec + 0.6 : 1
+    ));
+    // Multi-voice means every extra voice adds its own full set of oscillators
+    // to compute for the same duration -- a quartet is roughly 4x the audio
+    // computation of a solo export. Dropping the sample rate further here
+    // (on top of the 22.05kHz already used for solo) is a real, direct lever
+    // on that compute cost, at some further loss of high-frequency detail.
+    const sampleRate = voiceNoteLists.length > 1 ? 16000 : 22050;
+    const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
+      1, Math.ceil(totalDur * sampleRate), sampleRate
+    );
+    // scheduling every voice into the SAME offline destination mixes them
+    // together naturally into one output buffer, no separate mixing step needed
+    voiceNoteLists.forEach(notes => scheduleNotesOn(offlineCtx, offlineCtx.destination, notes, tempoBpm, instrument));
+    const renderedBuffer = await offlineCtx.startRendering();
+    const wavBlob = audioBufferToWavBlob(renderedBuffer);
+    clearInterval(tick);
+    btn.textContent = 'Saving…';
+    await offerDownload(buildFilename('wav'), wavBlob);
+  } catch (err) {
+    clearInterval(tick);
+    alert("Couldn't render audio: " + err.message);
+  }
+  btn.disabled = false;
+  btn.textContent = origText;
+}
+
+
+let selectedLineIndex = null;
+let lineUndoSnapshots = {}; // lineIndex -> full structure snapshot from just before that line's last "Try again"
+
+function snapshotStructure(structure) {
+  return structure.map(it => Object.assign({}, it, { degrees: it.degrees.slice(), durations: it.durations.slice() }));
+}
+const lockedLineData = {}; // lineIndex -> {degrees, durations}, persists across full regenerations
+
+function renderMelodyMapRows(container, structure) {
+  container.innerHTML = '';
+  const flatNotes = structureToNotes(structure);
+  const allPitches = flatNotes.map(n=>n.pitch);
+  const pitchMin = Math.min(...allPitches), pitchMax = Math.max(...allPitches);
+  const pitchSpan = Math.max(1, pitchMax - pitchMin);
+
+  let flatIdx = 0;
+  structure.forEach((item, lineIndex) => {
+    const row = document.createElement('div');
+    row.className = 'line-row section-' + item.section + (item.origin==='locked' ? ' locked' : '') + (lineIndex===selectedLineIndex ? ' selected' : '');
+    row.dataset.lineIndex = lineIndex;
+
+    if (item.origin === 'locked') {
+      const lockIcon = document.createElement('span');
+      lockIcon.className = 'lock-icon'; lockIcon.textContent = '🔒';
+      row.appendChild(lockIcon);
+    }
+
+    item.line.forEach((syll) => {
+      const note = flatNotes[flatIdx]; flatIdx++;
+      const wrap = document.createElement('div');
+      wrap.className = 'note-bar-wrap';
+      const nameEl = document.createElement('div');
+      nameEl.className = 'note-name'; nameEl.textContent = midiToNoteName(note.pitch);
+      const bar = document.createElement('div');
+      bar.className = 'note-bar' + (item.autoSplit ? ' auto-split' : '');
+      const norm = (note.pitch - pitchMin) / pitchSpan;
+      bar.style.marginBottom = (norm*36)+'px';
+      const lyricEl = document.createElement('div');
+      lyricEl.className = 'note-lyric'; lyricEl.dir = 'auto'; lyricEl.textContent = syll.text;
+      wrap.appendChild(nameEl); wrap.appendChild(bar); wrap.appendChild(lyricEl);
+      row.appendChild(wrap);
+    });
+
+    row.addEventListener('click', () => {
+      selectedLineIndex = (selectedLineIndex === lineIndex) ? null : lineIndex;
+      renderMelodyMapRows(container, lastStructure);
+    });
+    container.appendChild(row);
+
+    if (lineIndex === selectedLineIndex) {
+      const toolbar = document.createElement('div');
+      toolbar.className = 'line-toolbar';
+      const isLocked = item.origin === 'locked';
+
+      const regenBtn = document.createElement('button');
+      regenBtn.textContent = '🔁 Try again';
+      regenBtn.disabled = isLocked;
+      regenBtn.title = isLocked ? 'Unlock this line first' : 'Regenerate just this line';
+      regenBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lineUndoSnapshots[lineIndex] = snapshotStructure(lastStructure);
+        const seed = Number(seedInput.value) || 7;
+        const rng = mulberry32(seed + lineIndex*7919 + Math.floor(Math.random()*1000));
+        const newStructure = regenerateSingleLine(rng, lastStructure, lineIndex, complexitySelect.value);
+        updateAfterEdit(newStructure);
+      });
+
+      const undoBtn = document.createElement('button');
+      undoBtn.textContent = '↩️ Undo';
+      undoBtn.title = 'Go back to this line as it was before "Try again"';
+      undoBtn.style.display = lineUndoSnapshots[lineIndex] ? 'inline-block' : 'none';
+      undoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const snapshot = lineUndoSnapshots[lineIndex];
+        if (!snapshot) return;
+        delete lineUndoSnapshots[lineIndex];
+        updateAfterEdit(snapshot);
+      });
+
+      const lockBtn = document.createElement('button');
+      lockBtn.textContent = isLocked ? '🔓 Unlock' : '🔒 Lock this line';
+      lockBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const newStructure = lastStructure.map(it => Object.assign({}, it));
+        if (isLocked) {
+          delete lockedLineData[lineIndex];
+          newStructure[lineIndex].origin = 'fresh';
+        } else {
+          lockedLineData[lineIndex] = { degrees: item.degrees.slice(), durations: item.durations.slice() };
+          newStructure[lineIndex].origin = 'locked';
+        }
+        newStructure.autoSplitNotices = lastStructure.autoSplitNotices;
+        updateAfterEdit(newStructure);
+      });
+
+      toolbar.appendChild(regenBtn); toolbar.appendChild(undoBtn); toolbar.appendChild(lockBtn);
+      container.appendChild(toolbar);
+    }
+  });
+
+  updateLocksSummary();
+}
+
+function updateLocksSummary() {
+  const el = document.getElementById('locksSummary');
+  const count = Object.keys(lockedLineData).length;
+  if (count === 0) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.innerHTML = `${count} line${count>1?'s':''} locked — they'll stay put next time you generate. <button id="clearLocksBtn">Clear all</button>`;
+  document.getElementById('clearLocksBtn').addEventListener('click', () => {
+    Object.keys(lockedLineData).forEach(k => delete lockedLineData[k]);
+    const newStructure = lastStructure.map(it => Object.assign({}, it, { origin: it.origin==='locked' ? 'fresh' : it.origin }));
+    newStructure.autoSplitNotices = lastStructure.autoSplitNotices;
+    updateAfterEdit(newStructure);
+  });
+}
+
+function updateSummaryBox(structure, notes, tempoBpm, bridgeModulation) {
+  const repeats = structure.filter(s=>s.origin==='repeat').length;
+  const sequences = structure.filter(s=>s.origin==='sequence').length;
+  const variations = structure.filter(s=>s.origin==='variation').length;
+  const locked = structure.filter(s=>s.origin==='locked').length;
+  const hasBridge = structure.some(s=>s.section==='bridge');
+  const totalSec = notes.length ? (notes[notes.length-1].startBeat+notes[notes.length-1].durBeat)*60/tempoBpm : 0;
+  const voiceLabel = lastVoiceCount > 1
+    ? ` &middot; ${['','Solo','Duet','Trio','Quartet'][lastVoiceCount]} (${lastVoicePairing === 'mixed' ? 'mixed voices' : 'same register'})`
+    : '';
+  document.getElementById('summaryBox').innerHTML =
+    `<b>${structure.length}</b> lines &middot; <b>${Math.round(totalSec)}s</b> &middot; ` +
+    `${repeats} repeated &middot; ${sequences} sequenced &middot; ${variations} varied` +
+    (locked ? ` &middot; ${locked} locked` : '') +
+    (hasBridge ? (bridgeModulation ? ` &middot; bridge modulates to a related key` : ` &middot; bridge lifted for contrast`) : '') +
+    voiceLabel;
+}
+
+function updateAfterEdit(newStructure) {
+  lastStructure = newStructure;
+  lastNotes = structureToNotes(newStructure);
+  renderMelodyMapRows(document.getElementById('mapRows'), lastStructure);
+  updateSummaryBox(lastStructure, lastNotes, lastTempo, null);
+  sheetMusicRendered = false;
+  document.getElementById('sheetMusicWrap').style.display = 'none';
+}
+
+/* ========================= Saved melodies library (localStorage) ========================= */
+const LIBRARY_KEY = 'melodyWeaverLibrary';
+
+function loadLibrary() {
+  try {
+    const raw = localStorage.getItem(LIBRARY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) { return []; }
+}
+function saveLibraryArray(arr) {
+  try {
+    localStorage.setItem(LIBRARY_KEY, JSON.stringify(arr));
+    return true;
+  } catch (e) { return false; }
+}
+
+function renderSavedList() {
+  const container = document.getElementById('savedLibraryList');
+  const items = loadLibrary();
+  container.innerHTML = '';
+  if (!items.length) {
+    container.innerHTML = '<p class="library-empty-hint">Nothing saved yet — generate a melody you like, then tap "Save this melody" below.</p>';
+    return;
+  }
+  // newest first
+  items.slice().reverse().forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'library-item';
+    const styleName = (item.styleKey && item.styleKey !== 'none')
+      ? item.styleKey.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ')
+      : `${item.scale}, ${item.complexity}`;
+    div.innerHTML = `
+      <div class="library-item-title" dir="auto">${xmlEscapeHtml(item.title)}</div>
+      <div class="library-item-meta">${xmlEscapeHtml(styleName)} &middot; seed ${item.seed} &middot; ${xmlEscapeHtml(item.savedAt)}</div>
+    `;
+    const actions = document.createElement('div');
+    actions.className = 'library-item-actions';
+    const loadBtn = document.createElement('button');
+    loadBtn.textContent = 'Load';
+    loadBtn.addEventListener('click', () => loadSavedItem(item.id));
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'Delete';
+    delBtn.className = 'danger';
+    delBtn.addEventListener('click', () => deleteSavedItem(item.id));
+    actions.appendChild(loadBtn); actions.appendChild(delBtn);
+    div.appendChild(actions);
+    container.appendChild(div);
+  });
+}
+function xmlEscapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function deleteSavedItem(id) {
+  const items = loadLibrary().filter(it => it.id !== id);
+  saveLibraryArray(items);
+  renderSavedList();
+}
+
+function loadSavedItem(id) {
+  const item = loadLibrary().find(it => it.id === id);
+  if (!item) return;
+
+  document.getElementById('lyricsInput').value = item.lyricsText;
+  styleSelect.value = STYLE_PRESETS[item.styleKey] ? item.styleKey : 'none';
+  applyStyleToControls(styleSelect.value);
+  // override with the exact saved literal values, so the restored melody
+  // matches bit-for-bit regardless of whether the style preset database
+  // has changed since this was saved
+  scaleSelect.value = item.scale;
+  complexitySelect.value = item.complexity;
+  instrumentSelect.value = item.instrument;
+  tempoInput.value = item.tempo;
+  seedInput.value = item.seed;
+
+  document.getElementById('generateBtn').click();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('saveMelodyBtn').addEventListener('click', () => {
+  if (!lastLyricsText) return;
+  const defaultTitle = slugify(
+    lastLyricsText.split('\n').map(l=>l.trim()).find(l => l && !/^\[.*\]$/.test(l)) || 'Melody', 6
+  ).replace(/_/g, ' ');
+  const title = prompt('Name this melody:', defaultTitle || 'Untitled melody');
+  if (title === null) return; // cancelled
+
+  const items = loadLibrary();
+  items.push({
+    id: Date.now() + '-' + Math.floor(Math.random()*10000),
+    title: title.trim() || 'Untitled melody',
+    lyricsText: lastLyricsText,
+    styleKey: lastStyleKey,
+    scale: lastScale,
+    complexity: lastComplexity,
+    instrument: lastInstrument,
+    tempo: lastTempo,
+    seed: lastSeed,
+    savedAt: new Date().toLocaleString(),
+  });
+  const ok = saveLibraryArray(items);
+  renderSavedList();
+  if (!ok) alert("Couldn't save — your browser's storage may be full or unavailable in this mode.");
+});
+
+document.getElementById('checkLyricsBtn').addEventListener('click', () => {
+  const text = document.getElementById('lyricsInput').value;
+  if (!text.trim()) { return; }
+  renderLyricsCheckReport(text);
+});
+
+document.getElementById('copyReportBtn').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  const origText = btn.textContent;
+  const copied = await copyReportForAI();
+  btn.textContent = copied ? 'Copied ✓' : 'Shown above ↑';
+  setTimeout(() => { btn.textContent = origText; }, 1800);
+});
+
+document.getElementById('refreshLibraryBtn').addEventListener('click', () => renderSavedList());
+
+document.getElementById('exportLibraryBtn').addEventListener('click', () => {
+  const items = loadLibrary();
+  if (!items.length) { alert('No saved melodies to back up yet.'); return; }
+  const data = JSON.stringify({ melodyWeaverBackup: true, exportedAt: new Date().toISOString(), items }, null, 2);
+  const dateStr = new Date().toISOString().slice(0,10);
+  offerDownload(`melody_weaver_backup_${dateStr}.json`, data);
+});
+
+document.getElementById('importLibraryBtn').addEventListener('click', () => {
+  document.getElementById('importLibraryFile').click();
+});
+document.getElementById('importLibraryFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let incoming;
+    try {
+      const parsed = JSON.parse(reader.result);
+      incoming = Array.isArray(parsed) ? parsed : parsed.items;
+      if (!Array.isArray(incoming)) throw new Error('not a recognized backup file');
+    } catch (err) {
+      alert("Couldn't read that file — it doesn't look like a Melody Weaver backup.");
+      e.target.value = '';
+      return;
+    }
+    const existing = loadLibrary();
+    const existingIds = new Set(existing.map(it => it.id));
+    let added = 0, skipped = 0;
+    incoming.forEach(item => {
+      if (item && item.id && item.lyricsText && !existingIds.has(item.id)) {
+        existing.push(item);
+        existingIds.add(item.id);
+        added++;
+      } else {
+        skipped++;
+      }
+    });
+    saveLibraryArray(existing);
+    renderSavedList();
+    alert(`Imported ${added} melod${added===1?'y':'ies'}` + (skipped ? ` (${skipped} already present, skipped)` : '') + '.');
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
+
+renderSavedList(); // populate the library list as soon as the page loads
+
+
+const styleSelect = document.getElementById('styleSelect');
+Object.keys(STYLE_PRESETS).forEach(key => {
+  const opt = document.createElement('option');
+  opt.value = key;
+  opt.textContent = key === 'none' ? STYLE_PRESETS[key].label : key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
+  styleSelect.appendChild(opt);
+});
+
+const scaleSelect = document.getElementById('scaleSelect');
+const complexitySelect = document.getElementById('complexitySelect');
+const instrumentSelect = document.getElementById('instrumentSelect');
+const tempoInput = document.getElementById('tempoInput');
+const seedInput = document.getElementById('seedInput');
+const voicesSelect = document.getElementById('voicesSelect');
+const voicePairingSelect = document.getElementById('voicePairingSelect');
+const voicePairingWrap = document.getElementById('voicePairingWrap');
+const styleDescWrap = document.getElementById('styleDescWrap');
+const styleDesc = document.getElementById('styleDesc');
+const styleTags = document.getElementById('styleTags');
+
+voicesSelect.addEventListener('change', () => {
+  voicePairingWrap.style.display = (voicesSelect.value === '1') ? 'none' : 'block';
+});
+
+function applyStyleToControls(key) {
+  const s = STYLE_PRESETS[key];
+  if (!s || key === 'none') { styleDescWrap.style.display = 'none'; return; }
+  scaleSelect.value = s.scale;
+  complexitySelect.value = s.complexity;
+  instrumentSelect.value = s.instrument;
+  tempoInput.value = s.tempoBpm;
+  styleDesc.textContent = s.description;
+  styleTags.innerHTML = '';
+  s.sunoTags.split(',').forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'tag'; span.textContent = t.trim();
+    styleTags.appendChild(span);
+  });
+  styleDescWrap.style.display = 'block';
+}
+styleSelect.addEventListener('change', () => applyStyleToControls(styleSelect.value));
+
+document.getElementById('randomSeedBtn').addEventListener('click', () => {
+  seedInput.value = Math.floor(Math.random()*100000);
+});
+
+let lastNotes = [], lastStructure = [], lastTempo = 90, lastInstrument = 'piano';
+let lastLyricsText = '', lastStyleKey = 'none', lastSeed = 7, lastScale = 'minor_pentatonic', lastRootMidi = 60, lastComplexity = 'moderate';
+let lastVoiceCount = 1, lastVoicePairing = 'same';
+
+function slugify(text, maxWords) {
+  const words = text.trim().split(/\s+/).slice(0, maxWords);
+  return words.join('_').replace(/[\\/:*?"<>|]/g, '').slice(0, 60);
+}
+function buildFilename(ext) {
+  // First non-empty, non-bracket-label line of the lyrics becomes the
+  // readable part of the filename, so downloads are easy to tell apart
+  // and organize without opening each one.
+  const firstLine = lastLyricsText.split('\n')
+    .map(l => l.trim())
+    .find(l => l && !/^\[.*\]$/.test(l)) || 'melody';
+  const titlePart = slugify(firstLine, 5) || 'melody';
+  const stylePart = (lastStyleKey && lastStyleKey !== 'none') ? lastStyleKey : 'custom';
+  return `${titlePart}_${stylePart}_seed${lastSeed}.${ext}`;
+}
+
+
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const lyricsText = document.getElementById('lyricsInput').value;
+  if (!lyricsText.trim()) { return; }
+
+  const styleKey = styleSelect.value;
+  const preset = STYLE_PRESETS[styleKey];
+  const opts = {
+    scale: scaleSelect.value,
+    rootMidi: 60,
+    complexity: complexitySelect.value,
+    tempoBpm: Number(tempoInput.value),
+    instrument: instrumentSelect.value,
+    bridgeModulation: (preset && preset.bridgeModulation) || null,
+    lockedLines: lockedLineData,
+  };
+  if (preset && styleKey !== 'none') {
+    opts.sequenceProb = preset.sequenceProb;
+    opts.variationProb = preset.variationProb;
+  }
+
+  const seed = Number(seedInput.value) || 7;
+  const rng = mulberry32(seed);
+  const structure = generateSongStructure(rng, lyricsText, opts);
+  const notes = structureToNotes(structure);
+
+  selectedLineIndex = null;
+  lineUndoSnapshots = {};
+  lastNotes = notes; lastStructure = structure; lastTempo = opts.tempoBpm; lastInstrument = opts.instrument;
+  lastLyricsText = lyricsText; lastStyleKey = styleKey; lastSeed = seed;
+  lastScale = opts.scale; lastRootMidi = opts.rootMidi; lastComplexity = opts.complexity;
+  lastVoiceCount = Number(voicesSelect.value) || 1;
+  lastVoicePairing = voicePairingSelect.value;
+  sheetMusicRendered = false;
+  document.getElementById('sheetMusicWrap').style.display = 'none';
+
+  updateSummaryBox(structure, notes, opts.tempoBpm, opts.bridgeModulation);
+
+  const autoSplitBox = document.getElementById('autoSplitBox');
+  const notices = structure.autoSplitNotices || [];
+  if (notices.length) {
+    let html = `<b>${notices.length} line${notices.length>1?'s':''} auto-divided</b> — this is a guess based on punctuation, not real understanding of your intended phrasing. Check these against your original and edit the lyrics directly if a break looks wrong:<br><br>`;
+    notices.forEach(n => {
+      html += `<div style="margin-bottom:0.5rem;"><span style="opacity:0.65;">was:</span> ${n.original}<br><span style="opacity:0.65;">became:</span> ${n.parts.map(p=>'&ldquo;'+p+'&rdquo;').join(' / ')}</div>`;
+    });
+    autoSplitBox.innerHTML = html;
+    autoSplitBox.style.display = 'block';
+  } else {
+    autoSplitBox.style.display = 'none';
+  }
+
+  const genreTagsEl = document.getElementById('genreTags');
+  genreTagsEl.innerHTML = '';
+  const tags = (preset && styleKey !== 'none') ? preset.sunoTags.split(',') : suggestGenre(notes, lyricsText, opts.scale, opts.tempoBpm);
+  tags.forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'tag'; span.textContent = t.trim();
+    genreTagsEl.appendChild(span);
+  });
+
+  document.getElementById('resultsArea').style.display = 'block';
+  renderMelodyMapRows(document.getElementById('mapRows'), structure);
+});
+
+function getCurrentPlayableVoices() {
+  // Returns either the flat lastNotes (solo) or an array of harmonized
+  // voices, derived fresh from lastStructure every time -- so any edit,
+  // regenerate, or lock on the lead melody is automatically reflected.
+  if (lastVoiceCount <= 1) return lastNotes;
+  return getAllVoiceNotes(lastStructure, lastVoiceCount, lastVoicePairing, lastScale);
+}
+
+document.getElementById('playBtn').addEventListener('click', async () => {
+  if (!lastNotes.length) return;
+  document.getElementById('playBtn').disabled = true;
+  document.getElementById('stopBtn').disabled = false;
+  const dur = await playNotes(getCurrentPlayableVoices(), lastTempo, lastInstrument);
+  setTimeout(() => {
+    document.getElementById('playBtn').disabled = false;
+    document.getElementById('stopBtn').disabled = true;
+  }, dur*1000);
+});
+document.getElementById('stopBtn').addEventListener('click', () => {
+  stopPlayback();
+  document.getElementById('playBtn').disabled = false;
+  document.getElementById('stopBtn').disabled = true;
+});
+
+document.getElementById('exportAudioBtn').addEventListener('click', (e) => {
+  if (!lastNotes.length) return;
+  exportAudioFile(getCurrentPlayableVoices(), lastTempo, lastInstrument, e.currentTarget);
+});
+
+let lastMusicXML = '';
+let sheetMusicRendered = false;
+
+async function renderSheetMusic() {
+  const container = document.getElementById('sheetMusicContainer');
+  await loadOSMD();
+  const titlePart = slugify(
+    lastLyricsText.split('\n').map(l=>l.trim()).find(l => l && !/^\[.*\]$/.test(l)) || 'Melody', 6
+  ).replace(/_/g, ' ');
+  const xmlStr = (lastVoiceCount > 1)
+    ? structureToMusicXMLMultiVoice(lastStructure, titlePart || 'Melody', lastScale, lastRootMidi, lastVoiceCount, lastVoicePairing)
+    : structureToMusicXML(lastStructure, titlePart || 'Melody', lastScale, lastRootMidi);
+  container.innerHTML = '';
+  const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(container, {
+    backend: 'svg', drawTitle: true, drawPartNames: (lastVoiceCount > 1),
+  });
+  await osmd.load(xmlStr);
+  osmd.render();
+  lastMusicXML = xmlStr;
+  sheetMusicRendered = true;
+}
+
+document.getElementById('sheetMusicBtn').addEventListener('click', async (e) => {
+  if (!lastStructure.length) return;
+  const wrap = document.getElementById('sheetMusicWrap');
+  const container = document.getElementById('sheetMusicContainer');
+  const btn = e.currentTarget;
+
+  if (wrap.style.display === 'block') { wrap.style.display = 'none'; return; }
+
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Loading notation renderer…';
+  try {
+    await renderSheetMusic();
+    wrap.style.display = 'block';
+  } catch (err) {
+    container.innerHTML = `<p style="color:var(--wine);">Couldn't render sheet music: ${err.message}. ` +
+      `Your browser may be blocking the notation library — try downloading the notes and asking in chat for a MusicXML file instead.</p>`;
+    wrap.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.textContent = origText;
+});
+
+document.getElementById('printPdfBtn').addEventListener('click', async (e) => {
+  if (!lastStructure.length) return;
+  const btn = e.currentTarget;
+  const wrap = document.getElementById('sheetMusicWrap');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Preparing…';
+  try {
+    if (!sheetMusicRendered) await renderSheetMusic();
+    wrap.style.display = 'block';
+    // give the browser a moment to finish layout before opening the print dialog
+    setTimeout(() => { window.print(); }, 150);
+  } catch (err) {
+    alert("Couldn't prepare the sheet music for printing: " + err.message);
+  }
+  btn.disabled = false;
+  btn.textContent = origText;
+});
+
+
+document.getElementById('downloadMusicXmlBtn').addEventListener('click', () => {
+  if (!lastStructure.length) return;
+  const titlePart = slugify(
+    lastLyricsText.split('\n').map(l=>l.trim()).find(l => l && !/^\[.*\]$/.test(l)) || 'Melody', 6
+  ).replace(/_/g, ' ');
+  const xmlStr = (lastVoiceCount > 1)
+    ? structureToMusicXMLMultiVoice(lastStructure, titlePart || 'Melody', lastScale, lastRootMidi, lastVoiceCount, lastVoicePairing)
+    : structureToMusicXML(lastStructure, titlePart || 'Melody', lastScale, lastRootMidi);
+  offerDownload(buildFilename('musicxml'), xmlStr);
+});
+
+async function offerDownload(filename, data) {
+  showDirectFallback(filename, data);
+  try {
+    const downloads = await claude.use("downloads");
+    if (!downloads) return;
+    await downloads.save({ filename, data });
+  } catch (e) {
+    // fallback link is already showing regardless
+  }
+}
+function fallbackDownload(filename, data) {
+  const blob = (data instanceof Blob) ? data : new Blob([data], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function showDirectFallback(filename, data) {
+  let box = document.getElementById('downloadFallbackBox');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'downloadFallbackBox';
+    box.className = 'hint';
+    box.style.marginTop = '0.4rem';
+    document.querySelector('.action-row').insertAdjacentElement('afterend', box);
+  }
+  box.innerHTML = '';
+  const label = document.createTextNode(`If "${filename}" didn't save, `);
+  const link = document.createElement('button');
+  link.textContent = 'try a direct download instead';
+  link.style.cssText = 'background:none;border:none;color:var(--brass);text-decoration:underline;cursor:pointer;padding:0;font-size:inherit;';
+  link.addEventListener('click', () => fallbackDownload(filename, data));
+  box.appendChild(label);
+  box.appendChild(link);
+}
+
+document.getElementById('downloadJsonBtn').addEventListener('click', () => {
+  if (!lastNotes.length) return;
+  const data = JSON.stringify(lastNotes.map(n => ({
+    pitch: n.pitch, note: midiToNoteName(n.pitch), startBeat: n.startBeat, durBeat: n.durBeat, lyric: n.lyric, section: n.section
+  })), null, 2);
+  offerDownload(buildFilename('json'), data);
+});
+document.getElementById('downloadTxtBtn').addEventListener('click', () => {
+  if (!lastNotes.length) return;
+  let out = 'lyric        note  pitch  start(beat)  dur(beat)  section\n';
+  out += '-'.repeat(64) + '\n';
+  lastNotes.forEach(n => {
+    out += `${n.lyric.padEnd(12)} ${midiToNoteName(n.pitch).padEnd(5)} ${String(n.pitch).padStart(5)}  ${n.startBeat.toFixed(2).padStart(10)}  ${n.durBeat.toFixed(2).padStart(8)}  ${n.section}\n`;
+  });
+  offerDownload(buildFilename('txt'), out);
+});
+
+window.addEventListener('resize', () => {
+  if (lastStructure.length) renderMelodyMapRows(document.getElementById('mapRows'), lastStructure);
+});
+
+})();
+</script>
+</body>
+</html>
