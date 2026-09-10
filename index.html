@@ -531,7 +531,7 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
 
       <button class="primary" id="generateBtn">Generate melody</button>
 
-      <div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:1.6rem; gap:0.5rem; flex-wrap:wrap;">
+      <div id="libraryHeaderRow" style="display:flex; align-items:baseline; justify-content:space-between; margin-top:1.6rem; gap:0.5rem; flex-wrap:wrap;">
         <p class="page-label" style="margin:0;">Your saved melodies</p>
         <div style="display:flex; gap:0.4rem;">
           <button class="icon-btn" id="refreshLibraryBtn" title="Refresh list" aria-label="Refresh saved melodies list">🔄</button>
@@ -2258,7 +2258,7 @@ document.getElementById('exportLibraryBtn').addEventListener('click', () => {
   if (!items.length) { alert('No saved melodies to back up yet.'); return; }
   const data = JSON.stringify({ melodyWeaverBackup: true, exportedAt: new Date().toISOString(), items }, null, 2);
   const dateStr = new Date().toISOString().slice(0,10);
-  offerDownload(`melody_weaver_backup_${dateStr}.json`, data);
+  offerDownload(`melody_weaver_backup_${dateStr}.json`, data, document.getElementById('libraryHeaderRow'));
 });
 
 document.getElementById('importLibraryBtn').addEventListener('click', () => {
@@ -2537,8 +2537,8 @@ document.getElementById('downloadMusicXmlBtn').addEventListener('click', () => {
   offerDownload(buildFilename('musicxml'), xmlStr);
 });
 
-async function offerDownload(filename, data) {
-  showDirectFallback(filename, data);
+async function offerDownload(filename, data, anchorEl) {
+  showDirectFallback(filename, data, anchorEl);
   try {
     const downloads = await claude.use("downloads");
     if (!downloads) return;
@@ -2555,14 +2555,21 @@ function fallbackDownload(filename, data) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-function showDirectFallback(filename, data) {
-  let box = document.getElementById('downloadFallbackBox');
+function showDirectFallback(filename, data, anchorEl) {
+  // The fallback link needs a container that's actually visible. The default
+  // (.action-row) lives inside #resultsArea, which is hidden until a melody
+  // has been generated this session -- so a caller outside that flow (like
+  // the saved-library export button) MUST pass its own anchor element, or
+  // the link gets created but rendered invisibly inside a hidden parent.
+  const boxId = anchorEl ? 'downloadFallbackBox_' + anchorEl.id : 'downloadFallbackBox';
+  let box = document.getElementById(boxId);
   if (!box) {
     box = document.createElement('div');
-    box.id = 'downloadFallbackBox';
+    box.id = boxId;
     box.className = 'hint';
     box.style.marginTop = '0.4rem';
-    document.querySelector('.action-row').insertAdjacentElement('afterend', box);
+    const insertAfter = anchorEl || document.querySelector('.action-row');
+    insertAfter.insertAdjacentElement('afterend', box);
   }
   box.innerHTML = '';
   const label = document.createTextNode(`If "${filename}" didn't save, `);
