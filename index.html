@@ -452,7 +452,10 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.6rem;">
         <button class="secondary" id="checkLyricsBtn">📋 Check lyrics structure</button>
         <button class="secondary" id="copyReportBtn">🤖 Copy report for AI</button>
+        <button class="secondary" id="addDirectionsBtn">🎬 Suggest musical directions</button>
+        <button class="secondary" id="undoDirectionsBtn" style="display:none;">↩️ Undo directions</button>
       </div>
+      <p class="hint" id="directionsHint" style="display:none; margin-top:0.3rem;">Added directly into your [Section] labels in the format Suno reads best (e.g. [Chorus: full, bright]) — based on the scale/complexity/tempo/style currently set below. Edit or remove any of it freely before generating or pasting into Suno.</p>
       <div id="lyricsCheckReport" style="display:none; margin-top:0.8rem;"></div>
     </div>
 
@@ -1518,6 +1521,57 @@ function buildReportText(text) {
   return out;
 }
 
+/* ========================= Musical direction suggestions (for Suno) ========================= */
+// Confirmed via research: Suno reads directives written directly inside the
+// section bracket, e.g. [Chorus: full, bright] -- and specifically wants
+// REPEATED occurrences of the same section to carry the SAME descriptor text,
+// since that reinforces melodic repetition rather than confusing it. Since
+// this is a pure function of (section type, scale, complexity, tempo,
+// modulation) -- all constant for one song -- every occurrence of the same
+// section type automatically gets identical text, with no extra bookkeeping.
+function detectSectionTypeFromLabel(labelInner) {
+  const base = labelInner.split(/[:|]/)[0].toLowerCase();
+  if (base.includes('bridge')) return 'bridge';
+  if (base.includes('pre') && base.includes('chorus')) return 'prechorus';
+  if (base.includes('chorus') || base.includes('refrain')) return 'chorus';
+  if (base.includes('intro')) return 'intro';
+  if (base.includes('outro')) return 'outro';
+  if (base.includes('verse')) return 'verse';
+  return null;
+}
+function suggestDirectionForSection(sectionType, scale, complexity, tempoBpm, bridgeModulation) {
+  const isMinor = scale.includes('minor');
+  const energyWord = tempoBpm < 70 ? 'slow' : tempoBpm < 95 ? 'unhurried' : tempoBpm < 120 ? 'moderate energy' : 'driving';
+  const textureWord = complexity === 'simple' ? 'restrained' : complexity === 'extreme' ? 'dynamic' : 'expressive';
+  const colorWord = isMinor ? 'warm' : 'bright';
+  switch (sectionType) {
+    case 'intro': return 'sparse, atmospheric';
+    case 'verse': return `${textureWord}, ${energyWord}`;
+    case 'prechorus': return 'building tension';
+    case 'chorus': return `full, ${colorWord}` + (complexity === 'extreme' ? ', soaring' : '');
+    case 'bridge': return bridgeModulation ? 'key change, lifted energy' : 'contrasting energy';
+    case 'outro': return 'winding down, fade out';
+    default: return textureWord;
+  }
+}
+function annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation) {
+  const lines = text.split('\n');
+  const out = lines.map(rawLine => {
+    const trimmed = rawLine.trim();
+    const m = trimmed.match(/^\[([^\]]+)\]$/) || trimmed.match(/^\(([^)]+)\)$/);
+    if (!m) return rawLine;
+    const inner = m[1];
+    // already has a descriptor (colon or pipe) -- respect the user's own
+    // customization, just normalize to square brackets for Suno
+    if (inner.includes(':') || inner.includes('|')) return `[${inner}]`;
+    const sectionType = detectSectionTypeFromLabel(inner);
+    if (!sectionType) return `[${inner}]`;
+    const direction = suggestDirectionForSection(sectionType, scale, complexity, tempoBpm, bridgeModulation);
+    return `[${inner}: ${direction}]`;
+  });
+  return out.join('\n');
+}
+
 async function copyReportForAI() {
   const text = document.getElementById('lyricsInput').value;
   if (!text.trim()) return;
@@ -2241,6 +2295,32 @@ document.getElementById('checkLyricsBtn').addEventListener('click', () => {
   const text = document.getElementById('lyricsInput').value;
   if (!text.trim()) { return; }
   renderLyricsCheckReport(text);
+});
+
+let preDirectionsLyrics = null;
+document.getElementById('addDirectionsBtn').addEventListener('click', () => {
+  const input = document.getElementById('lyricsInput');
+  const text = input.value;
+  if (!text.trim()) return;
+
+  const styleKey = styleSelect.value;
+  const preset = STYLE_PRESETS[styleKey];
+  const scale = scaleSelect.value;
+  const complexity = complexitySelect.value;
+  const tempoBpm = Number(tempoInput.value) || 90;
+  const bridgeModulation = (preset && styleKey !== 'none') ? preset.bridgeModulation : null;
+
+  preDirectionsLyrics = text;
+  input.value = annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation);
+  document.getElementById('undoDirectionsBtn').style.display = 'inline-block';
+  document.getElementById('directionsHint').style.display = 'block';
+});
+document.getElementById('undoDirectionsBtn').addEventListener('click', () => {
+  if (preDirectionsLyrics === null) return;
+  document.getElementById('lyricsInput').value = preDirectionsLyrics;
+  preDirectionsLyrics = null;
+  document.getElementById('undoDirectionsBtn').style.display = 'none';
+  document.getElementById('directionsHint').style.display = 'none';
 });
 
 document.getElementById('copyReportBtn').addEventListener('click', async (e) => {
