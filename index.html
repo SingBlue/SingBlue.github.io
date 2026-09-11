@@ -2310,7 +2310,13 @@ document.getElementById('addDirectionsBtn').addEventListener('click', () => {
   const tempoBpm = Number(tempoInput.value) || 90;
   const bridgeModulation = (preset && styleKey !== 'none') ? preset.bridgeModulation : null;
 
-  preDirectionsLyrics = text;
+  // Only capture the true original on the FIRST click. If directions are
+  // already showing and the button is clicked again (e.g. after changing
+  // the style), re-annotate from the current text but keep the ORIGINAL
+  // snapshot intact -- otherwise a second click would silently overwrite
+  // the real undo target with already-annotated text.
+  if (preDirectionsLyrics === null) preDirectionsLyrics = text;
+
   input.value = annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation);
   document.getElementById('undoDirectionsBtn').style.display = 'inline-block';
   document.getElementById('directionsHint').style.display = 'block';
