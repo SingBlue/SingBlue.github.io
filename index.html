@@ -616,7 +616,10 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
         <div class="summary-box" id="autoSplitBox" style="display:none; border-left-color: var(--wine);"></div>
         <div class="locks-summary" id="locksSummary" style="display:none;"></div>
 
-        <p class="page-label" style="margin-top:1.3rem;">Suggested genre for Suno</p>
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:1.3rem; gap:0.5rem; flex-wrap:wrap;">
+          <p class="page-label" style="margin:0;">Suggested genre for Suno</p>
+          <button class="icon-btn" id="copyGenreTagsBtn" title="Copy all tags, including tempo, for Suno" aria-label="Copy genre tags for Suno">📋 Copy</button>
+        </div>
         <div class="tag-row" id="genreTags"></div>
 
         <p class="page-label" style="margin-top:1.3rem;">The melody map</p>
@@ -1675,20 +1678,15 @@ function annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeM
   return out.join('\n');
 }
 
-async function copyReportForAI() {
-  const text = document.getElementById('lyricsInput').value;
-  if (!text.trim()) return;
-  renderLyricsCheckReport(text);
-  const reportText = buildReportText(text);
-
+async function copyTextToClipboard(text) {
   try {
-    await navigator.clipboard.writeText(reportText);
+    await navigator.clipboard.writeText(text);
     return true;
   } catch (e) {
     // fallback for browsers/contexts where the Clipboard API is unavailable
     try {
       const ta = document.createElement('textarea');
-      ta.value = reportText;
+      ta.value = text;
       ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta);
       ta.focus(); ta.select();
@@ -1696,9 +1694,16 @@ async function copyReportForAI() {
       document.body.removeChild(ta);
       if (ok) return true;
     } catch (e2) { /* fall through */ }
-    prompt('Copy this text manually (select all, then copy):', reportText);
+    prompt('Copy this text manually (select all, then copy):', text);
     return false;
   }
+}
+async function copyReportForAI() {
+  const text = document.getElementById('lyricsInput').value;
+  if (!text.trim()) return;
+  renderLyricsCheckReport(text);
+  const reportText = buildReportText(text);
+  return copyTextToClipboard(reportText);
 }
 
 function rangeDescriptor(notes) {
@@ -2441,6 +2446,15 @@ document.getElementById('copyReportBtn').addEventListener('click', async (e) => 
   setTimeout(() => { btn.textContent = origText; }, 1800);
 });
 
+document.getElementById('copyGenreTagsBtn').addEventListener('click', async (e) => {
+  if (!lastGenreTags.length) return;
+  const btn = e.currentTarget;
+  const origText = btn.textContent;
+  const copied = await copyTextToClipboard(lastGenreTags.join(', '));
+  btn.textContent = copied ? '✓ Copied' : 'Try manually';
+  setTimeout(() => { btn.textContent = origText; }, 1800);
+});
+
 document.getElementById('refreshLibraryBtn').addEventListener('click', () => renderSavedList());
 
 document.getElementById('exportLibraryBtn').addEventListener('click', () => {
@@ -2637,6 +2651,7 @@ document.getElementById('randomSeedBtn').addEventListener('click', () => {
 let lastNotes = [], lastStructure = [], lastTempo = 90, lastInstrument = 'piano';
 let lastLyricsText = '', lastStyleKey = 'none', lastSeed = 7, lastScale = 'minor_pentatonic', lastRootMidi = 60, lastComplexity = 'moderate';
 let lastVoiceCount = 1, lastVoicePairing = 'same';
+let lastGenreTags = [];
 
 function slugify(text, maxWords) {
   const words = text.trim().split(/\s+/).slice(0, maxWords);
@@ -2708,6 +2723,13 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   const genreTagsEl = document.getElementById('genreTags');
   genreTagsEl.innerHTML = '';
   const tags = (preset && styleKey !== 'none') ? preset.sunoTags.split(',') : suggestGenre(notes, lyricsText, opts.scale, opts.tempoBpm);
+  // Suno never actually receives our tempo -- it only sees text, and guesses
+  // its own BPM if none is given. Appending the exact tempo we generated
+  // with, in the plain numeric format Suno's own guides recommend, means
+  // copying these tags carries the real tempo along automatically instead
+  // of relying on remembering to add it by hand each time.
+  tags.push(`${opts.tempoBpm} BPM`);
+  lastGenreTags = tags.map(t => t.trim());
   tags.forEach(t => {
     const span = document.createElement('span');
     span.className = 'tag'; span.textContent = t.trim();
