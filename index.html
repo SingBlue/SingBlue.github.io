@@ -470,7 +470,16 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+<div id="lockScreen" style="position:fixed; inset:0; background:var(--paper); z-index:9999; display:flex; align-items:center; justify-content:center; padding:1.5rem;">
+  <div style="max-width:340px; width:100%; text-align:center;">
+    <div style="font-family:'Frank Ruhl Libre',serif; font-size:1.6rem; font-weight:900; margin-bottom:0.5rem;">Melody Weaver</div>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-bottom:1.2rem;">This is a private tool. Enter the password to continue.</p>
+    <input type="password" id="lockPasswordInput" placeholder="Password" style="width:100%; padding:0.6rem 0.7rem; border:1px solid var(--line); border-radius:3px; background:var(--panel); color:var(--ink); font-size:1rem; margin-bottom:0.6rem;">
+    <button id="lockUnlockBtn" class="primary" style="width:100%;">Unlock</button>
+    <p id="lockErrorMsg" style="color:var(--wine); font-size:0.85rem; margin-top:0.6rem; display:none;">Incorrect password — try again.</p>
+  </div>
+</div>
+<div class="wrap" id="appRoot" style="display:none;">
 
   <header class="masthead">
     <h1>Melody Weaver</h1>
@@ -627,6 +636,36 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
 <script>
 (function(){
 "use strict";
+
+/* ========================= Access gate ========================= */
+// Deters casual browsing, not a real security boundary -- anyone with
+// developer tools can read this value. Change APP_PASSWORD to whatever
+// you want; it's just a plain string here.
+const APP_PASSWORD = 'song2613';
+const UNLOCK_KEY = 'melodyWeaverUnlocked';
+(function initLockScreen() {
+  let alreadyUnlocked = false;
+  try { alreadyUnlocked = localStorage.getItem(UNLOCK_KEY) === 'true'; } catch(e) {}
+  if (alreadyUnlocked) {
+    document.getElementById('lockScreen').style.display = 'none';
+    document.getElementById('appRoot').style.display = '';
+    return;
+  }
+  function tryUnlock() {
+    const entered = document.getElementById('lockPasswordInput').value;
+    if (entered === APP_PASSWORD) {
+      try { localStorage.setItem(UNLOCK_KEY, 'true'); } catch(e) {}
+      document.getElementById('lockScreen').style.display = 'none';
+      document.getElementById('appRoot').style.display = '';
+    } else {
+      document.getElementById('lockErrorMsg').style.display = 'block';
+    }
+  }
+  document.getElementById('lockUnlockBtn').addEventListener('click', tryUnlock);
+  document.getElementById('lockPasswordInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryUnlock();
+  });
+})();
 
 /* ========================= Seeded RNG ========================= */
 function mulberry32(seed) {
