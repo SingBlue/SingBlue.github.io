@@ -194,6 +194,45 @@
   }
   button.icon-btn:hover { background: var(--panel-strong); }
 
+  #styleAccordion {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    max-height: 380px;
+    overflow-y: auto;
+  }
+  .style-none-item {
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .style-none-item:hover { background: var(--panel-strong); }
+  .style-none-item.selected { background: var(--panel-strong); font-weight: 600; color: var(--brass); }
+  .style-cat-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--line);
+    user-select: none;
+  }
+  .style-cat-header:hover { background: var(--panel-strong); }
+  .style-cat-arrow { display: inline-block; transition: transform 0.15s; font-size: 0.75rem; }
+  .style-cat-arrow.open { transform: rotate(90deg); }
+  .style-cat-count { color: var(--ink-soft); font-weight: 400; font-size: 0.78rem; }
+  .style-cat-items { display: none; }
+  .style-cat-items.open { display: block; }
+  .style-item {
+    padding: 0.5rem 0.8rem 0.5rem 1.8rem;
+    cursor: pointer;
+    font-size: 0.86rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .style-item:hover { background: var(--panel-strong); }
+  .style-item.selected { background: var(--panel-strong); font-weight: 600; color: var(--brass); }
+
   .style-desc {
     font-size: 0.85rem;
     color: var(--ink-soft);
@@ -466,9 +505,10 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
       <p class="page-label">The setting</p>
 
       <div class="controls-grid">
-        <div class="field">
+        <div class="field full">
           <label class="field-label" for="styleSelect">Style</label>
-          <select id="styleSelect"></select>
+          <select id="styleSelect" style="display:none;"></select>
+          <div id="styleAccordion"></div>
         </div>
         <div class="field">
           <label class="field-label" for="scaleSelect">Scale</label>
@@ -1318,6 +1358,30 @@ const STYLE_PRESETS = {
   addressing_serious_issues: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.30, tempoBpm:74, instrument:'piano',
     description:"'Addressing serious issues' style: grave and grounded, staying serious throughout rather than resolving upward — the issue remains real, so the music doesn't lift away from it.",
     sunoTags:"grave serious grounded tone, unresolved gravity, real concern, staying with the issue" },
+  touching: { scale:'natural_minor', complexity:'simple', sequenceProb:0.40, variationProb:0.30, tempoBpm:76, instrument:'piano', bridgeModulation:'relative',
+    description:"'Touching' style: warm and gently affecting rather than heavy — a quiet emotional resonance, with a soft lift at the bridge rather than real drama.",
+    sunoTags:"warm gentle emotional resonance, quietly affecting, soft tender lift, understated feeling" },
+  sad_but_beautiful: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.30, variationProb:0.40, tempoBpm:66, instrument:'violin',
+    description:"'Sad but beautiful' style: genuinely melancholic, with flowing, graceful movement rather than heaviness — staying in its own beautiful sadness throughout, with no resolving lift.",
+    sunoTags:"melancholic but graceful, flowing beautiful sadness, lingering and elegant, unresolved" },
+  sad_but_optimistic: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.40, variationProb:0.30, tempoBpm:84, instrument:'piano', bridgeModulation:'relative',
+    description:"'Sad but optimistic' style: begins in real sadness but keeps real forward momentum, rising into a hopeful major passage at the bridge — grief with a way through it.",
+    sunoTags:"sad with forward momentum, hopeful emerging arc, grief with a way through, gentle rising bridge" },
+  tender_and_delicate: { scale:'major', complexity:'simple', sequenceProb:0.45, variationProb:0.20, tempoBpm:62, instrument:'flute',
+    description:"'Tender and delicate' style: the softest, most fragile style in this library — slow, airy, minimal dynamic range, no dramatic shift that would break the delicacy.",
+    sunoTags:"tender and fragile, soft airy delicacy, minimal dynamic range, hushed intimacy" },
+  moving_and_meaningful: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.35, tempoBpm:70, instrument:'violin', bridgeModulation:'relative',
+    description:"'Moving and meaningful' style: a real emotional journey rather than a static mood — expressive, evolving movement building to genuine significance at the bridge.",
+    sunoTags:"deeply moving emotional journey, expressive evolving movement, genuine significance, soaring strings" },
+  jewish_gospel: { scale:'major', complexity:'extreme', sequenceProb:0.35, variationProb:0.40, tempoBpm:92, instrument:'piano', bridgeModulation:'dominant',
+    description:"Jewish-gospel fusion style: soulful, call-and-response-like building energy in a bright major key, with the classic gospel key-change into a huge final chorus.",
+    sunoTags:"soulful Jewish-gospel fusion, call-and-response building, bright major key power, classic gospel key-change" },
+  hassidic_gospel: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.40, variationProb:0.35, tempoBpm:88, instrument:'violin', bridgeModulation:'dominant',
+    description:"Chassidic-gospel fusion style: rooted in niggun-like minor melodic language rather than jewish_gospel's bright major, but building with the same gospel-style intensity and key-change climax.",
+    sunoTags:"Chassidic niggun rooted in gospel intensity, minor-key soulful build, gospel key-change climax, string-led power" },
+  hassidic_dance: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.65, variationProb:0.15, tempoBpm:128, instrument:'piano', bridgeModulation:'dominant',
+    description:"Traditional Hasidic circle-dance style: the most relentlessly repetitive dance style in this library (by design — real circle-dance tunes stay simple so a whole room can dance and clap along), driving minor-key energy.",
+    sunoTags:"traditional Hasidic circle dance, relentlessly repetitive communal energy, driving minor-key simcha, clap-along simplicity" },
 };
 
 /* ========================= Genre / mood suggestion ========================= */
@@ -2252,6 +2316,7 @@ function loadSavedItem(id) {
   document.getElementById('lyricsInput').value = item.lyricsText;
   styleSelect.value = STYLE_PRESETS[item.styleKey] ? item.styleKey : 'none';
   applyStyleToControls(styleSelect.value);
+  syncAccordionToSelectedStyle();
   // override with the exact saved literal values, so the restored melody
   // matches bit-for-bit regardless of whether the style preset database
   // has changed since this was saved
@@ -2395,6 +2460,102 @@ Object.keys(STYLE_PRESETS).forEach(key => {
   opt.textContent = key === 'none' ? STYLE_PRESETS[key].label : key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
   styleSelect.appendChild(opt);
 });
+
+/* ========================= Style accordion (categorized, collapsible) ========================= */
+const STYLE_CATEGORY_ORDER = ['jewish_artists', 'jewish_genres', 'secular_artists', 'songs_soundtracks', 'moods_themes'];
+const STYLE_CATEGORY_LABELS = {
+  jewish_artists: 'Jewish Artists',
+  jewish_genres: 'Jewish Genres & Occasions',
+  secular_artists: 'Secular Artists',
+  songs_soundtracks: 'Songs & Soundtracks',
+  moods_themes: 'Moods & Themes',
+};
+const STYLE_CATEGORIES = {
+  carlebach:'jewish_artists', yishai_ribo:'jewish_artists', shwekey:'jewish_artists', avraham_fried:'jewish_artists',
+  lipa_schmeltzer:'jewish_artists', baruch_levine:'jewish_artists', debbie_friedman:'jewish_artists', eitan_katz:'jewish_artists',
+  mbd:'jewish_artists', benny_friedman:'jewish_artists', eighth_day:'jewish_artists', miami_boys_choir:'jewish_artists',
+  nissim_black:'jewish_artists', gad_elbaz:'jewish_artists', avi_delevanti:'jewish_artists', eli_dachs:'jewish_artists',
+  matt_dubb:'jewish_artists', simcha_leiner:'jewish_artists', mordechai_shapiro_achas:'jewish_artists', omer_adam:'jewish_artists',
+  sruly_green:'jewish_artists', yonatan_razel:'jewish_artists', chazzan_rosenblatt:'jewish_artists', chazzan_helfgot:'jewish_artists',
+
+  hesped_memorial:'jewish_genres', wedding_celebration:'jewish_genres', yom_tov_holiday:'jewish_genres', chazanut:'jewish_genres',
+  jewish_gospel:'jewish_genres', hassidic_gospel:'jewish_genres', hassidic_dance:'jewish_genres',
+
+  vivaldi:'secular_artists', bach:'secular_artists', elton_john:'secular_artists', leonard_cohen:'secular_artists',
+  adele:'secular_artists', bob_dylan:'secular_artists', barry_manilow:'secular_artists', sting_acoustic:'secular_artists',
+  sting_jazz_pop:'secular_artists', fish_in_a_birdcage:'secular_artists', abba:'secular_artists', john_denver:'secular_artists',
+  billy_joel:'secular_artists', venus_hum:'secular_artists', blue_man_group:'secular_artists', scorpions:'secular_artists',
+  coldplay:'secular_artists', simon_and_garfunkel:'secular_artists', beatles:'secular_artists', mozart:'secular_artists',
+  ludovico_einaudi:'secular_artists', hans_zimmer:'secular_artists', ed_sheeran:'secular_artists', michael_jackson:'secular_artists',
+  taylor_swift:'secular_artists', enya:'secular_artists', lady_gaga:'secular_artists',
+
+  dust_in_the_wind_style:'songs_soundtracks', uptown_funk_style:'songs_soundtracks', where_is_my_husband_style:'songs_soundtracks',
+  kpop_anthem_style:'songs_soundtracks', lion_king_style:'songs_soundtracks', pirates_caribbean_style:'songs_soundtracks',
+  waves_chill_style:'songs_soundtracks',
+
+  comfort_healing:'moods_themes', thrilling:'moods_themes', suspenseful:'moods_themes', darkness_to_light:'moods_themes',
+  hopeful_against_odds:'moods_themes', winning_against_odds:'moods_themes', on_a_mission:'moods_themes', serious_but_joyful:'moods_themes',
+  optimistic:'moods_themes', mysterious_but_hopeful:'moods_themes', spiritual_and_mysterious:'moods_themes', camp_songs:'moods_themes',
+  progress:'moods_themes', scientific:'moods_themes', mechanical:'moods_themes', futuristic:'moods_themes', profound:'moods_themes',
+  sage_wisdom:'moods_themes', sarcastic_story:'moods_themes', tale_light_humor:'moods_themes', tale_serious:'moods_themes',
+  office:'moods_themes', getting_down_to_business:'moods_themes', addressing_serious_issues:'moods_themes', touching:'moods_themes',
+  sad_but_beautiful:'moods_themes', sad_but_optimistic:'moods_themes', tender_and_delicate:'moods_themes', moving_and_meaningful:'moods_themes',
+};
+function styleDisplayName(key) {
+  return key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
+}
+
+const openCategoryState = {}; // categoryId -> bool, persists across re-renders within the session
+
+function renderStyleAccordion() {
+  const container = document.getElementById('styleAccordion');
+  container.innerHTML = '';
+
+  const noneItem = document.createElement('div');
+  noneItem.className = 'style-none-item' + (styleSelect.value === 'none' ? ' selected' : '');
+  noneItem.textContent = STYLE_PRESETS.none.label;
+  noneItem.addEventListener('click', () => selectStyleFromAccordion('none'));
+  container.appendChild(noneItem);
+
+  STYLE_CATEGORY_ORDER.forEach(catId => {
+    const keysInCat = Object.keys(STYLE_CATEGORIES).filter(k => STYLE_CATEGORIES[k] === catId);
+    keysInCat.sort((a,b) => styleDisplayName(a).localeCompare(styleDisplayName(b)));
+    const isOpen = !!openCategoryState[catId];
+
+    const header = document.createElement('div');
+    header.className = 'style-cat-header';
+    header.innerHTML = `<span class="style-cat-arrow${isOpen?' open':''}">▶</span> ${STYLE_CATEGORY_LABELS[catId]} <span class="style-cat-count">(${keysInCat.length})</span>`;
+    header.addEventListener('click', () => {
+      openCategoryState[catId] = !openCategoryState[catId];
+      renderStyleAccordion();
+    });
+    container.appendChild(header);
+
+    const itemsWrap = document.createElement('div');
+    itemsWrap.className = 'style-cat-items' + (isOpen ? ' open' : '');
+    keysInCat.forEach(key => {
+      const item = document.createElement('div');
+      item.className = 'style-item' + (styleSelect.value === key ? ' selected' : '');
+      item.textContent = styleDisplayName(key);
+      item.addEventListener('click', () => selectStyleFromAccordion(key));
+      itemsWrap.appendChild(item);
+    });
+    container.appendChild(itemsWrap);
+  });
+}
+function selectStyleFromAccordion(key) {
+  styleSelect.value = key;
+  styleSelect.dispatchEvent(new Event('change'));
+  renderStyleAccordion();
+}
+// call after any programmatic change to styleSelect.value (e.g. Load from
+// saved library), so the accordion highlights the right item and opens its category
+function syncAccordionToSelectedStyle() {
+  const key = styleSelect.value;
+  if (key !== 'none' && STYLE_CATEGORIES[key]) openCategoryState[STYLE_CATEGORIES[key]] = true;
+  renderStyleAccordion();
+}
+renderStyleAccordion();
 
 const scaleSelect = document.getElementById('scaleSelect');
 const complexitySelect = document.getElementById('complexitySelect');
