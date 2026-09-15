@@ -583,6 +583,16 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
 
       <button class="primary" id="generateBtn">Generate melody</button>
 
+      <div style="display:flex; align-items:center; gap:0.6rem; margin-top:0.6rem;">
+        <div style="flex:1; height:1px; background:var(--line);"></div>
+        <span style="font-size:0.78rem; color:var(--ink-soft);">or</span>
+        <div style="flex:1; height:1px; background:var(--line);"></div>
+      </div>
+      <button class="secondary" id="importMelodyBtn" style="width:100%; margin-top:0.6rem;">📥 Import a melody (MusicXML or MIDI)</button>
+      <input type="file" id="importMelodyFile" accept=".musicxml,.xml,.mid,.midi" style="display:none;">
+      <p class="hint" style="margin-top:0.3rem;">Sing or hum your own tune, convert it with a free tool like Sing2Notes or SingConvert, then import the MusicXML/MIDI file here — it'll be fitted to your lyrics above and snapped to your chosen scale.</p>
+      <div id="importStatusMsg" style="display:none; margin-top:0.4rem;"></div>
+
       <div id="libraryHeaderRow" style="display:flex; align-items:baseline; justify-content:space-between; margin-top:1.6rem; gap:0.5rem; flex-wrap:wrap;">
         <p class="page-label" style="margin:0;">Your saved melodies</p>
         <div style="display:flex; gap:0.4rem;">
@@ -945,6 +955,122 @@ function lineDurations(line, complexity) {
     if (s.isLastInLine) dur += endBonus;
     return dur;
   });
+}
+
+/* ========================= Melody import (MusicXML / MIDI) ========================= */
+// Extracts a flat sequence of MIDI pitches (the melodic CONTOUR) from an
+// uploaded file. Rhythm and any lyrics already in the file are intentionally
+// NOT imported -- our own stress-based rhythm engine already fits your
+// actual lyrics' natural speech pattern, so re-fitting an unrelated rhythm
+// on top would fight it. Ties are merged into one longer note (matching how
+// our own exporter splits a note across a barline), so re-importing a file
+// this app exported round-trips cleanly.
+function parseMusicXMLToPitches(xmlText) {
+  const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+  if (doc.querySelector('parsererror')) throw new Error('That file is not valid MusicXML.');
+  const notesEls = Array.from(doc.querySelectorAll('part:first-of-type note'));
+  if (!notesEls.length) throw new Error('No notes found in the first part of that file.');
+  const pitches = [];
+  let pending = null; // {pitch} while a tie is open, waiting for tie stop
+  for (const noteEl of notesEls) {
+    if (noteEl.querySelector('rest')) { pending = null; continue; }
+    const pitchEl = noteEl.querySelector('pitch');
+    if (!pitchEl) continue;
+    const step = pitchEl.querySelector('step')?.textContent;
+    const alterEl = pitchEl.querySelector('alter');
+    const alter = alterEl ? parseInt(alterEl.textContent, 10) : 0;
+    const octave = parseInt(pitchEl.querySelector('octave')?.textContent, 10);
+    if (!step || isNaN(octave)) continue;
+    const stepToSemitone = { C:0, D:2, E:4, F:5, G:7, A:9, B:11 };
+    const midiPitch = (octave + 1) * 12 + stepToSemitone[step] + alter;
+
+    const ties = Array.from(noteEl.querySelectorAll('tie'));
+    const tieStart = ties.some(t => t.getAttribute('type') === 'start');
+    const tieStop = ties.some(t => t.getAttribute('type') === 'stop');
+
+    if (tieStop && pending) {
+      // continuation of a tied note -- same pitch, don't add a new entry
+      if (!tieStart) { pitches.push(pending.pitch); pending = null; }
+      continue;
+    }
+    if (tieStart) { pending = { pitch: midiPitch }; continue; }
+    pitches.push(midiPitch);
+  }
+  return pitches;
+}
+
+function parseMIDIToPitches(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  let pos = 0;
+  function readStr(len) { const s = String.fromCharCode(...bytes.slice(pos, pos+len)); pos += len; return s; }
+  function readUint32() { const v = (bytes[pos]<<24)|(bytes[pos+1]<<16)|(bytes[pos+2]<<8)|bytes[pos+3]; pos += 4; return v >>> 0; }
+  function readUint16() { const v = (bytes[pos]<<8)|bytes[pos+1]; pos += 2; return v; }
+  function readVarLen() {
+    let value = 0, b;
+    do { b = bytes[pos++]; value = (value << 7) | (b & 0x7f); } while (b & 0x80);
+    return value;
+  }
+
+  if (readStr(4) !== 'MThd') throw new Error('That file is not a valid MIDI file.');
+  readUint32(); // header length, always 6
+  readUint16(); // format
+  const nTracks = readUint16();
+  const division = readUint16(); // ticks per quarter note (assumes non-SMPTE, the vast majority of files)
+
+  const allTrackPitches = [];
+  for (let t = 0; t < nTracks; t++) {
+    if (readStr(4) !== 'MTrk') throw new Error('Unexpected MIDI track chunk.');
+    const trackLen = readUint32();
+    const trackEnd = pos + trackLen;
+    let runningStatus = null;
+    const active = {}; // pitch -> true, tracks currently-sounding notes
+    const trackPitches = [];
+    while (pos < trackEnd) {
+      readVarLen(); // delta time -- not needed since we only extract the pitch sequence, not rhythm
+      let status = bytes[pos];
+      if (status < 0x80) { status = runningStatus; } else { pos++; runningStatus = status; }
+      const type = status & 0xf0;
+      if (status === 0xff) { // meta event
+        const metaType = bytes[pos++]; const len = readVarLen(); pos += len;
+      } else if (status === 0xf0 || status === 0xf7) { // sysex
+        const len = readVarLen(); pos += len;
+      } else if (type === 0x90) { // note on
+        const pitch = bytes[pos++]; const vel = bytes[pos++];
+        if (vel > 0) { if (!active[pitch]) trackPitches.push(pitch); active[pitch] = true; }
+        else { active[pitch] = false; }
+      } else if (type === 0x80) { // note off
+        const pitch = bytes[pos++]; bytes[pos++]; // velocity, unused
+        active[pitch] = false;
+      } else if (type === 0xa0 || type === 0xb0 || type === 0xe0) { pos += 2; }
+      else if (type === 0xc0 || type === 0xd0) { pos += 1; }
+      else { pos = trackEnd; } // unrecognized -- bail out of this track safely
+    }
+    pos = trackEnd;
+    if (trackPitches.length) allTrackPitches.push(trackPitches);
+  }
+  // use the first track that actually contains notes (track 0 is often just tempo/meta)
+  const chosen = allTrackPitches.find(p => p.length > 0);
+  if (!chosen) throw new Error('No notes found in that MIDI file.');
+  return chosen;
+}
+
+function resamplePitchSequence(sourcePitches, targetCount) {
+  if (!sourcePitches.length || !targetCount) return [];
+  if (sourcePitches.length === 1) return new Array(targetCount).fill(sourcePitches[0]);
+  const out = [];
+  for (let i = 0; i < targetCount; i++) {
+    const srcIdx = targetCount === 1 ? 0 : Math.round(i * (sourcePitches.length - 1) / (targetCount - 1));
+    out.push(sourcePitches[srcIdx]);
+  }
+  return out;
+}
+function snapPitchToScaleDegree(pitch, gen) {
+  let bestDeg = 0, bestDist = Infinity;
+  for (let d = -21; d <= 21; d++) {
+    const dist = Math.abs(gen.degreeToMidi(d) - pitch);
+    if (dist < bestDist) { bestDist = dist; bestDeg = d; }
+  }
+  return bestDeg;
 }
 
 function generateSongStructure(rng, lyricsText, opts) {
@@ -1864,6 +1990,204 @@ function structureToMusicXMLMultiVoice(structure, title, homeScale, homeRoot, vo
   return wrapScoreXML(title, parts);
 }
 
+/* ========================= Melody import (MusicXML / MIDI) ========================= */
+const MXML_STEP_BASE = { C:0, D:2, E:4, F:5, G:7, A:9, B:11 };
+
+function parseMusicXMLToNotes(xmlText) {
+  const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
+  if (doc.querySelector('parsererror')) throw new Error('Not a valid MusicXML file');
+  const firstPart = doc.querySelector('part');
+  if (!firstPart) throw new Error('No <part> found in this MusicXML file');
+
+  let divisions = 1;
+  const divEl = firstPart.querySelector('attributes > divisions');
+  if (divEl) divisions = parseFloat(divEl.textContent) || 1;
+
+  const notes = [];
+  const noteEls = firstPart.querySelectorAll('note');
+  noteEls.forEach(noteEl => {
+    if (noteEl.querySelector('chord')) return; // secondary chord note -- skip, keep melody monophonic
+    const restEl = noteEl.querySelector('rest');
+    const durEl = noteEl.querySelector('duration');
+    const durBeat = durEl ? (parseFloat(durEl.textContent) || 0) / divisions : 0;
+    if (durBeat <= 0) return;
+
+    if (restEl) {
+      notes.push({ pitch: null, durBeat, isRest: true });
+      return;
+    }
+    const pitchEl = noteEl.querySelector('pitch');
+    if (!pitchEl) return;
+    const step = pitchEl.querySelector('step')?.textContent;
+    const octave = parseInt(pitchEl.querySelector('octave')?.textContent, 10);
+    const alterEl = pitchEl.querySelector('alter');
+    const alter = alterEl ? parseFloat(alterEl.textContent) : 0;
+    if (!step || isNaN(octave) || !(step in MXML_STEP_BASE)) return;
+    const midiPitch = (octave + 1) * 12 + MXML_STEP_BASE[step] + alter;
+
+    const tieStop = noteEl.querySelector('tie[type="stop"]') || noteEl.querySelector('notations tied[type="stop"]');
+    if (tieStop && notes.length && !notes[notes.length-1].isRest) {
+      notes[notes.length-1].durBeat += durBeat; // merge into the sustained note, not a new one
+    } else {
+      notes.push({ pitch: midiPitch, durBeat, isRest: false });
+    }
+  });
+  return notes.filter(n => !n.isRest); // rests don't map onto a sung syllable
+}
+
+function readVarLengthQuantity(bytes, pos) {
+  let value = 0, b;
+  do {
+    b = bytes[pos++];
+    value = (value << 7) | (b & 0x7f);
+  } while (b & 0x80);
+  return [value, pos];
+}
+function parseMidiToNotes(arrayBuffer) {
+  const bytes = new Uint8Array(arrayBuffer);
+  function str(pos, len) { return String.fromCharCode(...bytes.slice(pos, pos+len)); }
+  if (str(0, 4) !== 'MThd') throw new Error('Not a valid MIDI file');
+  const division = (bytes[12] << 8) | bytes[13]; // ticks per quarter note
+  if (division & 0x8000) throw new Error('SMPTE-based MIDI timing is not supported');
+  const numTracks = (bytes[10] << 8) | bytes[11];
+
+  let pos = 14;
+  let bestTrackNotes = [];
+  for (let t = 0; t < numTracks; t++) {
+    if (str(pos, 4) !== 'MTrk') break;
+    const trackLen = (bytes[pos+4]<<24 | bytes[pos+5]<<16 | bytes[pos+6]<<8 | bytes[pos+7]) >>> 0;
+    const trackEnd = pos + 8 + trackLen;
+    let p = pos + 8;
+    let tick = 0;
+    let runningStatus = null;
+    const openNotes = {}; // pitch -> startTick
+    const trackNotes = [];
+    while (p < trackEnd) {
+      let delta;
+      [delta, p] = readVarLengthQuantity(bytes, p);
+      tick += delta;
+      let statusByte = bytes[p];
+      if (statusByte < 0x80) {
+        statusByte = runningStatus; // running status: reuse previous event type, don't advance p
+      } else {
+        p++; runningStatus = statusByte;
+      }
+      const eventType = statusByte & 0xf0;
+      if (statusByte === 0xff) { // meta event
+        const metaType = bytes[p++];
+        const [len, p2] = readVarLengthQuantity(bytes, p);
+        p = p2 + len;
+      } else if (statusByte === 0xf0 || statusByte === 0xf7) { // sysex
+        const [len, p2] = readVarLengthQuantity(bytes, p);
+        p = p2 + len;
+      } else if (eventType === 0x90) { // note on
+        const pitch = bytes[p++], vel = bytes[p++];
+        if (vel > 0) {
+          openNotes[pitch] = tick;
+        } else if (openNotes[pitch] !== undefined) {
+          trackNotes.push({ pitch, startTick: openNotes[pitch], durTick: tick - openNotes[pitch] });
+          delete openNotes[pitch];
+        }
+      } else if (eventType === 0x80) { // note off
+        const pitch = bytes[p++]; p++; // skip velocity
+        if (openNotes[pitch] !== undefined) {
+          trackNotes.push({ pitch, startTick: openNotes[pitch], durTick: tick - openNotes[pitch] });
+          delete openNotes[pitch];
+        }
+      } else if (eventType === 0xc0 || eventType === 0xd0) {
+        p += 1; // program change / channel pressure: one data byte
+      } else if (eventType >= 0x80 && eventType <= 0xe0) {
+        p += 2; // most channel events: two data bytes
+      } else {
+        p++; // unknown, best-effort advance
+      }
+    }
+    pos = trackEnd;
+    if (trackNotes.length > bestTrackNotes.length) bestTrackNotes = trackNotes;
+  }
+
+  bestTrackNotes.sort((a,b) => a.startTick - b.startTick);
+  // keep melody monophonic: if notes overlap in start time, keep only the first encountered
+  const notes = [];
+  let lastEnd = -1;
+  bestTrackNotes.forEach(n => {
+    if (n.startTick < lastEnd) return; // overlapping with previous note -- skip (likely a harmony/chord note)
+    notes.push({ pitch: n.pitch, durBeat: n.durTick / division });
+    lastEnd = n.startTick + n.durTick;
+  });
+  return notes;
+}
+
+function snapPitchToScale(midiPitch, scaleName, rootMidi) {
+  const scaleSemitones = SCALES[scaleName];
+  const pc = ((midiPitch - rootMidi) % 12 + 12) % 12;
+  let best = scaleSemitones[0], bestDist = 99;
+  scaleSemitones.forEach(s => {
+    const dist = Math.min(Math.abs(s - pc), 12 - Math.abs(s - pc));
+    if (dist < bestDist) { bestDist = dist; best = s; }
+  });
+  const octaveBase = midiPitch - pc;
+  // pick whichever of (this octave's snapped note) or an octave-adjacent one is closest to the original pitch
+  const candidates = [octaveBase + best, octaveBase + best - 12, octaveBase + best + 12];
+  candidates.sort((a,b) => Math.abs(a-midiPitch) - Math.abs(b-midiPitch));
+  return candidates[0];
+}
+function midiToScaleDegree(midiPitch, scaleName, rootMidi) {
+  const scaleSemitones = SCALES[scaleName];
+  const nDeg = scaleSemitones.length;
+  const relative = midiPitch - rootMidi;
+  const octave = Math.floor(relative / 12);
+  const semitoneInOctave = ((relative % 12) + 12) % 12;
+  let idx = scaleSemitones.indexOf(semitoneInOctave);
+  if (idx === -1) idx = 0; // shouldn't happen after snapping, but fail safe
+  return octave * nDeg + idx;
+}
+
+function fitImportedMelodyToLyrics(importedNotes, lyricsText, scale, rootMidi, complexity) {
+  const { pairs: sectionPairs } = parseSections(lyricsText);
+  const cleanText = sectionPairs.map(p => p[0]).join('\n');
+  const sectionTags = sectionPairs.map(p => p[1]);
+  const lines = analyzeLyrics(cleanText).filter(l => l.length > 0);
+
+  const totalSyllables = lines.reduce((sum, l) => sum + l.length, 0);
+  if (totalSyllables === 0) throw new Error('No lyrics to fit the melody to -- write some lyrics first');
+  if (!importedNotes.length) throw new Error('No notes found in that file');
+
+  const importedCount = importedNotes.length;
+  function resampledPitch(syllableIndex) {
+    const srcIdx = importedCount > 1
+      ? Math.round(syllableIndex * (importedCount - 1) / Math.max(1, totalSyllables - 1))
+      : 0;
+    return importedNotes[Math.min(srcIdx, importedCount - 1)].pitch;
+  }
+
+  const seenLines = {};
+  const structure = [];
+  let syllableCursor = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const key = normalizeLineText(line);
+    const section = sectionTags[i] || 'verse';
+    const durations = lineDurations(line, complexity);
+
+    let degrees;
+    if (seenLines[key] && seenLines[key].length === line.length) {
+      degrees = seenLines[key]; // reuse exactly, matching how repeated lines behave in generated melodies
+    } else {
+      degrees = line.map((syll, idx) => {
+        const raw = resampledPitch(syllableCursor + idx);
+        const snapped = snapPitchToScale(raw, scale, rootMidi);
+        return midiToScaleDegree(snapped, scale, rootMidi);
+      });
+      seenLines[key] = degrees;
+    }
+    syllableCursor += line.length;
+    structure.push({ line, degrees, durations, key, origin: 'imported', section, genScale: scale, genRoot: rootMidi });
+  }
+  structure.autoSplitNotices = [];
+  return structure;
+}
+
 let osmdLoadPromise = null;
 function loadOSMD() {
   if (window.opensheetmusicdisplay) return Promise.resolve();
@@ -2738,6 +3062,75 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
   document.getElementById('resultsArea').style.display = 'block';
   renderMelodyMapRows(document.getElementById('mapRows'), structure);
+});
+
+document.getElementById('importMelodyBtn').addEventListener('click', () => {
+  document.getElementById('importMelodyFile').click();
+});
+document.getElementById('importMelodyFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('importStatusMsg');
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Reading file…';
+
+  try {
+    const lyricsText = document.getElementById('lyricsInput').value;
+    if (!lyricsText.trim()) throw new Error('Write some lyrics first, then import a melody to fit to them.');
+
+    const isXml = /\.(musicxml|xml)$/i.test(file.name);
+    const isMidi = /\.(mid|midi)$/i.test(file.name);
+    if (!isXml && !isMidi) throw new Error('Please choose a .musicxml, .xml, .mid, or .midi file.');
+
+    let importedNotes;
+    if (isXml) {
+      const text = await file.text();
+      importedNotes = parseMusicXMLToNotes(text);
+    } else {
+      const buf = await file.arrayBuffer();
+      importedNotes = parseMidiToNotes(buf);
+    }
+
+    const scale = scaleSelect.value;
+    const complexity = complexitySelect.value;
+    const rootMidi = 60;
+    const structure = fitImportedMelodyToLyrics(importedNotes, lyricsText, scale, rootMidi, complexity);
+    const notes = structureToNotes(structure);
+
+    selectedLineIndex = null;
+    lineUndoSnapshots = {};
+    lastNotes = notes; lastStructure = structure;
+    lastTempo = Number(tempoInput.value) || 90; lastInstrument = instrumentSelect.value;
+    lastLyricsText = lyricsText; lastStyleKey = styleSelect.value; lastSeed = Number(seedInput.value) || 7;
+    lastScale = scale; lastRootMidi = rootMidi; lastComplexity = complexity;
+    lastVoiceCount = Number(voicesSelect.value) || 1;
+    lastVoicePairing = voicePairingSelect.value;
+    sheetMusicRendered = false;
+    document.getElementById('sheetMusicWrap').style.display = 'none';
+
+    updateSummaryBox(structure, notes, lastTempo, null);
+    document.getElementById('autoSplitBox').style.display = 'none';
+
+    const preset = STYLE_PRESETS[styleSelect.value];
+    const genreTagsEl = document.getElementById('genreTags');
+    genreTagsEl.innerHTML = '';
+    const tags = (preset && styleSelect.value !== 'none') ? preset.sunoTags.split(',') : suggestGenre(notes, lyricsText, scale, lastTempo);
+    tags.push(`${lastTempo} BPM`);
+    lastGenreTags = tags.map(t => t.trim());
+    tags.forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'tag'; span.textContent = t.trim();
+      genreTagsEl.appendChild(span);
+    });
+
+    document.getElementById('resultsArea').style.display = 'block';
+    renderMelodyMapRows(document.getElementById('mapRows'), structure);
+
+    statusEl.textContent = `Imported ${importedNotes.length} notes from "${file.name}" and fitted them to your lyrics, snapped to the ${scale.replace('_',' ')} scale.`;
+  } catch (err) {
+    statusEl.textContent = 'Import failed: ' + err.message;
+  }
+  e.target.value = '';
 });
 
 function getCurrentPlayableVoices() {
