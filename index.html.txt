@@ -1556,6 +1556,21 @@ const STYLE_PRESETS = {
   nostalgic: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.45, variationProb:0.25, tempoBpm:78, instrument:'flute', bridgeModulation:'relative',
     description:"Nostalgic style: warm and wistful rather than sad, a fond memory returning again and again in a gently repeating motif, with a soft glow at the bridge rather than real drama.",
     sunoTags:"warm wistful nostalgia, fond memory feeling, gently repeating motif, soft glowing bridge, bittersweet but tender" },
+  nature: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.40, variationProb:0.30, tempoBpm:84, instrument:'flute', bridgeModulation:'relative',
+    description:"General nature/outdoors style: open, pastoral, unforced — a breezy, sunlit quality with a gentle sense of a vista opening up at the bridge.",
+    sunoTags:"open pastoral nature, breezy sunlit outdoors, gentle unforced flow, vista opening at the bridge" },
+  call_of_the_wild: { scale:'minor_pentatonic', complexity:'extreme', sequenceProb:0.35, variationProb:0.35, tempoBpm:96, instrument:'violin', bridgeModulation:'dominant',
+    description:"'Call of the wild' style: rugged, untamed, and adventurous, with wide unpredictable movement and a rising echo-like call at the bridge.",
+    sunoTags:"rugged untamed wilderness, adventurous unpredictable movement, rising echoing call, primal energy" },
+  american_indian: { scale:'minor_pentatonic', complexity:'moderate', sequenceProb:0.55, variationProb:0.20, tempoBpm:88, instrument:'percussion',
+    description:"Style inspired by broadly-documented elements shared across many Native American musical traditions (pentatonic melody, steady communal drum-circle repetition) — a general, respectful gesture toward this vast and varied musical heritage, not any one specific nation's authentic tradition. Steady and grounded throughout, no pop-style key-change.",
+    sunoTags:"pentatonic drum-circle repetition, steady grounded communal rhythm, earthy percussive pulse" },
+  indian_flute: { scale:'minor_pentatonic', complexity:'simple', sequenceProb:0.45, variationProb:0.25, tempoBpm:66, instrument:'flute', bridgeModulation:'relative',
+    description:"Native American flute style: slow, breathy, and meditative, in the pentatonic-leaning minor character the instrument is well known for — contemplative rather than showy.",
+    sunoTags:"breathy meditative Native American flute, slow contemplative pentatonic melody, peaceful and unhurried" },
+  rainforest: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.30, variationProb:0.40, tempoBpm:72, instrument:'flute', bridgeModulation:'parallel',
+    description:"Rainforest style: lush, dense, and teeming with constantly shifting detail, with an exotic, slightly disorienting color-shift at the bridge — deep atmosphere rather than a clear melody line.",
+    sunoTags:"lush dense rainforest atmosphere, teeming constantly shifting detail, exotic humid mystery, disorienting color-shift" },
 };
 
 /* ========================= Genre / mood suggestion ========================= */
@@ -2884,6 +2899,7 @@ const STYLE_CATEGORIES = {
   office:'moods_themes', getting_down_to_business:'moods_themes', addressing_serious_issues:'moods_themes', touching:'moods_themes',
   sad_but_beautiful:'moods_themes', sad_but_optimistic:'moods_themes', tender_and_delicate:'moods_themes', moving_and_meaningful:'moods_themes',
   tongue_in_cheek_rock:'moods_themes', nostalgic:'moods_themes',
+  nature:'moods_themes', call_of_the_wild:'moods_themes', american_indian:'moods_themes', indian_flute:'moods_themes', rainforest:'moods_themes',
 };
 function styleDisplayName(key) {
   return key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
