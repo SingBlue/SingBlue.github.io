@@ -1574,6 +1574,9 @@ const STYLE_PRESETS = {
   goodbye_like_tuesday: { scale:'major', complexity:'simple', sequenceProb:0.45, variationProb:0.25, tempoBpm:92, instrument:'piano',
     description:"'The goodbye that sounds like a regular Tuesday' — restrained indie-pop style where the understatement IS the emotion: a significant moment deliberately rendered as ordinary and conversational rather than dramatic, staying grounded throughout with no big emotional lift.",
     sunoTags:"restrained indie-pop, muted electric piano, clean fingerpicked guitar, dry kick-snare groove, round bass, close-mic conversational vocals, understated double-tracking, soft analog synth pads, brushed percussion, brief trumpet motif, warmth without melodrama" },
+  quiet_purpose: { scale:'major', complexity:'simple', sequenceProb:0.35, variationProb:0.30, tempoBpm:90, instrument:'violin', bridgeModulation:'relative',
+    description:"'Quiet Purpose' (aka 'Humble Anthem') — warm, understated acoustic folk-pop for humble, grounded subject matter: sincere and unadorned, quiet dignity rather than oversold emotion, with only a gentle warming lift at the bridge rather than a big pop moment.",
+    sunoTags:"warm understated acoustic folk-pop, guitar-led sincerity, gentle piano, light percussion, subtle strings on the chorus, mid-tempo, raw and unpolished warmth, quiet dignity" },
 };
 
 /* ========================= Genre / mood suggestion ========================= */
@@ -2903,7 +2906,7 @@ const STYLE_CATEGORIES = {
   sad_but_beautiful:'moods_themes', sad_but_optimistic:'moods_themes', tender_and_delicate:'moods_themes', moving_and_meaningful:'moods_themes',
   tongue_in_cheek_rock:'moods_themes', nostalgic:'moods_themes',
   nature:'moods_themes', call_of_the_wild:'moods_themes', american_indian:'moods_themes', indian_flute:'moods_themes', rainforest:'moods_themes',
-  goodbye_like_tuesday:'moods_themes',
+  goodbye_like_tuesday:'moods_themes', quiet_purpose:'moods_themes',
 };
 function styleDisplayName(key) {
   return key.split('_').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
