@@ -2495,6 +2495,94 @@ function audioBufferToWavBlob(audioBuffer) {
   return new Blob([buffer], { type: 'audio/wav' });
 }
 
+/* ========================= Fast direct audio renderer =========================
+   The old export built a Web Audio graph (oscillator + filter + gain per note) and let
+   the browser render it offline -- thousands of nodes for a long multi-voice song, which
+   is what took ~a minute on a phone. This computes the same sound directly: one
+   pre-built waveform per pitch (with the instrument's filter baked in), played back with
+   the same envelope and vibrato, mixed straight into one buffer. Same timbres, a
+   fraction of the time. If anything goes wrong the old renderer is used as a fallback. */
+const FAST_INSTR = {
+  piano:      {wave:'tri', cut:0,    vib:0,   vibHz:0,   att:0.008, peak:0.28, mode:'exp',  decayCap:Infinity, relLen:0},
+  violin:     {wave:'saw', cut:1800, vib:2.5, vibHz:5.5, att:0.08,  peak:0.20, mode:'sus',  relLen:0.10},
+  flute:      {wave:'sin', cut:2600, vib:3.0, vibHz:4.5, att:0.05,  peak:0.22, mode:'sus',  relLen:0.08},
+  trumpet:    {wave:'saw', cut:3800, vib:0,   vibHz:0,   att:0.02,  peak:0.22, mode:'sus',  relLen:0.08},
+  viola:      {wave:'saw', cut:1100, vib:2.0, vibHz:5.0, att:0.09,  peak:0.20, mode:'sus',  relLen:0.10},
+  harp:       {wave:'tri', cut:0,    vib:0,   vibHz:0,   att:0.003, peak:0.30, mode:'exp',  decayCap:0.9, relLen:0},
+  percussion: {wave:'sin', cut:0,    vib:0,   vibHz:0,   att:0.002, peak:0.32, mode:'exp',  decayCap:0.4, relLen:0, drop:true},
+};
+const FAST_TABLE_N = 2048;
+function fastBuildTable(spec, f0, sr) {
+  const N = FAST_TABLE_N, tab = new Float32Array(N);
+  const kMax = Math.max(1, Math.floor(0.45 * sr / f0));
+  const Q = Math.pow(10, 1/20);                       // Web Audio lowpass default Q (1 dB)
+  for (let k = 1; k <= kMax; k++) {
+    let a;
+    if (spec.wave === 'sin') { if (k > 1) break; a = 1; }
+    else if (spec.wave === 'saw') a = 0.851 * (2/Math.PI) * ((k % 2) ? 1 : -1) / k;   // 0.851 matches the browser's built-in sawtooth level
+    else { if (k % 2 === 0) continue; a = (8/(Math.PI*Math.PI)) * (((k-1)/2) % 2 ? -1 : 1) / (k*k); }
+    if (spec.cut) { const r = (k*f0)/spec.cut; a /= Math.sqrt((1-r*r)*(1-r*r) + (r/Q)*(r/Q)); }
+    for (let i = 0; i < N; i++) tab[i] += a * Math.sin(2*Math.PI*k*i/N);
+  }
+  return tab;
+}
+async function renderDirect(voiceNoteLists, tempoBpm, instrument, sr) {
+  const spec = FAST_INSTR[instrument] || FAST_INSTR.violin;
+  const beatSec = 60 / tempoBpm;
+  const lead = 0.08;
+  const totalDur = Math.max(...voiceNoteLists.map(notes =>
+    notes.length ? (notes[notes.length-1].startBeat + notes[notes.length-1].durBeat)*beatSec + 0.6 : 1));
+  const out = new Float32Array(Math.ceil(totalDur * sr));
+  const tables = {};
+  const N = FAST_TABLE_N, mask = N - 1, twoPi = 2*Math.PI;
+  for (let v = 0; v < voiceNoteLists.length; v++) {
+    const notes = voiceNoteLists[v];
+    for (let ni = 0; ni < notes.length; ni++) {
+      const n = notes[ni];
+      const f0 = 440 * Math.pow(2, (n.pitch - 69)/12);
+      const key = n.pitch;
+      const tab = tables[key] || (tables[key] = fastBuildTable(spec, f0, sr));
+      const vel = n.velocity / 127;
+      const peak = spec.peak * vel;
+      const durSec = n.durBeat * beatSec * 0.92;
+      const start = Math.floor((lead + n.startBeat * beatSec) * sr);
+      let endT, decayMul = 1, relStart = 0, att = spec.att;
+      if (spec.mode === 'exp') {
+        endT = Math.min(durSec, spec.decayCap);
+        const span = Math.max(1, Math.floor((endT - att) * sr));
+        decayMul = Math.pow(0.001 / peak, 1 / span);
+      } else {
+        endT = durSec;
+        relStart = Math.max(att, durSec - spec.relLen);
+      }
+      const len = Math.min(Math.floor(endT * sr), out.length - start);
+      if (len <= 0) continue;
+      const attN = Math.max(1, Math.floor(att * sr));
+      const relN = Math.max(1, Math.floor((endT - relStart) * sr));
+      const relStartN = Math.floor(relStart * sr);
+      let phase = 0, env = 0;
+      const baseInc = f0 / sr;
+      const vibDepth = spec.vib ? spec.vib * Math.LN2 / 1200 : 0;
+      const vibW = spec.vibHz ? twoPi * spec.vibHz / sr : 0;
+      const dropN = spec.drop ? Math.floor(0.03 * sr) : 0;
+      for (let i = 0; i < len; i++) {
+        if (i < attN) env = peak * (i / attN);
+        else if (spec.mode === 'exp') { env = (i === attN) ? peak : env * decayMul; }
+        else if (i < relStartN) env = peak;
+        else env = peak * (1 - (i - relStartN) / relN) + 0.0001;
+        let inc = baseInc;
+        if (vibDepth) inc *= 1 + vibDepth * Math.sin(vibW * i);
+        if (dropN && i < dropN) inc *= 1.06 * Math.pow(1/1.06, i / dropN);
+        phase += inc; if (phase >= 1) phase -= Math.floor(phase);
+        const idx = phase * N, i0 = idx | 0, fr = idx - i0;
+        out[start + i] += env * (tab[i0 & mask] * (1 - fr) + tab[(i0 + 1) & mask] * fr);
+      }
+    }
+    await new Promise(r => setTimeout(r, 0));   // let the screen update between voices
+  }
+  return { numberOfChannels: 1, sampleRate: sr, length: out.length, getChannelData() { return out; } };
+}
+
 async function exportAudioFile(notesOrVoices, tempoBpm, instrument, btn) {
   const origText = btn.textContent;
   btn.disabled = true;
@@ -2517,14 +2605,20 @@ async function exportAudioFile(notesOrVoices, tempoBpm, instrument, btn) {
     // computation of a solo export. Dropping the sample rate further here
     // (on top of the 22.05kHz already used for solo) is a real, direct lever
     // on that compute cost, at some further loss of high-frequency detail.
-    const sampleRate = voiceNoteLists.length > 1 ? 16000 : 22050;
-    const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
-      1, Math.ceil(totalDur * sampleRate), sampleRate
-    );
-    // scheduling every voice into the SAME offline destination mixes them
-    // together naturally into one output buffer, no separate mixing step needed
-    voiceNoteLists.forEach(notes => scheduleNotesOn(offlineCtx, offlineCtx.destination, notes, tempoBpm, instrument));
-    const renderedBuffer = await offlineCtx.startRendering();
+    let renderedBuffer;
+    try {
+      // fast path: compute the audio directly (about a second, even for long multi-voice songs)
+      renderedBuffer = await renderDirect(voiceNoteLists, tempoBpm, instrument, 22050);
+    } catch (fastErr) {
+      // fallback: the original Web Audio offline renderer (slower, but proven)
+      console.warn('Fast render failed, using fallback:', fastErr);
+      const sampleRate = voiceNoteLists.length > 1 ? 16000 : 22050;
+      const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
+        1, Math.ceil(totalDur * sampleRate), sampleRate
+      );
+      voiceNoteLists.forEach(notes => scheduleNotesOn(offlineCtx, offlineCtx.destination, notes, tempoBpm, instrument));
+      renderedBuffer = await offlineCtx.startRendering();
+    }
     const wavBlob = audioBufferToWavBlob(renderedBuffer);
     clearInterval(tick);
     btn.textContent = 'Saving…';
