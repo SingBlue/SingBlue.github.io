@@ -518,6 +518,43 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
           <label class="field-label" for="styleSelect">Style</label>
           <select id="styleSelect" style="display:none;"></select>
           <div id="styleAccordion"></div>
+          <div id="customGenreBox" style="margin-top:0.7rem;">
+            <label class="field-label" for="customGenreInput">Or type any genre / mood of your own</label>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <input type="text" id="customGenreInput" style="flex:1; min-width:12rem;" placeholder="e.g. warm acoustic folk-pop, sincere, mid-tempo, 90 BPM" autocomplete="off">
+              <button class="secondary" id="applyGenreBtn" type="button">Apply genre</button>
+            </div>
+            <div style="margin-top:0.4rem;">
+              <button class="secondary" id="suggestGenreAiBtn" type="button">✨ Suggest a genre from my lyrics (AI)</button>
+            </div>
+            <p class="hint" id="customGenreMsg" style="display:none; margin-top:0.35rem;"></p>
+            <details id="aiPanel" style="margin-top:0.7rem;">
+              <summary style="cursor:pointer;"><strong>AI helpers (optional)</strong> <span id="aiSummaryState" class="hint">— off</span></summary>
+              <div style="margin-top:0.5rem; display:grid; gap:0.45rem;">
+                <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" id="aiOn"> <span><strong>Use AI</strong> (master switch)</span></label>
+                <div>
+                  <label class="field-label" for="aiKey">Your Anthropic API key</label>
+                  <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                    <input type="password" id="aiKey" style="flex:1; min-width:12rem;" placeholder="paste your key here (starts with sk-ant-)" autocomplete="off">
+                    <button class="secondary" id="aiTestBtn" type="button">Test key</button>
+                    <button class="secondary" id="aiForgetBtn" type="button">Forget key</button>
+                  </div>
+                </div>
+                <div>
+                  <label class="field-label" for="aiModel">AI model</label>
+                  <select id="aiModel">
+                    <option value="claude-haiku-4-5-20251001">Fast and cheapest (Haiku)</option>
+                    <option value="claude-sonnet-5-5">Smarter, a bit more per use (Sonnet)</option>
+                  </select>
+                </div>
+                <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" id="aiFeatGenre"> <span>Understand any genre wording I type</span></label>
+                <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" id="aiFeatSuggest"> <span>Suggest a genre from my lyrics</span></label>
+                <label style="display:flex; gap:0.5rem; align-items:center;"><input type="checkbox" id="aiFeatDirections"> <span>Write the musical directions from the meaning of my lyrics</span></label>
+                <p class="hint" id="aiStatus" style="margin:0;"></p>
+                <p class="hint" style="margin:0;">Your key is saved only on this device and is never in the app file. When AI is on, the genre text and lyrics for that action are sent to Anthropic, and each use costs a small amount on your account. With AI off, nothing leaves your device.</p>
+              </div>
+            </details>
+          </div>
         </div>
         <div class="field">
           <label class="field-label" for="scaleSelect">Scale</label>
@@ -1813,7 +1850,7 @@ function suggestDirectionForSection(sectionType, scale, complexity, tempoBpm, br
     default: return textureWord;
   }
 }
-function annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation) {
+function annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation, overrides) {
   const lines = text.split('\n');
   const out = lines.map(rawLine => {
     const trimmed = rawLine.trim();
@@ -1825,7 +1862,7 @@ function annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeM
     if (inner.includes(':') || inner.includes('|')) return `[${inner}]`;
     const sectionType = detectSectionTypeFromLabel(inner);
     if (!sectionType) return `[${inner}]`;
-    const direction = suggestDirectionForSection(sectionType, scale, complexity, tempoBpm, bridgeModulation);
+    const direction = (overrides && overrides[sectionType]) || suggestDirectionForSection(sectionType, scale, complexity, tempoBpm, bridgeModulation);
     return `[${inner}: ${direction}]`;
   });
   return out.join('\n');
@@ -2710,6 +2747,7 @@ function loadSavedItem(id) {
 
   document.getElementById('lyricsInput').value = item.lyricsText;
   styleSelect.value = STYLE_PRESETS[item.styleKey] ? item.styleKey : 'none';
+  customGenre = null;
   applyStyleToControls(styleSelect.value);
   syncAccordionToSelectedStyle();
   // override with the exact saved literal values, so the restored melody
@@ -2758,17 +2796,17 @@ document.getElementById('checkLyricsBtn').addEventListener('click', () => {
 });
 
 let preDirectionsLyrics = null;
-document.getElementById('addDirectionsBtn').addEventListener('click', () => {
+document.getElementById('addDirectionsBtn').addEventListener('click', async () => {
   const input = document.getElementById('lyricsInput');
   const text = input.value;
   if (!text.trim()) return;
 
   const styleKey = styleSelect.value;
-  const preset = STYLE_PRESETS[styleKey];
+  const preset = activePreset(styleKey);
   const scale = scaleSelect.value;
   const complexity = complexitySelect.value;
   const tempoBpm = Number(tempoInput.value) || 90;
-  const bridgeModulation = (preset && styleKey !== 'none') ? preset.bridgeModulation : null;
+  const bridgeModulation = preset ? preset.bridgeModulation : null;
 
   // Only capture the true original on the FIRST click. If directions are
   // already showing and the button is clicked again (e.g. after changing
@@ -2777,9 +2815,23 @@ document.getElementById('addDirectionsBtn').addEventListener('click', () => {
   // the real undo target with already-annotated text.
   if (preDirectionsLyrics === null) preDirectionsLyrics = text;
 
-  input.value = annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation);
+  let overrides = null, aiNote = '';
+  const hint = document.getElementById('directionsHint');
+  if (aiReady('directions')) {
+    const dBtn = document.getElementById('addDirectionsBtn');
+    dBtn.disabled = true; hint.style.display = 'block'; hint.textContent = 'Asking AI to read your lyrics…';
+    try {
+      const ctx = (document.getElementById('customGenreInput').value.trim() || styleKey.replace(/_/g,' ')) + ', ' + SCALE_LABEL[scale] + ', ' + tempoBpm + ' BPM';
+      overrides = await aiWriteDirections(text, ctx);
+      aiNote = '✨ Directions written by AI from the meaning of your lyrics. ';
+    } catch (e) {
+      aiNote = 'AI was not available (' + e.message + '), so the built-in directions were used. ';
+    } finally { dBtn.disabled = false; }
+  }
+  input.value = annotateLyricsWithDirections(text, scale, complexity, tempoBpm, bridgeModulation, overrides);
   document.getElementById('undoDirectionsBtn').style.display = 'inline-block';
-  document.getElementById('directionsHint').style.display = 'block';
+  hint.style.display = 'block';
+  hint.textContent = aiNote + 'Added directly into your [Section] labels in the format Suno reads best (e.g. [Chorus: full, bright]). Use Undo to go back to your original text.';
 });
 document.getElementById('undoDirectionsBtn').addEventListener('click', () => {
   if (preDirectionsLyrics === null) return;
@@ -2980,6 +3032,339 @@ voicesSelect.addEventListener('change', () => {
   voicePairingWrap.style.display = (voicesSelect.value === '1') ? 'none' : 'block';
 });
 
+/* ========================= Free-text genre -> melody settings =========================
+   The engine never "knows" a genre by name. Every named style is just a bundle of
+   settings: scale, complexity, tempo, instrument, how often a motif is repeated
+   (sequenceProb), how often it is varied (variationProb), and the bridge key change.
+   This turns ANY text the user types into that same bundle, by reading the genre and
+   mood words in it. It runs locally -- no AI call, works offline. */
+const GENRE_WORDS = {
+  // genres
+  'folk': {scale:'major_pentatonic', cx:'simple', inst:'violin', tempo:92, seq:.30, vary:.25},
+  'acoustic': {cx:'simple', inst:'violin', tempo:90},
+  'singer-songwriter': {scale:'major_pentatonic', cx:'simple', inst:'violin', tempo:88, vary:.30},
+  'country': {scale:'major_pentatonic', cx:'simple', inst:'violin', tempo:98},
+  'indie': {scale:'major_pentatonic', cx:'simple', tempo:96, vary:.30},
+  'pop': {scale:'major', cx:'moderate', inst:'piano', tempo:105, seq:.35, vary:.35, bridge:'relative'},
+  'soft rock': {scale:'major_pentatonic', cx:'moderate', inst:'piano', tempo:96, bridge:'relative'},
+  'rock': {scale:'minor_pentatonic', cx:'moderate', tempo:112, seq:.45},
+  'hard rock': {scale:'minor_pentatonic', cx:'extreme', tempo:130, seq:.50},
+  'metal': {scale:'natural_minor', cx:'extreme', tempo:140, seq:.55},
+  'blues': {scale:'minor_pentatonic', cx:'simple', inst:'piano', tempo:80, seq:.30},
+  'jazz': {scale:'major', cx:'extreme', inst:'piano', tempo:110, vary:.40, bridge:'dominant'},
+  'soul': {scale:'major_pentatonic', cx:'moderate', inst:'piano', tempo:88, vary:.40},
+  'r&b': {scale:'minor_pentatonic', cx:'moderate', inst:'piano', tempo:90, vary:.40},
+  'gospel': {scale:'major', cx:'moderate', inst:'piano', tempo:100, bridge:'dominant'},
+  'classical': {scale:'major', cx:'moderate', inst:'violin', tempo:110, seq:.55},
+  'baroque': {scale:'major', cx:'moderate', inst:'violin', tempo:104, seq:.55},
+  'orchestral': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:92, seq:.45, bridge:'relative'},
+  'cinematic': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:90, seq:.50, bridge:'relative'},
+  'epic': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:100, seq:.50, bridge:'dominant'},
+  'ballad': {cx:'moderate', inst:'piano', tempo:72, seq:.35},
+  'lullaby': {scale:'major_pentatonic', cx:'simple', inst:'harp', tempo:66},
+  'electronic': {scale:'minor_pentatonic', cx:'moderate', inst:'percussion', tempo:124, seq:.55},
+  'edm': {scale:'minor_pentatonic', cx:'moderate', inst:'percussion', tempo:126, seq:.55},
+  'dance': {scale:'major_pentatonic', cx:'moderate', inst:'percussion', tempo:122, seq:.50},
+  'funk': {scale:'major_pentatonic', cx:'moderate', inst:'percussion', tempo:108, seq:.55},
+  'hip hop': {scale:'minor_pentatonic', cx:'simple', inst:'percussion', tempo:92, seq:.55},
+  'rap': {scale:'minor_pentatonic', cx:'simple', inst:'percussion', tempo:92, seq:.55},
+  'reggae': {scale:'major_pentatonic', cx:'simple', inst:'percussion', tempo:80},
+  'latin': {scale:'natural_minor', cx:'extreme', inst:'trumpet', tempo:100},
+  'mariachi': {scale:'major', cx:'moderate', inst:'trumpet', tempo:112},
+  'celtic': {scale:'major_pentatonic', cx:'moderate', inst:'flute', tempo:110},
+  'irish': {scale:'major_pentatonic', cx:'moderate', inst:'flute', tempo:112},
+  'musical theater': {scale:'major', cx:'extreme', inst:'piano', tempo:104, vary:.40, bridge:'dominant'},
+  'broadway': {scale:'major', cx:'extreme', inst:'piano', tempo:104, vary:.40, bridge:'dominant'},
+  'k-pop': {scale:'major_pentatonic', cx:'extreme', inst:'piano', tempo:126, bridge:'dominant'},
+  'worship': {scale:'major', cx:'simple', inst:'piano', tempo:76},
+  'hymn': {scale:'major', cx:'simple', inst:'piano', tempo:72},
+  'klezmer': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:118, seq:.50, bridge:'relative'},
+  'hasidic': {scale:'natural_minor', cx:'moderate', inst:'violin', tempo:108, seq:.45, bridge:'relative'},
+  'chassidic': {scale:'natural_minor', cx:'moderate', inst:'violin', tempo:108, seq:.45, bridge:'relative'},
+  'chasidic': {scale:'natural_minor', cx:'moderate', inst:'violin', tempo:108, seq:.45, bridge:'relative'},
+  'niggun': {scale:'natural_minor', cx:'simple', inst:'violin', tempo:80, seq:.55},
+  'cantorial': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:70},
+  'chazanut': {scale:'natural_minor', cx:'extreme', inst:'violin', tempo:70},
+  'middle eastern': {scale:'natural_minor', cx:'moderate', inst:'violin', tempo:100},
+  'mizrachi': {scale:'natural_minor', cx:'moderate', inst:'violin', tempo:104},
+  'jewish': {scale:'natural_minor', tempo:96},
+  // moods
+  'sad': {scale:'natural_minor', tempo:72},
+  'melancholic': {scale:'natural_minor', tempo:72},
+  'melancholy': {scale:'natural_minor', tempo:72},
+  'somber': {scale:'natural_minor', tempo:68},
+  'mournful': {scale:'natural_minor', tempo:66},
+  'dark': {scale:'natural_minor', tempo:82},
+  'haunting': {scale:'natural_minor', tempo:70},
+  'mysterious': {scale:'natural_minor', tempo:72, bridge:'parallel'},
+  'happy': {scale:'major_pentatonic', tempo:112},
+  'joyful': {scale:'major_pentatonic', tempo:112},
+  'joyous': {scale:'major_pentatonic', tempo:112},
+  'uplifting': {scale:'major_pentatonic', tempo:108, bridge:'dominant'},
+  'bright': {scale:'major', tempo:108},
+  'celebratory': {scale:'major_pentatonic', tempo:122, bridge:'dominant'},
+  'festive': {scale:'major_pentatonic', tempo:118},
+  'playful': {scale:'major_pentatonic', cx:'simple', tempo:110},
+  'hopeful': {scale:'major', tempo:96, bridge:'dominant'},
+  'anthemic': {scale:'major', cx:'moderate', tempo:100, bridge:'dominant'},
+  'triumphant': {scale:'major', cx:'moderate', tempo:112, bridge:'dominant'},
+  'sincere': {cx:'simple', tempo:88},
+  'humble': {cx:'simple', tempo:86},
+  'understated': {cx:'simple', tempo:88},
+  'restrained': {cx:'simple', tempo:90},
+  'warm': {tempo:90},
+  'gentle': {cx:'simple', tempo:80},
+  'tender': {cx:'simple', tempo:78},
+  'intimate': {cx:'simple', tempo:80},
+  'peaceful': {scale:'major_pentatonic', cx:'simple', tempo:74},
+  'calm': {scale:'major_pentatonic', cx:'simple', tempo:74},
+  'reflective': {cx:'simple', tempo:80},
+  'nostalgic': {scale:'major_pentatonic', tempo:88},
+  'romantic': {scale:'major', tempo:84},
+  'dramatic': {scale:'natural_minor', cx:'extreme', tempo:92},
+  'powerful': {cx:'extreme', tempo:100},
+  'energetic': {cx:'moderate', tempo:120},
+  'upbeat': {tempo:116},
+  'driving': {tempo:124, seq:.50},
+  'fast': {tempo:136},
+  'mid-tempo': {tempo:95}, 'midtempo': {tempo:95}, 'mid tempo': {tempo:95},
+  'slow': {tempo:68},
+  'simple': {cx:'simple'},
+  'complex': {cx:'extreme'},
+  'intricate': {cx:'extreme'},
+  // explicit scale / key words (heavily weighted)
+  'major pentatonic': {scale:'major_pentatonic', w:4},
+  'minor pentatonic': {scale:'minor_pentatonic', w:4},
+  'minor': {scale:'natural_minor', w:3},
+  'major': {scale:'major', w:3},
+  // explicit instruments (heavily weighted)
+  'piano': {inst:'piano', w:4}, 'violin': {inst:'violin', w:4}, 'flute': {inst:'flute', w:4},
+  'trumpet': {inst:'trumpet', w:4}, 'viola': {inst:'viola', w:4}, 'harp': {inst:'harp', w:4},
+  'strings': {inst:'violin', w:2}, 'guitar': {inst:'violin', w:1}, 'brass': {inst:'trumpet', w:2},
+};
+const SCALE_LABEL = {minor_pentatonic:'minor pentatonic', natural_minor:'natural minor', major_pentatonic:'major pentatonic', major:'major'};
+function parseGenreText(text) {
+  let t = ' ' + String(text).toLowerCase().replace(/[_/]+/g,' ').replace(/\s+/g,' ') + ' ';
+  const out = {matched:[], tempoExplicit:null};
+  const bpm = t.match(/(\d{2,3})\s*bpm/);
+  if (bpm) { out.tempoExplicit = Math.max(40, Math.min(200, Number(bpm[1]))); t = t.replace(bpm[0], ' '); }
+  const votes = {scale:{}, cx:{}, inst:{}, bridge:{}};
+  const nums = {tempo:[], seq:[], vary:[]};
+  const keys = Object.keys(GENRE_WORDS).sort((a,b)=>b.length-a.length);
+  for (const k of keys) {
+    const esc = k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re = new RegExp('(^|[^a-z])' + esc + '(?=[^a-z]|$)');
+    if (!re.test(t)) continue;
+    t = t.replace(new RegExp('(^|[^a-z])' + esc + '(?=[^a-z]|$)','g'), '$1 ');   // consume, so "hard rock" doesn't also count "rock"
+    out.matched.push(k);
+    const e = GENRE_WORDS[k], w = e.w || 1;
+    for (const f of ['scale','cx','inst','bridge']) if (e[f]) votes[f][e[f]] = (votes[f][e[f]]||0) + w;
+    for (const [f,key] of [['tempo','tempo'],['seq','seq'],['vary','vary']]) if (e[key] != null) nums[f].push(e[key]);
+  }
+  const top = v => { let best=null, n=-1; for (const k in v) if (v[k] > n) { n=v[k]; best=k; } return best; };
+  const mean = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  out.scale = top(votes.scale); out.complexity = top(votes.cx); out.instrument = top(votes.inst);
+  out.bridgeModulation = top(votes.bridge);
+  out.tempoBpm = out.tempoExplicit != null ? out.tempoExplicit : (mean(nums.tempo) != null ? Math.round(mean(nums.tempo)) : null);
+  out.sequenceProb = mean(nums.seq); out.variationProb = mean(nums.vary);
+  return out;
+}
+let customGenre = null;   // active free-text genre preset (only used while the style list is on "none")
+function activePreset(styleKey) {
+  return styleKey === 'none' ? customGenre : STYLE_PRESETS[styleKey];
+}
+/* ========================= Optional AI helpers =========================
+   Everything here is opt-in. With the master switch off (the default), no network
+   call is ever made. The API key lives only in this browser's localStorage. If an
+   AI call fails for any reason, the app falls back to its built-in rules. */
+const AI_STORE = 'melodyWeaverAI';
+const AI_DEFAULTS = {on:false, key:'', model:'claude-haiku-4-5-20251001', genre:true, suggest:true, directions:true};
+let aiCfg = Object.assign({}, AI_DEFAULTS);
+try { Object.assign(aiCfg, JSON.parse(localStorage.getItem(AI_STORE) || '{}')); } catch(e) {}
+function aiPersist() { try { localStorage.setItem(AI_STORE, JSON.stringify(aiCfg)); } catch(e) {} }
+function aiReady(feature) { return !!(aiCfg.on && aiCfg.key && aiCfg[feature]); }
+function aiRefreshUi() {
+  document.getElementById('aiOn').checked = aiCfg.on;
+  document.getElementById('aiKey').value = aiCfg.key;
+  document.getElementById('aiModel').value = aiCfg.model;
+  document.getElementById('aiFeatGenre').checked = aiCfg.genre;
+  document.getElementById('aiFeatSuggest').checked = aiCfg.suggest;
+  document.getElementById('aiFeatDirections').checked = aiCfg.directions;
+  const st = document.getElementById('aiSummaryState');
+  st.textContent = !aiCfg.on ? '— off' : (!aiCfg.key ? '— on, but no key yet' : '— on');
+  const n = document.getElementById('aiStatus');
+  if (aiCfg.on && !aiCfg.key) n.textContent = 'Paste your API key above to start using AI.';
+  else if (n.dataset.sticky !== '1') n.textContent = '';
+}
+[['aiOn','on','checked'],['aiFeatGenre','genre','checked'],['aiFeatSuggest','suggest','checked'],['aiFeatDirections','directions','checked']].forEach(([id,k]) => {
+  document.getElementById(id).addEventListener('change', e => { aiCfg[k] = e.target.checked; aiPersist(); aiRefreshUi(); });
+});
+document.getElementById('aiKey').addEventListener('change', e => { aiCfg.key = e.target.value.trim(); aiPersist(); aiRefreshUi(); });
+document.getElementById('aiModel').addEventListener('change', e => { aiCfg.model = e.target.value; aiPersist(); });
+document.getElementById('aiForgetBtn').addEventListener('click', () => {
+  aiCfg.key = ''; aiCfg.on = false; aiPersist();
+  const n = document.getElementById('aiStatus'); n.dataset.sticky = '1'; n.textContent = 'Key removed from this device.';
+  aiRefreshUi();
+});
+async function callClaude(system, userText, maxTokens) {
+  if (!aiCfg.key) throw new Error('no API key saved');
+  const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 30000);
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', signal: ctrl.signal,
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': aiCfg.key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({model: aiCfg.model, max_tokens: maxTokens || 600, system: system, messages: [{role:'user', content: userText}]}),
+    });
+    if (!r.ok) {
+      let m = ''; try { m = (await r.json()).error.message; } catch(e) {}
+      throw new Error(r.status === 401 ? 'the key was not accepted' : r.status === 429 ? 'too many requests or no credit left' : (m || ('error ' + r.status)));
+    }
+    const j = await r.json();
+    return (j.content || []).map(c => c.text || '').join('');
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('it took too long');
+    if (e instanceof TypeError) throw new Error('could not reach the AI service');
+    throw e;
+  } finally { clearTimeout(timer); }
+}
+function aiJson(text) {
+  const m = String(text).match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('the reply was not understood');
+  return JSON.parse(m[0]);
+}
+document.getElementById('aiTestBtn').addEventListener('click', async () => {
+  const n = document.getElementById('aiStatus'); n.dataset.sticky = '1';
+  aiCfg.key = document.getElementById('aiKey').value.trim(); aiPersist();
+  if (!aiCfg.key) { n.textContent = 'Paste a key first.'; return; }
+  n.textContent = 'Testing…';
+  try { await callClaude('Reply with the single word OK.', 'Test', 10); n.textContent = '✅ The key works.'; }
+  catch (e) { n.textContent = '❌ Did not work: ' + e.message + '.'; }
+});
+
+const AI_SCALES = ['minor_pentatonic','natural_minor','major_pentatonic','major'];
+const AI_CX = ['simple','moderate','extreme'];
+const AI_INST = ['piano','violin','flute','trumpet','viola','harp','percussion'];
+const AI_BRIDGE = ['dominant','relative','parallel','subdominant'];
+async function aiInterpretGenre(text) {
+  const sys = 'You turn a free-text music genre/mood description into settings for a melody generator. Reply with ONLY a JSON object, no other text, with these keys: ' +
+    '"scale" (one of ' + AI_SCALES.join(', ') + '), "complexity" (one of ' + AI_CX.join(', ') + '), "tempoBpm" (integer 50-180), ' +
+    '"instrument" (the closest of ' + AI_INST.join(', ') + '), "sequenceProb" (0.15-0.6: higher = more repeated/sequenced motifs, typical of dance, chant, minimalism), ' +
+    '"variationProb" (0.1-0.45: higher = more varied, typical of pop/jazz), "bridgeModulation" (one of ' + AI_BRIDGE.join(', ') + ', none: the key change at the bridge). ' +
+    'Choose what best fits the genre and mood described.';
+  const o = aiJson(await callClaude(sys, text.slice(0, 600), 300));
+  const num = (v, lo, hi) => (typeof v === 'number' && isFinite(v)) ? Math.max(lo, Math.min(hi, v)) : null;
+  return {
+    scale: AI_SCALES.includes(o.scale) ? o.scale : null,
+    complexity: AI_CX.includes(o.complexity) ? o.complexity : null,
+    instrument: AI_INST.includes(o.instrument) ? o.instrument : null,
+    tempoBpm: num(o.tempoBpm, 40, 200) != null ? Math.round(num(o.tempoBpm, 40, 200)) : null,
+    sequenceProb: num(o.sequenceProb, 0.05, 0.7), variationProb: num(o.variationProb, 0.05, 0.6),
+    bridgeModulation: AI_BRIDGE.includes(o.bridgeModulation) ? o.bridgeModulation : null,
+  };
+}
+async function aiSuggestGenreFromLyrics(lyrics) {
+  const sys = 'You are an experienced music producer. Read the song lyrics and suggest ONE fitting genre and feel for the song. Reply with ONLY JSON: ' +
+    '{"genre": "a comma-separated description of 6-12 words in the style of: warm acoustic folk-pop, sincere, mid-tempo, 90 BPM (always include a BPM number)", "reason": "one short plain sentence on why it fits"}.';
+  const o = aiJson(await callClaude(sys, lyrics.slice(0, 6000), 300));
+  if (typeof o.genre !== 'string' || !o.genre.trim()) throw new Error('the reply was not understood');
+  return {genre: o.genre.trim().slice(0, 200), reason: typeof o.reason === 'string' ? o.reason.trim().slice(0, 300) : ''};
+}
+async function aiWriteDirections(lyrics, context) {
+  const sys = 'You write short musical-direction phrases for Suno song sections. Look at the lyrics and the section types they contain. ' +
+    'Reply with ONLY a JSON object mapping each section type present (use only these keys: intro, verse, prechorus, chorus, bridge, outro) to a direction of 2-5 words, ' +
+    'comma-separated, describing the vocal and instrumental feel that fits the MEANING of that part of the lyrics (for example "restrained, unhurried, close-mic vocal"). ' +
+    'No brackets, no colons, no quotes inside the phrases. Context about the intended style: ' + context;
+  const o = aiJson(await callClaude(sys, lyrics.slice(0, 6000), 400));
+  const out = {};
+  ['intro','verse','prechorus','chorus','bridge','outro'].forEach(k => {
+    if (typeof o[k] === 'string') {
+      const v = o[k].replace(/[\[\]():|"\n\r]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 70);
+      if (v) out[k] = v;
+    }
+  });
+  if (!Object.keys(out).length) throw new Error('the reply was not understood');
+  return out;
+}
+
+async function applyCustomGenre() {
+  const text = document.getElementById('customGenreInput').value.trim();
+  const msg = document.getElementById('customGenreMsg');
+  const btn = document.getElementById('applyGenreBtn');
+  msg.style.display = 'block';
+  if (!text) { msg.textContent = 'Type a genre or mood first, for example: warm acoustic folk-pop, sincere, mid-tempo.'; return; }
+  let g = parseGenreText(text);
+  let aiNote = '';
+  let aiUsed = false;
+  if (aiReady('genre')) {
+    msg.textContent = 'Asking AI to understand that…';
+    btn.disabled = true;
+    try {
+      const a = await aiInterpretGenre(text);
+      // AI answers win; an exact BPM typed by the user still wins over everything
+      ['scale','complexity','instrument','sequenceProb','variationProb'].forEach(k => { if (a[k] != null) g[k] = a[k]; });
+      if (a.bridgeModulation) g.bridgeModulation = a.bridgeModulation;
+      if (g.tempoExplicit == null && a.tempoBpm != null) g.tempoBpm = a.tempoBpm;
+      aiUsed = true;
+    } catch (e) {
+      aiNote = ' (AI was not available: ' + e.message + '. I used the built-in word list instead.)';
+    } finally { btn.disabled = false; }
+  }
+  if (!aiUsed && !g.matched.length && g.tempoExplicit == null) {
+    msg.textContent = "I didn't recognise any genre or mood words in that, so nothing changed. Try words like folk, pop, jazz, ballad, sad, joyful, upbeat, slow, piano, or an exact tempo like 90 BPM." + aiNote;
+    return;
+  }
+  styleSelect.value = 'none';
+  renderStyleAccordion();
+  styleDescWrap.style.display = 'none';
+  if (g.scale) scaleSelect.value = g.scale;
+  if (g.complexity) complexitySelect.value = g.complexity;
+  if (g.instrument) instrumentSelect.value = g.instrument;
+  if (g.tempoBpm != null) tempoInput.value = g.tempoBpm;
+  customGenre = {
+    sequenceProb: g.sequenceProb, variationProb: g.variationProb,
+    bridgeModulation: g.bridgeModulation || null,
+    sunoTags: text.replace(/\d{2,3}\s*bpm/ig,'').split(/[,;]+/).map(x=>x.trim()).filter(Boolean).join(', '),
+  };
+  const bits = [];
+  bits.push(g.scale ? SCALE_LABEL[g.scale] : null);
+  bits.push(g.complexity);
+  bits.push(g.tempoBpm != null ? g.tempoBpm + ' BPM' : null);
+  bits.push(g.instrument);
+  if (g.bridgeModulation) bits.push('bridge lifts to the ' + g.bridgeModulation + ' key');
+  const set = bits.filter(Boolean).join(' · ');
+  msg.textContent = (aiUsed ? '✨ AI understood it: ' : 'Understood: ' + g.matched.join(', ') + (g.tempoExplicit != null ? ', ' + g.tempoExplicit + ' BPM' : '') + '  →  ') +
+    'set to ' + (set || 'your current settings') + '. You can still change any box by hand.' + aiNote;
+}
+document.getElementById('suggestGenreAiBtn').addEventListener('click', async () => {
+  const msg = document.getElementById('customGenreMsg');
+  msg.style.display = 'block';
+  const lyrics = document.getElementById('lyricsInput').value;
+  if (!lyrics.trim()) { msg.textContent = 'Write or paste your lyrics first.'; return; }
+  if (!aiCfg.on || !aiCfg.key || !aiCfg.suggest) {
+    msg.textContent = 'This needs AI. Open "AI helpers", turn on Use AI, paste your key, and tick "Suggest a genre from my lyrics".';
+    document.getElementById('aiPanel').open = true;
+    return;
+  }
+  const btn = document.getElementById('suggestGenreAiBtn');
+  btn.disabled = true; msg.textContent = 'Reading your lyrics…';
+  try {
+    const r = await aiSuggestGenreFromLyrics(lyrics);
+    document.getElementById('customGenreInput').value = r.genre;
+    await applyCustomGenre();
+    msg.textContent = '✨ AI suggests: "' + r.genre + '"' + (r.reason ? ' — ' + r.reason : '') + '  ' + msg.textContent;
+  } catch (e) {
+    msg.textContent = 'AI could not suggest a genre: ' + e.message + '.';
+  } finally { btn.disabled = false; }
+});
+aiRefreshUi();
+document.getElementById('applyGenreBtn').addEventListener('click', applyCustomGenre);
+document.getElementById('customGenreInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCustomGenre(); } });
+
 function applyStyleToControls(key) {
   const s = STYLE_PRESETS[key];
   if (!s || key === 'none') { styleDescWrap.style.display = 'none'; return; }
@@ -2996,7 +3381,11 @@ function applyStyleToControls(key) {
   });
   styleDescWrap.style.display = 'block';
 }
-styleSelect.addEventListener('change', () => applyStyleToControls(styleSelect.value));
+styleSelect.addEventListener('change', () => {
+  customGenre = null;
+  const m = document.getElementById('customGenreMsg'); if (m) m.style.display = 'none';
+  applyStyleToControls(styleSelect.value);
+});
 
 document.getElementById('randomSeedBtn').addEventListener('click', () => {
   seedInput.value = Math.floor(Math.random()*100000);
@@ -3029,7 +3418,7 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   if (!lyricsText.trim()) { return; }
 
   const styleKey = styleSelect.value;
-  const preset = STYLE_PRESETS[styleKey];
+  const preset = activePreset(styleKey);
   const opts = {
     scale: scaleSelect.value,
     rootMidi: 60,
@@ -3039,9 +3428,9 @@ document.getElementById('generateBtn').addEventListener('click', () => {
     bridgeModulation: (preset && preset.bridgeModulation) || null,
     lockedLines: lockedLineData,
   };
-  if (preset && styleKey !== 'none') {
-    opts.sequenceProb = preset.sequenceProb;
-    opts.variationProb = preset.variationProb;
+  if (preset) {
+    if (preset.sequenceProb != null) opts.sequenceProb = preset.sequenceProb;
+    if (preset.variationProb != null) opts.variationProb = preset.variationProb;
   }
 
   const seed = Number(seedInput.value) || 7;
@@ -3076,7 +3465,7 @@ document.getElementById('generateBtn').addEventListener('click', () => {
 
   const genreTagsEl = document.getElementById('genreTags');
   genreTagsEl.innerHTML = '';
-  const tags = (preset && styleKey !== 'none') ? preset.sunoTags.split(',') : suggestGenre(notes, lyricsText, opts.scale, opts.tempoBpm);
+  const tags = (preset && preset.sunoTags) ? preset.sunoTags.split(',') : suggestGenre(notes, lyricsText, opts.scale, opts.tempoBpm);
   // Suno never actually receives our tempo -- it only sees text, and guesses
   // its own BPM if none is given. Appending the exact tempo we generated
   // with, in the plain numeric format Suno's own guides recommend, means
