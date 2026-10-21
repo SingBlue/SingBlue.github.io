@@ -524,10 +524,32 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
               <input type="text" id="customGenreInput" style="flex:1; min-width:12rem;" placeholder="e.g. warm acoustic folk-pop, sincere, mid-tempo, 90 BPM" autocomplete="off">
               <button class="secondary" id="applyGenreBtn" type="button">Apply genre</button>
             </div>
-            <div style="margin-top:0.4rem;">
-              <button class="secondary" id="suggestGenreAiBtn" type="button">✨ Suggest a genre from my lyrics (AI)</button>
+            <div style="margin-top:0.4rem; display:grid; gap:0.4rem;">
+              <input type="text" id="genreSteer" placeholder="Optional hint for the AI: darker, more Middle Eastern, like a lullaby…" autocomplete="off">
+              <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                <button class="secondary" id="suggestGenreAiBtn" type="button">✨ Suggest genres from my lyrics (AI)</button>
+                <button class="secondary" id="moreGenreIdeasBtn" type="button" style="display:none;">🔄 3 different ideas</button>
+              </div>
             </div>
+            <div id="genreIdeas"></div>
             <p class="hint" id="customGenreMsg" style="display:none; margin-top:0.35rem;"></p>
+            <details id="myGenresPanel" style="margin-top:0.7rem;">
+              <summary style="cursor:pointer;"><strong>My saved genres</strong> <span id="myGenresCount" class="hint">(0)</span></summary>
+              <div style="margin-top:0.5rem;">
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  <input type="text" id="myGenreName" style="flex:1; min-width:12rem;" placeholder="Name this genre, e.g. Quiet Tuesday folk" autocomplete="off">
+                  <button class="secondary" id="saveMyGenreBtn" type="button">💾 Save current genre</button>
+                </div>
+                <p class="hint" id="myGenreMsg" style="display:none; margin:0.3rem 0 0;"></p>
+                <div id="myGenreList"></div>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem;">
+                  <button class="secondary" id="exportMyGenresBtn" type="button">⬆️ Back up my genres</button>
+                  <button class="secondary" id="importMyGenresBtn" type="button">⬇️ Restore from backup</button>
+                  <input type="file" id="importMyGenresFile" accept=".json,application/json" style="display:none;">
+                </div>
+                <p class="hint" style="margin:0.3rem 0 0;">Saved on this device only. Use the backup button now and then so you never lose them.</p>
+              </div>
+            </details>
             <details id="aiPanel" style="margin-top:0.7rem;">
               <summary style="cursor:pointer;"><strong>AI helpers (optional)</strong> <span id="aiSummaryState" class="hint">— off</span></summary>
               <div style="margin-top:0.5rem; display:grid; gap:0.45rem;">
@@ -648,6 +670,10 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
           <button class="secondary" id="playBtn">▶ Play</button>
           <button class="secondary" id="stopBtn" disabled>Stop</button>
           <button class="secondary" id="exportAudioBtn">⬇ Export audio file</button>
+          <select id="exportSound" title="Sound of the exported audio" aria-label="Sound of the exported audio" style="width:auto;">
+            <option value="clean">Sound: Clean (best melody guide for Suno)</option>
+            <option value="rich">Sound: Rich (warmer, nicer to listen to)</option>
+          </select>
           <button class="secondary" id="sheetMusicBtn">🎼 View sheet music</button>
           <button class="secondary" id="printPdfBtn">🖨️ Save sheet music as PDF</button>
           <button class="secondary" id="downloadMusicXmlBtn">Download sheet music (.musicxml)</button>
@@ -680,7 +706,7 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
     Melodies are generated fresh from your words each time — no existing recordings are sampled or reproduced.
     "Export audio file" renders the melody directly to a .wav file — fast, regardless of song length, since it's computed rather than played back and captured in real time. A downloadable MIDI file or .mp3 specifically isn't available from this page directly; ask in chat for one built from the same settings shown above, using the seed number so it matches exactly.
   </footer>
-  <p class="hint" id="versionStamp" style="text-align:center; margin:0.8rem 0 1.2rem;">Version 20 Oct 2026 (b) · 120 styles incl. Jack &amp; Tim · fast audio export · AI helpers · type-your-own genre</p>
+  <p class="hint" id="versionStamp" style="text-align:center; margin:0.8rem 0 1.2rem;">Version 21 Oct 2026 (b) · famous songs · saved genres · AI idea picker · fast export with Clean/Rich sound</p>
 
 </div>
 
@@ -1666,6 +1692,72 @@ const STYLE_PRESETS = {
   out_of_our_minds: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.25, variationProb:0.45, tempoBpm:132, instrument:'trumpet', bridgeModulation:'parallel',
     description:"'Out of our freaking minds' style: chaotic, unhinged, and gleefully absurd — wide wild leaps and constant unpredictable variation with a manic energy that never settles.",
     sunoTags:"chaotic unhinged energy, gleefully absurd, wide wild unpredictable leaps, manic never-settling" },
+  elton_your_song: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.25, tempoBpm:64, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the tender, humble piano love-song feel of Elton John's 'Your Song' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"tender piano ballad, humble sincere love song, conversational vocal, warm gentle strings, simple and direct" },
+  elton_candle_in_the_wind: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.2, tempoBpm:74, instrument:'piano',
+    description:"In the spirit of the hushed, dignified tribute-ballad feel of Elton John's 'Candle in the Wind' (the 1997 tribute to Princess Diana) — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"solemn tribute ballad, dignified grief, hushed piano, sweeping strings, reverent and restrained" },
+  elton_daniel: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.3, tempoBpm:100, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the wistful, bittersweet mid-tempo farewell feel of Elton John's 'Daniel' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"wistful bittersweet mid-tempo, gentle piano, soft strings, farewell-to-a-brother warmth, smooth easy groove" },
+  elton_love_tonight: { scale:'major', complexity:'moderate', sequenceProb:0.3, variationProb:0.3, tempoBpm:80, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the lush, romantic, cinematic feel of Elton John's 'Can You Feel the Love Tonight' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"lush romantic cinematic ballad, warm swelling strings, tender then soaring, gentle piano" },
+  elton_tiny_dancer: { scale:'major', complexity:'moderate', sequenceProb:0.3, variationProb:0.3, tempoBpm:62, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the gently building, nostalgic road-song feel of Elton John's 'Tiny Dancer' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"gentle building piano ballad, warm nostalgic, sweeping singalong chorus, summery longing" },
+  elton_rocket_man: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.3, tempoBpm:70, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the spacey, lonely, floating feel of Elton John's 'Rocket Man' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"spacey lonely ballad, floating piano, yearning vocal, ethereal atmosphere" },
+  elton_still_standing: { scale:'major_pentatonic', complexity:'moderate', sequenceProb:0.45, variationProb:0.25, tempoBpm:176, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the defiant, upbeat, fast feel of Elton John's 'I'm Still Standing' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"defiant upbeat pop-rock, driving piano, fast and triumphant, clap-along energy" },
+  song_hallelujah: { scale:'major', complexity:'simple', sequenceProb:0.35, variationProb:0.2, tempoBpm:56, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the slow, hushed, hymn-like feel of Leonard Cohen's 'Hallelujah' (rocking, sacred and weary) — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"slow hushed hymn-like ballad, sacred and weary, sparse piano or guitar, gently rocking sway, rising gospel chorus" },
+  song_sound_of_silence: { scale:'natural_minor', complexity:'simple', sequenceProb:0.3, variationProb:0.2, tempoBpm:100, instrument:'violin',
+    description:"In the spirit of the hushed, brooding acoustic feel of Simon & Garfunkel's 'The Sound of Silence' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"hushed brooding acoustic folk, close two-part harmony, dark and contemplative, fingerpicked guitar" },
+  song_let_it_be: { scale:'major', complexity:'simple', sequenceProb:0.35, variationProb:0.25, tempoBpm:72, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the consoling, gospel-tinged piano-hymn feel of The Beatles' 'Let It Be' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"consoling gospel-tinged piano hymn, steady and calm, choir-like rising chorus, comforting" },
+  song_hey_jude: { scale:'major', complexity:'moderate', sequenceProb:0.4, variationProb:0.25, tempoBpm:74, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the slow-building piano-ballad feel of The Beatles' 'Hey Jude' that swells into a long communal sing-along ending — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"slow-building piano ballad, comforting verses, swelling into a long communal singalong finale" },
+  song_yesterday: { scale:'natural_minor', complexity:'simple', sequenceProb:0.25, variationProb:0.25, tempoBpm:96, instrument:'violin',
+    description:"In the spirit of the wistful, string-quartet-and-guitar chamber feel of The Beatles' 'Yesterday' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"wistful melancholic ballad, gentle acoustic guitar, chamber string quartet, nostalgic regret" },
+  song_someone_like_you: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.25, tempoBpm:67, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the raw, restrained-to-powerful piano heartbreak feel of Adele's 'Someone Like You' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"raw piano heartbreak ballad, restrained verses, powerful blooming chorus, honest and exposed" },
+  song_hello_adele: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.25, variationProb:0.3, tempoBpm:79, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the dramatic, aching, big-chorus feel of Adele's 'Hello' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"dramatic aching ballad, spare verses, huge soulful chorus, regretful" },
+  song_fix_you: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.25, tempoBpm:70, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the slow-burn, consoling, stadium-building feel of Coldplay's 'Fix You' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"slow-burn consoling ballad, organ-like warmth, builds to a soaring stadium chorus" },
+  song_perfect_sheeran: { scale:'major', complexity:'simple', sequenceProb:0.35, variationProb:0.25, tempoBpm:63, instrument:'violin', bridgeModulation:'relative',
+    description:"In the spirit of the intimate, slow-dance love-song feel of Ed Sheeran's 'Perfect' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"intimate slow-dance love song, gentle acoustic guitar, warm romantic strings, tender" },
+  song_country_roads: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.4, variationProb:0.2, tempoBpm:82, instrument:'violin', bridgeModulation:'relative',
+    description:"In the spirit of the warm, homesick country-folk sing-along feel of John Denver's 'Take Me Home, Country Roads' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"warm homesick country-folk, acoustic guitar and fiddle, easy singalong chorus, open and sunny" },
+  song_over_the_rainbow: { scale:'major', complexity:'simple', sequenceProb:0.25, variationProb:0.3, tempoBpm:72, instrument:'harp', bridgeModulation:'relative',
+    description:"In the spirit of the dreamy, wistful, wide-open feel of 'Somewhere Over the Rainbow' as a gentle ukulele-style ballad — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"dreamy wistful ballad, gentle ukulele-style plucking, sweet and hopeful, wide-open yearning" },
+  song_amazing_grace: { scale:'major_pentatonic', complexity:'simple', sequenceProb:0.3, variationProb:0.15, tempoBpm:72, instrument:'piano',
+    description:"In the spirit of the plain, congregational hymn feel of 'Amazing Grace' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"plain congregational hymn, simple and humble, steady and reverent, a cappella or soft organ" },
+  song_hatikvah: { scale:'natural_minor', complexity:'simple', sequenceProb:0.25, variationProb:0.15, tempoBpm:72, instrument:'violin',
+    description:"In the spirit of the yearning, steadily rising minor-key hymn feel of 'Hatikvah' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"yearning hopeful minor-key anthem, steady rising and resolving, communal and dignified" },
+  song_imagine: { scale:'major', complexity:'simple', sequenceProb:0.4, variationProb:0.15, tempoBpm:76, instrument:'piano',
+    description:"In the spirit of the calm, plain, hymn-like piano feel of John Lennon's 'Imagine' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"calm plain piano hymn of idealism, steady and gentle, spare and sincere" },
+  song_wonderful_world: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.25, tempoBpm:66, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the warm, tender, jazz-ballad feel of 'What a Wonderful World' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"warm tender jazz ballad, gentle strings, gratitude and calm, easy and unhurried" },
 };
 
 /* ========================= Genre / mood suggestion ========================= */
@@ -2635,6 +2727,163 @@ async function renderDirect(voiceNoteLists, tempoBpm, instrument, sr) {
   return { numberOfChannels: 1, sampleRate: sr, length: out.length, getChannelData() { return out; } };
 }
 
+/* ========================= "Rich" sound renderer =========================
+   Same speed trick as the clean renderer, but each instrument is built from several layers
+   (a mellow body plus a brighter part that fades faster, slightly detuned copies for
+   strings, breath/bow/hammer noise, delayed vibrato, a gentle brass swell), voices spread
+   across the stereo field, and a light room reverb on top. The pitch of every note is
+   unchanged. Clean stays the default because its very plain tone is the easiest for Suno
+   to follow as a melody guide. */
+const RICH_N = 2048;
+function richTable(wave, f0, sr, cut, kFrom, kTo, power) {
+  const tab = new Float32Array(RICH_N);
+  const kMax = Math.min(kTo, Math.max(1, Math.floor(0.45 * sr / f0)));
+  const Q = Math.pow(10, 1/20);
+  for (let k = kFrom; k <= kMax; k++) {
+    let a;
+    if (wave === 'saw') a = ((k % 2) ? 1 : -1) / Math.pow(k, power || 1) * (2/Math.PI) * 0.85;
+    else if (wave === 'tri') { if (k % 2 === 0) continue; a = (((k-1)/2) % 2 ? -1 : 1) / Math.pow(k, power || 2) * (8/(Math.PI*Math.PI)); }
+    else a = 1 / Math.pow(k, power || 1);                      // 'harm': plain harmonic series
+    if (cut) { const r = (k*f0)/cut; a /= Math.sqrt((1-r*r)*(1-r*r) + (r/Q)*(r/Q)); }
+    for (let i = 0; i < RICH_N; i++) tab[i] += a * Math.sin(2*Math.PI*k*i/RICH_N);
+  }
+  return tab;
+}
+// recipe: list of layers for one note of the chosen instrument
+function richRecipe(instr, pitch, f0, sr, durSec, vel) {
+  const hiPitch = Math.max(0, Math.min(1, (pitch - 48) / 36));     // 0 = low note, 1 = high note
+  const L = [];
+  const T = (w,c,a,b,p) => richTable(w, f0, sr, c, a, b, p);
+  if (instr === 'piano') {
+    const tauLo = 2.0 - 1.3*hiPitch, tauHi = tauLo * 0.30;
+    L.push({tab:T('harm',0,1,3,1.6), amp:0.20, att:0.004, tau:tauLo, rel:0.09, det:[-1.2, 1.2]});
+    L.push({tab:T('harm',0,3,14,1.5), amp:0.12, att:0.002, tau:tauHi, rel:0.05, det:[0]});
+    L.push({noise:true, amp:0.05, dur:0.012});
+  } else if (instr === 'violin' || instr === 'viola') {
+    const v = instr === 'violin', att = v ? 0.09 : 0.11, cut = v ? 2400 : 1500;
+    L.push({tab:T('saw',cut,1,40,1), amp:0.075, att:att, tau:Infinity, rel:0.12, det:[-7,0,7], vib:[v?4:3.2, v?5.6:5.0, 0.18]});
+    L.push({noise:true, amp:0.012, dur:att, hp:true});
+  } else if (instr === 'flute') {
+    L.push({tab:T('harm',0,1,3,2.2), amp:0.20, att:0.06, tau:Infinity, rel:0.10, det:[0], vib:[3.5, 4.8, 0.25]});
+    L.push({noise:true, amp:0.020, dur:Math.max(0.08, durSec), hp:true, sus:true, att:0.05});
+  } else if (instr === 'trumpet') {
+    L.push({tab:T('saw',1400,1,30,1), amp:0.12, att:0.025, tau:Infinity, rel:0.07, det:[-3,3], scoop:[35,0.05]});
+    L.push({tab:T('saw',5200,1,40,1), amp:0.10, att:0.09, tau:Infinity, rel:0.07, det:[0], scoop:[35,0.05]});
+  } else if (instr === 'harp') {
+    const tau = 1.5 - 0.9*hiPitch;
+    L.push({tab:T('tri',0,1,12,2), amp:0.22, att:0.002, tau:tau, rel:0.35, det:[-1,1]});
+    L.push({tab:T('harm',0,3,9,1.4), amp:0.07, att:0.001, tau:tau*0.25, rel:0.1, det:[0]});
+    L.push({noise:true, amp:0.04, dur:0.008});
+  } else if (instr === 'percussion') {
+    L.push({tab:T('harm',0,1,1,1), amp:0.30, att:0.002, tau:0.35, rel:0.05, det:[0]});
+    const t4 = richTable('harm', f0, sr, 0, 4, 4, 1);               // marimba-like overtone, dies quickly
+    L.push({tab:t4, amp:0.10, att:0.001, tau:0.07, rel:0.03, det:[0]});
+    L.push({noise:true, amp:0.04, dur:0.006});
+  } else {
+    return richRecipe('violin', pitch, f0, sr, durSec, vel);
+  }
+  return L;
+}
+async function renderRich(voiceNoteLists, tempoBpm, instrument, sr) {
+  const beatSec = 60 / tempoBpm, lead = 0.08, nV = voiceNoteLists.length;
+  const totalDur = Math.max(...voiceNoteLists.map(notes =>
+    notes.length ? (notes[notes.length-1].startBeat + notes[notes.length-1].durBeat)*beatSec + 0.6 : 1)) + 1.6;   // room for the reverb tail
+  const len = Math.ceil(totalDur * sr);
+  const dryL = new Float32Array(len), dryR = new Float32Array(len);
+  const N = RICH_N, mask = N - 1, twoPi = 2*Math.PI;
+  let seed = 12345;
+  const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 2147483648 - 1; };
+  for (let v = 0; v < nV; v++) {
+    const pan = nV === 1 ? 0 : -0.5 + v * (1.0 / (nV - 1));
+    const gl = Math.cos((pan + 1) * Math.PI / 4), gr = Math.sin((pan + 1) * Math.PI / 4);
+    const cache = {};
+    const notes = voiceNoteLists[v];
+    for (let ni = 0; ni < notes.length; ni++) {
+      const n = notes[ni];
+      const f0 = 440 * Math.pow(2, (n.pitch - 69)/12);
+      const velA = (n.velocity / 127);
+      const durSec = n.durBeat * beatSec * 0.96;
+      const start = Math.floor((lead + n.startBeat * beatSec) * sr);
+      const rkey = n.pitch + '|' + Math.round(durSec*50);
+      const recipe = cache[rkey] || (cache[rkey] = richRecipe(instrument, n.pitch, f0, sr, durSec, velA));
+      for (const ly of recipe) {
+        const amp = ly.amp * velA;
+        const att = Math.max(ly.att || 0.003, 0.001);
+        if (ly.noise) {
+          const dN = Math.floor(ly.dur * sr), nl = Math.min(dN, len - start); let prev = 0, lp = 0;
+          for (let i = 0; i < nl; i++) {
+            const w = rnd(); const x = ly.hp ? (w - prev) * 0.5 : (lp += 0.35 * (w - lp)); prev = w;
+            const e = ly.sus ? Math.min(1, i / (att * sr)) * (i > (durSec - 0.08) * sr ? Math.max(0, 1 - (i - (durSec - 0.08) * sr) / (0.1 * sr)) : 1) : (1 - i / dN);
+            const val = x * amp * e;
+            dryL[start + i] += val * gl; dryR[start + i] += val * gr;
+          }
+          continue;
+        }
+        const sus = !isFinite(ly.tau);
+        const relS = Math.max(1, Math.floor(ly.rel * sr)), noteEnd = Math.floor(durSec * sr);
+        const bodyEnd = sus ? noteEnd + relS * 5 : Math.min(noteEnd + relS * 5, Math.floor((att + ly.tau * 7) * sr));
+        const nl = Math.min(bodyEnd, len - start); if (nl <= 0) continue;
+        const attN = Math.max(1, Math.floor(att * sr));
+        const decMul = sus ? 1 : Math.exp(-1 / (ly.tau * sr)), relMul = Math.exp(-1 / ((ly.rel / 3.5) * sr));
+        const dets = ly.det || [0], share = amp / Math.sqrt(dets.length);
+        const vib = ly.vib;      // [depth cents, rate Hz, delay s]
+        const phases = dets.map((c, k) => (k * 0.37) % 1);
+        const incs = dets.map(c => (f0 / sr) * Math.pow(2, c / 1200));
+        let body = 1, rel = 1;
+        const vibW = vib ? twoPi * vib[1] / sr : 0, vibDelayN = vib ? vib[2] * sr : 0, vibDepth = vib ? vib[0] * Math.LN2 / 1200 : 0;
+        const scoopA = ly.scoop ? ly.scoop[0] * Math.LN2 / 1200 : 0, scoopN = ly.scoop ? Math.max(1, ly.scoop[1] * sr) : 1;
+        for (let i = 0; i < nl; i++) {
+          if (i > 0 && !sus) body *= decMul;
+          if (i >= noteEnd) rel *= relMul;
+          const env = (i < attN ? i / attN : 1) * body * rel;
+          let pm = 1;
+          if (vibDepth) { const ramp = Math.min(1, Math.max(0, (i - vibDelayN) / (0.25 * sr))); pm += ramp * vibDepth * Math.sin(vibW * i + v); }
+          if (scoopA && i < scoopN) pm -= scoopA * (1 - i / scoopN);
+          let acc = 0;
+          for (let k = 0; k < phases.length; k++) {
+            let ph = phases[k] + incs[k] * pm; ph -= Math.floor(ph); phases[k] = ph;
+            const idx = ph * N, i0 = idx | 0, fr = idx - i0;
+            acc += ly.tab[i0 & mask] * (1 - fr) + ly.tab[(i0 + 1) & mask] * fr;
+          }
+          const val = acc * share * env;
+          dryL[start + i] += val * gl; dryR[start + i] += val * gr;
+        }
+      }
+    }
+    await new Promise(r => setTimeout(r, 0));
+  }
+  // light room reverb: 4 damped combs + 2 allpasses per side (Schroeder), 20% wet
+  const scale = sr / 44100;
+  const combD = [1116, 1188, 1277, 1356].map(d => Math.round(d * scale)), spread = Math.round(23 * scale);
+  const apD = [556, 441].map(d => Math.round(d * scale));
+  const fb = 0.80, damp = 0.28, wet = 0.20;
+  const outL = new Float32Array(len), outR = new Float32Array(len);
+  function reverbSide(inp, out, extra) {
+    const cb = combD.map(d => new Float32Array(d + extra)), ci = combD.map(() => 0), cl = combD.map(() => 0);
+    const ab = apD.map(d => new Float32Array(d + extra)), ai = apD.map(() => 0);
+    for (let i = 0; i < len; i++) {
+      const x = inp[i] * 0.25; let y = 0;
+      for (let c = 0; c < 4; c++) {
+        const buf = cb[c], idx = ci[c]; const o = buf[idx];
+        cl[c] = o * (1 - damp) + cl[c] * damp;
+        buf[idx] = x + cl[c] * fb; ci[c] = (idx + 1) % buf.length; y += o;
+      }
+      for (let a = 0; a < 2; a++) {
+        const buf = ab[a], idx = ai[a]; const o = buf[idx];
+        const inV = y; buf[idx] = inV + o * 0.5; ai[a] = (idx + 1) % buf.length; y = o - inV * 0.5;
+      }
+      out[i] = inp[i] * (1 - wet * 0.5) + y * wet * 2.2;
+    }
+  }
+  reverbSide(dryL, outL, 0); reverbSide(dryR, outR, spread);
+  await new Promise(r => setTimeout(r, 0));
+  let pk = 0;
+  for (let i = 0; i < len; i++) { const a = Math.max(Math.abs(outL[i]), Math.abs(outR[i])); if (a > pk) pk = a; }
+  const g = pk > 0 ? 0.89 / pk : 1;
+  for (let i = 0; i < len; i++) { outL[i] *= g; outR[i] *= g; }
+  return { numberOfChannels: 2, sampleRate: sr, length: len, getChannelData(c) { return c ? outR : outL; } };
+}
+
 async function exportAudioFile(notesOrVoices, tempoBpm, instrument, btn) {
   const origText = btn.textContent;
   btn.disabled = true;
@@ -2660,7 +2909,12 @@ async function exportAudioFile(notesOrVoices, tempoBpm, instrument, btn) {
     let renderedBuffer;
     try {
       // fast path: compute the audio directly (about a second, even for long multi-voice songs)
-      renderedBuffer = await renderDirect(voiceNoteLists, tempoBpm, instrument, 22050);
+      const wantRich = document.getElementById('exportSound') && document.getElementById('exportSound').value === 'rich';
+      if (wantRich) {
+        try { renderedBuffer = await renderRich(voiceNoteLists, tempoBpm, instrument, 32000); }
+        catch (richErr) { console.warn('Rich render failed, using clean:', richErr); renderedBuffer = null; }
+      }
+      if (!renderedBuffer) renderedBuffer = await renderDirect(voiceNoteLists, tempoBpm, instrument, 22050);
     } catch (fastErr) {
       // fallback: the original Web Audio offline renderer (slower, but proven)
       console.warn('Fast render failed, using fallback:', fastErr);
@@ -3069,7 +3323,7 @@ const STYLE_CATEGORY_LABELS = {
   jewish_artists: 'Jewish Artists',
   jewish_genres: 'Jewish Genres & Occasions',
   secular_artists: 'Secular Artists',
-  songs_soundtracks: 'Songs & Soundtracks',
+  songs_soundtracks: 'Famous Songs & Soundtracks',
   moods_themes: 'Moods & Themes',
 };
 const STYLE_CATEGORIES = {
@@ -3091,11 +3345,12 @@ const STYLE_CATEGORIES = {
   coldplay:'secular_artists', simon_and_garfunkel:'secular_artists', beatles:'secular_artists', mozart:'secular_artists',
   ludovico_einaudi:'secular_artists', hans_zimmer:'secular_artists', ed_sheeran:'secular_artists', michael_jackson:'secular_artists',
   taylor_swift:'secular_artists', enya:'secular_artists', lady_gaga:'secular_artists',
-  dustin_paul:'secular_artists', tokio_myers:'secular_artists', gary_jules:'secular_artists', jack_and_tim:'secular_artists',
+  dustin_paul:'secular_artists', tokio_myers:'secular_artists', gary_jules:'secular_artists', 
 
   dust_in_the_wind_style:'songs_soundtracks', uptown_funk_style:'songs_soundtracks', where_is_my_husband_style:'songs_soundtracks',
   kpop_anthem_style:'songs_soundtracks', lion_king_style:'songs_soundtracks', pirates_caribbean_style:'songs_soundtracks',
-  waves_chill_style:'songs_soundtracks',
+  waves_chill_style:'songs_soundtracks', jack_and_tim:'songs_soundtracks',
+  elton_your_song:'songs_soundtracks', elton_candle_in_the_wind:'songs_soundtracks', elton_daniel:'songs_soundtracks', elton_love_tonight:'songs_soundtracks', elton_tiny_dancer:'songs_soundtracks', elton_rocket_man:'songs_soundtracks', elton_still_standing:'songs_soundtracks', song_hallelujah:'songs_soundtracks', song_sound_of_silence:'songs_soundtracks', song_let_it_be:'songs_soundtracks', song_hey_jude:'songs_soundtracks', song_yesterday:'songs_soundtracks', song_someone_like_you:'songs_soundtracks', song_hello_adele:'songs_soundtracks', song_fix_you:'songs_soundtracks', song_perfect_sheeran:'songs_soundtracks', song_country_roads:'songs_soundtracks', song_over_the_rainbow:'songs_soundtracks', song_amazing_grace:'songs_soundtracks', song_hatikvah:'songs_soundtracks', song_imagine:'songs_soundtracks', song_wonderful_world:'songs_soundtracks',
 
   comfort_healing:'moods_themes', thrilling:'moods_themes', suspenseful:'moods_themes', darkness_to_light:'moods_themes',
   hopeful_against_odds:'moods_themes', winning_against_odds:'moods_themes', on_a_mission:'moods_themes', serious_but_joyful:'moods_themes',
@@ -3112,6 +3367,29 @@ const STYLE_CATEGORIES = {
   goodbye_like_tuesday:'moods_themes', quiet_purpose:'moods_themes',
 };
 const STYLE_NAME_OVERRIDES = {
+  elton_your_song: 'Elton John — Your Song',
+  elton_candle_in_the_wind: 'Elton John — Candle in the Wind (Diana tribute)',
+  elton_daniel: 'Elton John — Daniel',
+  elton_love_tonight: 'Elton John — Can You Feel the Love Tonight',
+  elton_tiny_dancer: 'Elton John — Tiny Dancer',
+  elton_rocket_man: 'Elton John — Rocket Man',
+  elton_still_standing: "Elton John — I'm Still Standing",
+  song_hallelujah: 'Leonard Cohen — Hallelujah',
+  song_sound_of_silence: 'Simon & Garfunkel — The Sound of Silence',
+  song_let_it_be: 'The Beatles — Let It Be',
+  song_hey_jude: 'The Beatles — Hey Jude',
+  song_yesterday: 'The Beatles — Yesterday',
+  song_someone_like_you: 'Adele — Someone Like You',
+  song_hello_adele: 'Adele — Hello',
+  song_fix_you: 'Coldplay — Fix You',
+  song_perfect_sheeran: 'Ed Sheeran — Perfect',
+  song_country_roads: 'John Denver — Take Me Home, Country Roads',
+  song_over_the_rainbow: 'Somewhere Over the Rainbow (gentle ukulele style)',
+  song_amazing_grace: 'Amazing Grace (hymn style)',
+  song_hatikvah: 'Hatikvah (anthem feel)',
+  song_imagine: 'John Lennon — Imagine',
+  song_wonderful_world: 'What a Wonderful World (jazz-ballad feel)',
+ 
   jack_and_tim: 'Jack & Tim — The Lucky Ones', dreaming_the_impossible: 'Dreaming the Impossible Dream',
   out_of_our_minds: 'Out of Our Freaking Minds', how_can_it_be: 'How Can It Be', we_are_at_a_loss: 'We Are at a Loss',
   we_can_get_it_back: 'We Can Get It Back', mysterious_weird: 'Mysterious and Weird',
@@ -3363,23 +3641,30 @@ document.getElementById('aiForgetBtn').addEventListener('click', () => {
   const n = document.getElementById('aiStatus'); n.dataset.sticky = '1'; n.textContent = 'Key removed from this device.';
   aiRefreshUi();
 });
-async function callClaude(system, userText, maxTokens) {
+async function callClaude(system, userText, maxTokens, temperature) {
   if (!aiCfg.key) throw new Error('no API key saved');
   const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 30000);
+  const send = (body) => fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST', signal: ctrl.signal,
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': aiCfg.key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify(body),
+  });
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST', signal: ctrl.signal,
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': aiCfg.key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-      },
-      body: JSON.stringify({model: aiCfg.model, max_tokens: maxTokens || 600, system: system, messages: [{role:'user', content: userText}]}),
-    });
+    const body = {model: aiCfg.model, max_tokens: maxTokens || 600, system: system, messages: [{role:'user', content: userText}]};
+    if (temperature != null) body.temperature = temperature;   // higher = more varied, more creative answers
+    let r = await send(body);
     if (!r.ok) {
-      let m = ''; try { m = (await r.json()).error.message; } catch(e) {}
-      throw new Error(r.status === 401 ? 'the key was not accepted' : r.status === 429 ? 'too many requests or no credit left' : (m || ('error ' + r.status)));
+      let m = ''; try { m = (await r.clone().json()).error.message; } catch(e) {}
+      if (r.status === 400 && body.temperature != null && /temperature/i.test(m)) {   // this model does not accept it: retry without
+        delete body.temperature; r = await send(body);
+        m = ''; if (!r.ok) { try { m = (await r.clone().json()).error.message; } catch(e) {} }
+      }
+      if (!r.ok) throw new Error(r.status === 401 ? 'the key was not accepted' : r.status === 429 ? 'too many requests or no credit left' : (m || ('error ' + r.status)));
     }
     const j = await r.json();
     return (j.content || []).map(c => c.text || '').join('');
@@ -3424,12 +3709,18 @@ async function aiInterpretGenre(text) {
     bridgeModulation: AI_BRIDGE.includes(o.bridgeModulation) ? o.bridgeModulation : null,
   };
 }
-async function aiSuggestGenreFromLyrics(lyrics) {
-  const sys = 'You are an experienced music producer. Read the song lyrics and suggest ONE fitting genre and feel for the song. Reply with ONLY JSON: ' +
-    '{"genre": "a comma-separated description of 6-12 words in the style of: warm acoustic folk-pop, sincere, mid-tempo, 90 BPM (always include a BPM number)", "reason": "one short plain sentence on why it fits"}.';
-  const o = aiJson(await callClaude(sys, lyrics.slice(0, 6000), 300));
-  if (typeof o.genre !== 'string' || !o.genre.trim()) throw new Error('the reply was not understood');
-  return {genre: o.genre.trim().slice(0, 200), reason: typeof o.reason === 'string' ? o.reason.trim().slice(0, 300) : ''};
+async function aiSuggestGenreIdeas(lyrics, steer, avoid) {
+  let sys = 'You are a creative, experienced music producer. Read the song lyrics and give exactly 3 genuinely DIFFERENT genre-and-feel suggestions for the song: ' +
+    'different genre families, different moods and different tempos, not three variations of one idea, and at least one unexpected-but-fitting choice. ' +
+    'Each "genre" is a comma-separated description of 6-12 words in the style of: warm acoustic folk-pop, sincere, mid-tempo, 90 BPM (always include a BPM number). ' +
+    'Reply with ONLY JSON: {"ideas":[{"genre":"...","reason":"one short plain sentence on why it fits"},{...},{...}]}.';
+  if (avoid && avoid.length) sys += ' The person has already seen these, so do NOT repeat or closely resemble any of them: ' + avoid.slice(-12).join(' | ') + '.';
+  if (steer) sys += ' The person asks you to steer the ideas like this: ' + steer.slice(0, 200) + '.';
+  const o = aiJson(await callClaude(sys, lyrics.slice(0, 6000), 700, 1.0));
+  const ideas = (Array.isArray(o.ideas) ? o.ideas : []).filter(x => x && typeof x.genre === 'string' && x.genre.trim())
+    .slice(0, 3).map(x => ({genre: x.genre.trim().slice(0, 200), reason: typeof x.reason === 'string' ? x.reason.trim().slice(0, 300) : ''}));
+  if (!ideas.length) throw new Error('the reply was not understood');
+  return ideas;
 }
 async function aiWriteDirections(lyrics, context) {
   const sys = 'You write short musical-direction phrases for Suno song sections. Look at the lyrics and the section types they contain. ' +
@@ -3497,7 +3788,23 @@ async function applyCustomGenre() {
   msg.textContent = (aiUsed ? '✨ AI understood it: ' : 'Understood: ' + g.matched.join(', ') + (g.tempoExplicit != null ? ', ' + g.tempoExplicit + ' BPM' : '') + '  →  ') +
     'set to ' + (set || 'your current settings') + '. You can still change any box by hand.' + aiNote;
 }
-document.getElementById('suggestGenreAiBtn').addEventListener('click', async () => {
+let shownGenreIdeas = [], ideasForLyrics = '';
+function renderGenreIdeas(ideas) {
+  const box = document.getElementById('genreIdeas');
+  box.innerHTML = '';
+  ideas.forEach(idea => {
+    const card = document.createElement('div');
+    card.style.cssText = 'border:1px solid var(--rule, #c9bfa8); border-radius:6px; padding:0.5rem 0.6rem; margin-top:0.4rem;';
+    const g = document.createElement('div'); g.style.fontWeight = '600'; g.textContent = idea.genre;
+    card.appendChild(g);
+    if (idea.reason) { const r = document.createElement('div'); r.className = 'hint'; r.style.margin = '0.15rem 0 0.35rem'; r.textContent = idea.reason; card.appendChild(r); }
+    const use = document.createElement('button'); use.className = 'secondary'; use.type = 'button'; use.textContent = 'Use this genre';
+    use.addEventListener('click', () => { document.getElementById('customGenreInput').value = idea.genre; applyCustomGenre(); });
+    card.appendChild(use);
+    box.appendChild(card);
+  });
+}
+async function runGenreIdeas(more) {
   const msg = document.getElementById('customGenreMsg');
   msg.style.display = 'block';
   const lyrics = document.getElementById('lyricsInput').value;
@@ -3507,17 +3814,110 @@ document.getElementById('suggestGenreAiBtn').addEventListener('click', async () 
     document.getElementById('aiPanel').open = true;
     return;
   }
-  const btn = document.getElementById('suggestGenreAiBtn');
-  btn.disabled = true; msg.textContent = 'Reading your lyrics…';
+  if (lyrics !== ideasForLyrics && !more) shownGenreIdeas = [];     // new lyrics: start fresh
+  ideasForLyrics = lyrics;
+  const steer = document.getElementById('genreSteer').value.trim();
+  const b1 = document.getElementById('suggestGenreAiBtn'), b2 = document.getElementById('moreGenreIdeasBtn');
+  b1.disabled = true; b2.disabled = true; msg.textContent = more ? 'Thinking of different ideas…' : 'Reading your lyrics…';
   try {
-    const r = await aiSuggestGenreFromLyrics(lyrics);
-    document.getElementById('customGenreInput').value = r.genre;
-    await applyCustomGenre();
-    msg.textContent = '✨ AI suggests: "' + r.genre + '"' + (r.reason ? ' — ' + r.reason : '') + '  ' + msg.textContent;
+    const ideas = await aiSuggestGenreIdeas(lyrics, steer, shownGenreIdeas);
+    ideas.forEach(i => shownGenreIdeas.push(i.genre));
+    renderGenreIdeas(ideas);
+    b2.style.display = 'inline-block';
+    msg.textContent = '✨ Three ideas below. Tap "Use this genre" on one, or press "3 different ideas" for more' + (steer ? ' (steered by your hint)' : '') + '.';
   } catch (e) {
-    msg.textContent = 'AI could not suggest a genre: ' + e.message + '.';
-  } finally { btn.disabled = false; }
+    msg.textContent = 'AI could not suggest genres: ' + e.message + '.';
+  } finally { b1.disabled = false; b2.disabled = false; }
+}
+document.getElementById('suggestGenreAiBtn').addEventListener('click', () => runGenreIdeas(false));
+document.getElementById('moreGenreIdeasBtn').addEventListener('click', () => runGenreIdeas(true));
+
+/* ========================= My saved genres ========================= */
+const MY_GENRES_KEY = 'melodyWeaverMyGenres';
+function loadMyGenres() { try { return JSON.parse(localStorage.getItem(MY_GENRES_KEY) || '[]'); } catch(e) { return []; } }
+function storeMyGenres(list) { try { localStorage.setItem(MY_GENRES_KEY, JSON.stringify(list)); return true; } catch(e) { return false; } }
+function currentGenreSnapshot() {
+  const key = styleSelect.value;
+  const p = activePreset(key) || {};
+  const typed = document.getElementById('customGenreInput').value.trim();
+  const text = (key !== 'none') ? styleDisplayName(key) : typed;   // a named style wins over any leftover typed text
+  return {
+    text: text,
+    scale: scaleSelect.value, complexity: complexitySelect.value, tempoBpm: Number(tempoInput.value) || 90, instrument: instrumentSelect.value,
+    sequenceProb: p.sequenceProb != null ? p.sequenceProb : null, variationProb: p.variationProb != null ? p.variationProb : null,
+    bridgeModulation: p.bridgeModulation || null,
+    sunoTags: p.sunoTags || text.replace(/\d{2,3}\s*bpm/ig,'').split(/[,;]+/).map(x=>x.trim()).filter(Boolean).join(', '),
+  };
+}
+function useMyGenre(g) {
+  styleSelect.value = 'none'; renderStyleAccordion(); styleDescWrap.style.display = 'none';
+  scaleSelect.value = g.scale; complexitySelect.value = g.complexity; tempoInput.value = g.tempoBpm; instrumentSelect.value = g.instrument;
+  customGenre = {sequenceProb: g.sequenceProb, variationProb: g.variationProb, bridgeModulation: g.bridgeModulation || null, sunoTags: g.sunoTags || g.text};
+  document.getElementById('customGenreInput').value = g.text || '';
+  const m = document.getElementById('customGenreMsg'); m.style.display = 'block';
+  m.textContent = 'Loaded your saved genre "' + g.name + '": ' + SCALE_LABEL[g.scale] + ' · ' + g.complexity + ' · ' + g.tempoBpm + ' BPM · ' + g.instrument + '.';
+}
+function renderMyGenres() {
+  const list = loadMyGenres();
+  document.getElementById('myGenresCount').textContent = '(' + list.length + ')';
+  const box = document.getElementById('myGenreList'); box.innerHTML = '';
+  if (!list.length) { const e = document.createElement('p'); e.className = 'hint'; e.textContent = 'Nothing saved yet. Set up a genre you like (type one, use AI, or pick a style), name it, and press Save.'; box.appendChild(e); return; }
+  list.forEach(g => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex; gap:0.5rem; align-items:center; justify-content:space-between; flex-wrap:wrap; padding:0.4rem 0; border-bottom:1px solid var(--rule, #d8cfba);';
+    const info = document.createElement('div'); info.style.minWidth = '10rem';
+    const n = document.createElement('div'); n.style.fontWeight = '600'; n.textContent = g.name;
+    const d = document.createElement('div'); d.className = 'hint'; d.style.margin = '0'; d.textContent = SCALE_LABEL[g.scale] + ' · ' + g.complexity + ' · ' + g.tempoBpm + ' BPM · ' + g.instrument + (g.text ? ' — ' + g.text : '');
+    info.appendChild(n); info.appendChild(d);
+    const btns = document.createElement('div'); btns.style.cssText = 'display:flex; gap:0.3rem;';
+    const use = document.createElement('button'); use.className = 'secondary'; use.type = 'button'; use.textContent = 'Use';
+    use.addEventListener('click', () => useMyGenre(g));
+    const del = document.createElement('button'); del.className = 'secondary'; del.type = 'button'; del.textContent = '🗑';
+    del.title = 'Delete this saved genre'; del.setAttribute('aria-label', 'Delete ' + g.name);
+    del.addEventListener('click', () => { if (confirm('Delete the saved genre "' + g.name + '"?')) { storeMyGenres(loadMyGenres().filter(x => x.id !== g.id)); renderMyGenres(); } });
+    btns.appendChild(use); btns.appendChild(del);
+    row.appendChild(info); row.appendChild(btns); box.appendChild(row);
+  });
+}
+document.getElementById('saveMyGenreBtn').addEventListener('click', () => {
+  const msg = document.getElementById('myGenreMsg'); msg.style.display = 'block';
+  const snap = currentGenreSnapshot();
+  let name = document.getElementById('myGenreName').value.trim() || snap.text.replace(/\d{2,3}\s*bpm/ig,'').replace(/^[,\s]+|[,\s]+$/g,'').slice(0, 40);
+  if (!name) { msg.textContent = 'Give it a name first, for example "Quiet Tuesday folk".'; return; }
+  const list = loadMyGenres();
+  const existing = list.find(g => g.name.toLowerCase() === name.toLowerCase());
+  if (existing) Object.assign(existing, snap, {name: existing.name});
+  else list.push(Object.assign({id: Date.now() + '-' + Math.floor(Math.random()*10000), name: name}, snap));
+  if (!storeMyGenres(list)) { msg.textContent = 'Could not save on this device (browser storage is blocked).'; return; }
+  msg.textContent = (existing ? 'Updated "' : 'Saved "') + name + '".';
+  document.getElementById('myGenreName').value = '';
+  renderMyGenres();
 });
+document.getElementById('exportMyGenresBtn').addEventListener('click', () => {
+  const list = loadMyGenres(); const msg = document.getElementById('myGenreMsg'); msg.style.display = 'block';
+  if (!list.length) { msg.textContent = 'Nothing to back up yet.'; return; }
+  offerDownload('melody_weaver_my_genres.json', JSON.stringify({melodyWeaverGenres: 1, genres: list}, null, 2), document.getElementById('exportMyGenresBtn'));
+});
+document.getElementById('importMyGenresBtn').addEventListener('click', () => document.getElementById('importMyGenresFile').click());
+document.getElementById('importMyGenresFile').addEventListener('change', async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const msg = document.getElementById('myGenreMsg'); msg.style.display = 'block';
+  try {
+    const data = JSON.parse(await f.text());
+    const incoming = Array.isArray(data) ? data : data.genres;
+    if (!Array.isArray(incoming)) throw new Error('this is not a genre backup file');
+    const list = loadMyGenres(); let added = 0;
+    incoming.forEach(g => {
+      if (!g || typeof g.name !== 'string' || !SCALE_LABEL[g.scale]) return;
+      if (list.some(x => x.name.toLowerCase() === g.name.toLowerCase())) return;
+      list.push(Object.assign({}, g, {id: Date.now() + '-' + Math.floor(Math.random()*100000)})); added++;
+    });
+    storeMyGenres(list); renderMyGenres();
+    msg.textContent = 'Restored ' + added + ' genre' + (added === 1 ? '' : 's') + (incoming.length - added ? ' (' + (incoming.length - added) + ' skipped: already saved or not valid)' : '') + '.';
+  } catch (err) { msg.textContent = 'Could not read that file: ' + err.message + '.'; }
+  e.target.value = '';
+});
+renderMyGenres();
 aiRefreshUi();
 document.getElementById('applyGenreBtn').addEventListener('click', applyCustomGenre);
 document.getElementById('customGenreInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCustomGenre(); } });
@@ -3733,6 +4133,8 @@ document.getElementById('stopBtn').addEventListener('click', () => {
   document.getElementById('stopBtn').disabled = true;
 });
 
+try { const sv = localStorage.getItem('melodyWeaverExportSound'); if (sv) document.getElementById('exportSound').value = sv; } catch(e) {}
+document.getElementById('exportSound').addEventListener('change', e => { try { localStorage.setItem('melodyWeaverExportSound', e.target.value); } catch(err) {} });
 document.getElementById('exportAudioBtn').addEventListener('click', (e) => {
   if (!lastNotes.length) return;
   exportAudioFile(getCurrentPlayableVoices(), lastTempo, lastInstrument, e.currentTarget);
