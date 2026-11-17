@@ -543,8 +543,8 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
                 <p class="hint" id="myGenreMsg" style="display:none; margin:0.3rem 0 0;"></p>
                 <div id="myGenreList"></div>
                 <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem;">
-                  <button class="secondary" id="exportMyGenresBtn" type="button">⬆️ Back up my genres</button>
-                  <button class="secondary" id="importMyGenresBtn" type="button">⬇️ Restore from backup</button>
+                  <button class="secondary" id="exportMyGenresBtn" type="button">⬇️ Download backup of my genres</button>
+                  <button class="secondary" id="importMyGenresBtn" type="button">⬆️ Upload backup to restore</button>
                   <input type="file" id="importMyGenresFile" accept=".json,application/json" style="display:none;">
                 </div>
                 <p class="hint" style="margin:0.3rem 0 0;">Saved on this device only. Use the backup button now and then so you never lose them.</p>
@@ -656,8 +656,8 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
         <p class="page-label" style="margin:0;">Your saved melodies</p>
         <div style="display:flex; gap:0.4rem;">
           <button class="icon-btn" id="refreshLibraryBtn" title="Refresh list" aria-label="Refresh saved melodies list">🔄</button>
-          <button class="icon-btn" id="exportLibraryBtn" title="Back up all saved melodies to a file" aria-label="Export saved melodies">⬆️</button>
-          <button class="icon-btn" id="importLibraryBtn" title="Restore saved melodies from a backup file" aria-label="Import saved melodies">⬇️</button>
+          <button class="icon-btn" id="exportLibraryBtn" title="Download a backup file of all saved melodies" aria-label="Export saved melodies">⬇️</button>
+          <button class="icon-btn" id="importLibraryBtn" title="Upload a backup file to restore saved melodies" aria-label="Import saved melodies">⬆️</button>
           <input type="file" id="importLibraryFile" accept=".json,application/json" style="display:none;">
         </div>
       </div>
@@ -706,7 +706,7 @@ Optional: wrap section names in brackets, like [Chorus] or [Bridge], on their ow
     Melodies are generated fresh from your words each time — no existing recordings are sampled or reproduced.
     "Export audio file" renders the melody directly to a .wav file — fast, regardless of song length, since it's computed rather than played back and captured in real time. A downloadable MIDI file or .mp3 specifically isn't available from this page directly; ask in chat for one built from the same settings shown above, using the seed number so it matches exactly.
   </footer>
-  <p class="hint" id="versionStamp" style="text-align:center; margin:0.8rem 0 1.2rem;">Version 21 Oct 2026 (b) · famous songs · saved genres · AI idea picker · fast export with Clean/Rich sound</p>
+  <p class="hint" id="versionStamp" style="text-align:center; margin:0.8rem 0 1.2rem;">Version 17 Nov 2026 · Moshe Yess, Ari Hill, Bryan Adams, Rod Stewart, Wind of Change, All for Love · famous songs · saved genres · AI idea picker · fast export with Clean/Rich sound</p>
 
 </div>
 
@@ -1692,6 +1692,27 @@ const STYLE_PRESETS = {
   out_of_our_minds: { scale:'natural_minor', complexity:'extreme', sequenceProb:0.25, variationProb:0.45, tempoBpm:132, instrument:'trumpet', bridgeModulation:'parallel',
     description:"'Out of our freaking minds' style: chaotic, unhinged, and gleefully absurd — wide wild leaps and constant unpredictable variation with a manic energy that never settles.",
     sunoTags:"chaotic unhinged energy, gleefully absurd, wide wild unpredictable leaps, manic never-settling" },
+  moshe_yess: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.2, tempoBpm:96, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of Moshe Yess: warm, heartfelt modern Jewish pop with a singable, emotional line, a gentle build and an uplifting chorus — capturing the general mood and arrangement style, not any actual melody or lyrics.",
+    sunoTags:"warm heartfelt Jewish pop, emotional singable melody, uplifting chorus, modern Chassidic pop production, clear tenor-style vocal" },
+  moshe_yess_zaida: { scale:'natural_minor', complexity:'simple', sequenceProb:0.3, variationProb:0.15, tempoBpm:70, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the tender, nostalgic grandfather-song feel of Moshe Yess's 'Zaida' — slow, intimate and sentimental, building gently — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"tender nostalgic Jewish ballad, sentimental grandfather song, intimate piano and strings, slow emotional build, heartfelt vocal" },
+  song_wind_of_change: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.2, tempoBpm:100, instrument:'piano', bridgeModulation:'relative',
+    description:"In the spirit of the dreamy, hopeful rock-ballad feel of Scorpions' 'Wind of Change' — a gentle, wistful verse flowing into a soaring, anthemic chorus — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"hopeful rock ballad, dreamy wistful verses, soaring anthemic chorus, acoustic guitar and soft drums, big rock-ballad vocal" },
+  song_all_for_love: { scale:'major', complexity:'moderate', sequenceProb:0.3, variationProb:0.2, tempoBpm:76, instrument:'piano', bridgeModulation:'dominant',
+    description:"In the spirit of the warm, sweeping romantic rock-ballad feel of 'All for Love' (Bryan Adams, Rod Stewart and Sting) — heartfelt, building to a big shared chorus — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
+    sunoTags:"sweeping romantic rock ballad, warm raspy lead vocal, big shared chorus, acoustic guitar and orchestral strings, heartfelt and cinematic" },
+  rod_stewart: { scale:'major', complexity:'moderate', sequenceProb:0.3, variationProb:0.25, tempoBpm:84, instrument:'piano', bridgeModulation:'relative',
+    description:"In the general spirit of Rod Stewart: warm, raspy, storytelling pop-rock with easy singable ballads and a rootsy, friendly feel.",
+    sunoTags:"raspy warm pop-rock vocal, storytelling ballad, rootsy and friendly, acoustic guitar and piano, singalong chorus" },
+  bryan_adams: { scale:'major', complexity:'moderate', sequenceProb:0.35, variationProb:0.2, tempoBpm:104, instrument:'piano', bridgeModulation:'relative',
+    description:"In the general spirit of Bryan Adams: straight-ahead, heartfelt heartland rock with big singalong choruses and earnest, driving ballads.",
+    sunoTags:"heartland rock, gritty earnest vocal, big singalong chorus, driving guitars and steady drums, anthemic rock ballad" },
+  ari_hill: { scale:'natural_minor', complexity:'moderate', sequenceProb:0.35, variationProb:0.25, tempoBpm:100, instrument:'piano', bridgeModulation:'relative',
+    description:"In the general spirit of Ari Hill: modern Jewish pop with a smooth, emotive vocal line, polished production and an uplifting, singable chorus.",
+    sunoTags:"modern Jewish pop, smooth emotive vocal, polished production, uplifting singable chorus, Chassidic pop influence" },
   elton_your_song: { scale:'major', complexity:'simple', sequenceProb:0.3, variationProb:0.25, tempoBpm:64, instrument:'piano', bridgeModulation:'relative',
     description:"In the spirit of the tender, humble piano love-song feel of Elton John's 'Your Song' — capturing its mood, pace and arrangement style, not its actual melody or lyrics.",
     sunoTags:"tender piano ballad, humble sincere love song, conversational vocal, warm gentle strings, simple and direct" },
@@ -3334,6 +3355,7 @@ const STYLE_CATEGORIES = {
   matt_dubb:'jewish_artists', simcha_leiner:'jewish_artists', mordechai_shapiro_achas:'jewish_artists', omer_adam:'jewish_artists',
   sruly_green:'jewish_artists', yonatan_razel:'jewish_artists', chazzan_rosenblatt:'jewish_artists', chazzan_helfgot:'jewish_artists',
   levi_robin:'jewish_artists',
+  moshe_yess:'jewish_artists', ari_hill:'jewish_artists',
 
   hesped_memorial:'jewish_genres', wedding_celebration:'jewish_genres', yom_tov_holiday:'jewish_genres', chazanut:'jewish_genres',
   jewish_gospel:'jewish_genres', hassidic_gospel:'jewish_genres', hassidic_dance:'jewish_genres',
@@ -3345,11 +3367,12 @@ const STYLE_CATEGORIES = {
   coldplay:'secular_artists', simon_and_garfunkel:'secular_artists', beatles:'secular_artists', mozart:'secular_artists',
   ludovico_einaudi:'secular_artists', hans_zimmer:'secular_artists', ed_sheeran:'secular_artists', michael_jackson:'secular_artists',
   taylor_swift:'secular_artists', enya:'secular_artists', lady_gaga:'secular_artists',
-  dustin_paul:'secular_artists', tokio_myers:'secular_artists', gary_jules:'secular_artists', 
+  dustin_paul:'secular_artists', rod_stewart:'secular_artists', bryan_adams:'secular_artists', tokio_myers:'secular_artists', gary_jules:'secular_artists', 
 
   dust_in_the_wind_style:'songs_soundtracks', uptown_funk_style:'songs_soundtracks', where_is_my_husband_style:'songs_soundtracks',
   kpop_anthem_style:'songs_soundtracks', lion_king_style:'songs_soundtracks', pirates_caribbean_style:'songs_soundtracks',
   waves_chill_style:'songs_soundtracks', jack_and_tim:'songs_soundtracks',
+  moshe_yess_zaida:'songs_soundtracks', song_wind_of_change:'songs_soundtracks', song_all_for_love:'songs_soundtracks',
   elton_your_song:'songs_soundtracks', elton_candle_in_the_wind:'songs_soundtracks', elton_daniel:'songs_soundtracks', elton_love_tonight:'songs_soundtracks', elton_tiny_dancer:'songs_soundtracks', elton_rocket_man:'songs_soundtracks', elton_still_standing:'songs_soundtracks', song_hallelujah:'songs_soundtracks', song_sound_of_silence:'songs_soundtracks', song_let_it_be:'songs_soundtracks', song_hey_jude:'songs_soundtracks', song_yesterday:'songs_soundtracks', song_someone_like_you:'songs_soundtracks', song_hello_adele:'songs_soundtracks', song_fix_you:'songs_soundtracks', song_perfect_sheeran:'songs_soundtracks', song_country_roads:'songs_soundtracks', song_over_the_rainbow:'songs_soundtracks', song_amazing_grace:'songs_soundtracks', song_hatikvah:'songs_soundtracks', song_imagine:'songs_soundtracks', song_wonderful_world:'songs_soundtracks',
 
   comfort_healing:'moods_themes', thrilling:'moods_themes', suspenseful:'moods_themes', darkness_to_light:'moods_themes',
@@ -3367,6 +3390,8 @@ const STYLE_CATEGORIES = {
   goodbye_like_tuesday:'moods_themes', quiet_purpose:'moods_themes',
 };
 const STYLE_NAME_OVERRIDES = {
+  moshe_yess_zaida: 'Moshe Yess — Zaida', song_wind_of_change: 'Scorpions — Wind of Change',
+  song_all_for_love: 'All for Love (Bryan Adams / Rod Stewart / Sting)',
   elton_your_song: 'Elton John — Your Song',
   elton_candle_in_the_wind: 'Elton John — Candle in the Wind (Diana tribute)',
   elton_daniel: 'Elton John — Daniel',
